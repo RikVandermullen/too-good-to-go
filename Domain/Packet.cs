@@ -16,6 +16,9 @@ namespace Domain
         [Required]
         public DateTime? PickUpTime { get; set; }
 
+        [Required]
+        public DateTime? LastestPickUpTime { get; set; }
+
         public Student? ReservedBy { get; set; }
 
         [Required]
