@@ -1,4 +1,4 @@
-namespace EF.Tests
+namespace TGTG_EF.Tests
 {
     public class UnitTest1
     {

@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -7,6 +7,10 @@ namespace Domain
     {
         [Key]
         public int StudentNumber { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string? Name { get; set; }
 
         [Required]
         public string? PhoneNumber { get; set; }
@@ -18,6 +22,5 @@ namespace Domain
         public City City { get; set; }
 
         public int noShows { get; set; }
-
     }
 }

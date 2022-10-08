@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -8,6 +9,11 @@ namespace Domain
         public int EmployeeNumber { get; set; }
 
         [Required]
-        public Canteen? Canteen { get; set; }
+        [StringLength(50)]
+        public string? Name { get; set; }
+
+        [Required]
+        [ForeignKey("Canteen")]
+        public int Canteen { get; set; }
     }
 }

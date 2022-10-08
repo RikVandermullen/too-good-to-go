@@ -45,7 +45,7 @@ namespace Domain
                 if (product.HasAlcohol)
                 {
                     return true;
-                } 
+                }
             }
             return false;
         }
