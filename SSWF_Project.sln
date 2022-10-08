@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGTG-Portal", "SSWF_Project\TGTG-Portal.csproj", "{33B96E2D-C908-4037-8CFE-E2C35A5E79CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGTG_Portal", "SSWF_Project\TGTG_Portal.csproj", "{33B96E2D-C908-4037-8CFE-E2C35A5E79CC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{55362F49-D16F-4662-9160-AE1FD41E1B05}"
 EndProject
@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Tests", "Domain.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainServices.Tests", "DomainServices.Tests\DomainServices.Tests.csproj", "{079EDAB5-860D-454D-B9B3-E7BF9F746E31}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGTG-Portal.Tests", "Portal.Tests\TGTG-Portal.Tests.csproj", "{E84701A0-DC54-4A63-AC8A-60D4EE11BB56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGTG_Portal.Tests", "Portal.Tests\TGTG_Portal.Tests.csproj", "{E84701A0-DC54-4A63-AC8A-60D4EE11BB56}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TGTG-EF", "EF\TGTG-EF.csproj", "{F44CD147-B683-4C59-896A-91F2B994A89B}"
 EndProject

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SSWF_Project.Models;
-using System.Diagnostics;
 
-namespace SSWF_Project.Controllers
+namespace TGTG_Portal.Controllers
 {
     public class HomeController : Controller
     {
@@ -18,15 +16,11 @@ namespace SSWF_Project.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [Route("aanbod")]
+        public IActionResult Packets()
         {
-            return View();
+            return View("Packet-Overview");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }
