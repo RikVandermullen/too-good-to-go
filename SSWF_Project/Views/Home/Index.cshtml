@@ -2,7 +2,31 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center hero fill">
+    @*<img class="d-block mx-auto mb-4" src="@Url.Content("~/images/Hero.webp")" alt="">*@
+    <h1 class="display-5 fw-bold">Too Good To Go</h1>
+</div>
+
+<div class="container pt-5 pb-5">
+    <div class="row pb-5">
+        <div class="col-6">
+            <h2>Pakketten</h2>
+            <p class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec accumsan ipsum at ligula euismod, id rhoncus erat aliquet. In aliquet euismod turpis ut consequat. Aenean suscipit nisl vel orci vulputate, in volutpat orci vehicula. Praesent sagittis nibh nec aliquam consequat. Vivamus vehicula nisl sit amet ex elementum congue et a mi. Cras ac sem ac dolor tempor ultricies et eget ex. Duis metus arcu, consequat sed ante sed, convallis hendrerit justo. Proin egestas iaculis posuere. Maecenas sodales vitae orci et pellentesque. </p>
+            <button class="button-light-green">Bekijk Pakketten</button>
+        </div>
+        <div class="col-6 d-sm-inline-flex justify-content-center">
+            <img class="image-homepage shadow" src="@Url.Content("~/images/Coffee.jpg")"/>
+        </div>
+    </div>
+
+    <div class="row pt-5">
+        <div class="col-6">
+            <img class="image-homepage shadow" src="@Url.Content("~/images/Books.jpg")" />
+        </div>
+        <div class="col-6">
+            <h2>Over ons</h2>
+            <p class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec accumsan ipsum at ligula euismod, id rhoncus erat aliquet. In aliquet euismod turpis ut consequat. Aenean suscipit nisl vel orci vulputate, in volutpat orci vehicula. Praesent sagittis nibh nec aliquam consequat. Vivamus vehicula nisl sit amet ex elementum congue et a mi. Cras ac sem ac dolor tempor ultricies et eget ex. Duis metus arcu, consequat sed ante sed, convallis hendrerit justo. Proin egestas iaculis posuere. Maecenas sodales vitae orci et pellentesque. </p>
+            <button class="button-light-green">Bekijk Ons Verhaal</button>
+        </div>
+    </div>
 </div>
