@@ -295,6 +295,10 @@ ul {
     display: none;
 }
 
+.packet-text-info2 {
+    display: none;
+}
+
 .main-info-text {
     max-width: 50%;
 }
@@ -302,6 +306,11 @@ ul {
 @media only screen and (max-width: 661px) {
     .packet-text-info {
         display: none;
+    }
+
+    .packet-text-info2 {
+        font-size: 14px;
+        display: block;
     }
 
     .price {

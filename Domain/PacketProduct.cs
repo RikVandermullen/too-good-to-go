@@ -7,10 +7,8 @@ namespace Domain
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public Packet Packet { get; set; }
+        public int PacketId { get; set; }
 
-        [Required]
-        public Product Product { get; set; }
+        public int ProductId { get; set; }
     }
 }

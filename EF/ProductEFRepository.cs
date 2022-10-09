@@ -34,6 +34,11 @@
             return _dbContext.Products.FirstOrDefault(p => p.Name.Equals(name));
         }
 
+        public Product? GetProductById(int id)
+        {
+            return _dbContext.Products.FirstOrDefault(p => p.Id == id);
+        }
+
         public IEnumerable<Product>? GetProducts()
         {
             return _dbContext.Products.ToList();

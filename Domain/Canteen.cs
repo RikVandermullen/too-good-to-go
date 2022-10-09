@@ -7,12 +7,12 @@ namespace Domain
         public int Id { get; set; }
 
         [Required]
-        public City? City { get; set; }
+        public City City { get; set; }
 
         [Required]
         public string? Location { get; set; }
 
         [Required]
-        public bool? WarmMeals { get; set; }
+        public bool WarmMeals { get; set; }
     }
 }

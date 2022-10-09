@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TGTG_EF.Migrations
 {
-    public partial class InitialEntitiesAdded : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,44 +25,69 @@ namespace TGTG_EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Students",
-                columns: table => new
-                {
-                    StudentNumber = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    City = table.Column<int>(type: "int", nullable: false),
-                    noShows = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    EmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Students", x => x.StudentNumber);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
                     EmployeeNumber = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CanteenId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Canteen = table.Column<int>(type: "int", nullable: false),
                     EmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.EmployeeNumber);
-                    table.ForeignKey(
-                        name: "FK_Employees_Canteens_CanteenId",
-                        column: x => x.CanteenId,
-                        principalTable: "Canteens",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PacketProducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PacketId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PacketProducts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    HasAlcohol = table.Column<bool>(type: "bit", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    StudentNumber = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    noShows = table.Column<int>(type: "int", nullable: false),
+                    EmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.StudentNumber);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,11 +100,11 @@ namespace TGTG_EF.Migrations
                     Price = table.Column<double>(type: "float", nullable: false),
                     PickUpTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastestPickUpTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReservedByStudentNumber = table.Column<int>(type: "int", nullable: true),
+                    Student = table.Column<int>(type: "int", nullable: true),
                     City = table.Column<int>(type: "int", nullable: false),
                     CanteenId = table.Column<int>(type: "int", nullable: false),
                     MealType = table.Column<int>(type: "int", nullable: false),
-                    HasAlcohol = table.Column<bool>(type: "bit", nullable: false)
+                    ContainsAlcohol = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,35 +116,40 @@ namespace TGTG_EF.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Packets_Students_ReservedByStudentNumber",
-                        column: x => x.ReservedByStudentNumber,
+                        name: "FK_Packets_Students_Student",
+                        column: x => x.Student,
                         principalTable: "Students",
                         principalColumn: "StudentNumber");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "PacketProduct",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    HasAlcohol = table.Column<bool>(type: "bit", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PacketId = table.Column<int>(type: "int", nullable: true)
+                    PacketsId = table.Column<int>(type: "int", nullable: false),
+                    ProductsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Name);
+                    table.PrimaryKey("PK_PacketProduct", x => new { x.PacketsId, x.ProductsId });
                     table.ForeignKey(
-                        name: "FK_Products_Packets_PacketId",
-                        column: x => x.PacketId,
+                        name: "FK_PacketProduct_Packets_PacketsId",
+                        column: x => x.PacketsId,
                         principalTable: "Packets",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PacketProduct_Products_ProductsId",
+                        column: x => x.ProductsId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_CanteenId",
-                table: "Employees",
-                column: "CanteenId");
+                name: "IX_PacketProduct_ProductsId",
+                table: "PacketProduct",
+                column: "ProductsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Packets_CanteenId",
@@ -127,14 +157,9 @@ namespace TGTG_EF.Migrations
                 column: "CanteenId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Packets_ReservedByStudentNumber",
+                name: "IX_Packets_Student",
                 table: "Packets",
-                column: "ReservedByStudentNumber");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_PacketId",
-                table: "Products",
-                column: "PacketId");
+                column: "Student");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -143,10 +168,16 @@ namespace TGTG_EF.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "PacketProduct");
+
+            migrationBuilder.DropTable(
+                name: "PacketProducts");
 
             migrationBuilder.DropTable(
                 name: "Packets");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Canteens");

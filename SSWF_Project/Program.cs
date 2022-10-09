@@ -15,6 +15,7 @@ builder.Services.AddDbContext<SecurityDbContext>(options => options.UseSqlServer
 builder.Services.AddScoped<IStudentRepository, StudentEFRepository>();
 builder.Services.AddScoped<IProductRepository, ProductEFRepository>();
 builder.Services.AddScoped<IPacketRepository, PacketEFRepository>();
+builder.Services.AddScoped<TGTGSeedData>();
 
 builder.Services.AddControllersWithViews();
 
@@ -26,6 +27,11 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+else
+{
+    // Only in dev env seed with dummy data -->
+    await SeedDatabase();
 }
 
 app.UseHttpsRedirection();
@@ -41,3 +47,10 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+async Task SeedDatabase()
+{
+    using var scope = app.Services.CreateScope();
+    var dbSeeder = scope.ServiceProvider.GetRequiredService<TGTGSeedData>();
+    await dbSeeder.EnsurePopulated(true);
+}

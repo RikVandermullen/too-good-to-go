@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
 
 namespace TGTG_EF
@@ -39,7 +40,7 @@ namespace TGTG_EF
 
         public IEnumerable<Packet>? GetPackets()
         {
-            return _dbContext.Packets.ToList();
+            return _dbContext.Packets.Include(p => p.Products).ToList();          
         }
 
         public Packet? UpdatePacket(Packet packet)

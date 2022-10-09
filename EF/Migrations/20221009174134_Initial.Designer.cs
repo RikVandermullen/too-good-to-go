@@ -12,8 +12,8 @@ using TGTG_EF;
 namespace TGTG_EF.Migrations
 {
     [DbContext(typeof(TGTGDbContext))]
-    [Migration("20221008124913_Added ManyToMany Table")]
-    partial class AddedManyToManyTable
+    [Migration("20221009174134_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,67 +39,12 @@ namespace TGTG_EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("WarmMeals")
-                        .IsRequired()
+                    b.Property<bool>("WarmMeals")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
-                        .IsUnique();
-
                     b.ToTable("Canteens");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = 0,
-                            Location = "HA",
-                            WarmMeals = true
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = 0,
-                            Location = "LD",
-                            WarmMeals = true
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = 0,
-                            Location = "LA",
-                            WarmMeals = false
-                        },
-                        new
-                        {
-                            Id = 4,
-                            City = 2,
-                            Location = "CHL",
-                            WarmMeals = true
-                        },
-                        new
-                        {
-                            Id = 5,
-                            City = 2,
-                            Location = "MD",
-                            WarmMeals = false
-                        },
-                        new
-                        {
-                            Id = 6,
-                            City = 1,
-                            Location = "OWB215",
-                            WarmMeals = true
-                        },
-                        new
-                        {
-                            Id = 7,
-                            City = 1,
-                            Location = "HP",
-                            WarmMeals = false
-                        });
                 });
 
             modelBuilder.Entity("Domain.Employee", b =>
@@ -110,7 +55,7 @@ namespace TGTG_EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeNumber"), 1L, 1);
 
-                    b.Property<int>("CanteenId")
+                    b.Property<int>("Canteen")
                         .HasColumnType("int");
 
                     b.Property<string>("EmailAddress")
@@ -134,8 +79,6 @@ namespace TGTG_EF.Migrations
 
                     b.HasKey("EmployeeNumber");
 
-                    b.HasIndex("CanteenId");
-
                     b.ToTable("Employees");
                 });
 
@@ -153,7 +96,7 @@ namespace TGTG_EF.Migrations
                     b.Property<int>("City")
                         .HasColumnType("int");
 
-                    b.Property<bool>("HasAlcohol")
+                    b.Property<bool>("ContainsAlcohol")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastestPickUpTime")
@@ -176,14 +119,14 @@ namespace TGTG_EF.Migrations
                         .IsRequired()
                         .HasColumnType("float");
 
-                    b.Property<int?>("ReservedByStudentNumber")
+                    b.Property<int?>("Student")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CanteenId");
 
-                    b.HasIndex("ReservedByStudentNumber");
+                    b.HasIndex("Student");
 
                     b.ToTable("Packets");
                 });
@@ -199,24 +142,21 @@ namespace TGTG_EF.Migrations
                     b.Property<int>("PacketId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PacketId");
-
-                    b.HasIndex("ProductName");
-
-                    b.ToTable("PacketProduct");
+                    b.ToTable("PacketProducts");
                 });
 
             modelBuilder.Entity("Domain.Product", b =>
                 {
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("HasAlcohol")
                         .HasColumnType("bit");
@@ -225,7 +165,12 @@ namespace TGTG_EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Products");
                 });
@@ -242,8 +187,9 @@ namespace TGTG_EF.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("City")
-                        .HasColumnType("int");
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
@@ -276,15 +222,19 @@ namespace TGTG_EF.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("Domain.Employee", b =>
+            modelBuilder.Entity("PacketProduct", b =>
                 {
-                    b.HasOne("Domain.Canteen", "Canteen")
-                        .WithMany()
-                        .HasForeignKey("CanteenId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("PacketsId")
+                        .HasColumnType("int");
 
-                    b.Navigation("Canteen");
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PacketsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("PacketProduct");
                 });
 
             modelBuilder.Entity("Domain.Packet", b =>
@@ -297,30 +247,26 @@ namespace TGTG_EF.Migrations
 
                     b.HasOne("Domain.Student", "ReservedBy")
                         .WithMany()
-                        .HasForeignKey("ReservedByStudentNumber");
+                        .HasForeignKey("Student");
 
                     b.Navigation("Canteen");
 
                     b.Navigation("ReservedBy");
                 });
 
-            modelBuilder.Entity("Domain.PacketProduct", b =>
+            modelBuilder.Entity("PacketProduct", b =>
                 {
-                    b.HasOne("Domain.Packet", "Packet")
+                    b.HasOne("Domain.Packet", null)
                         .WithMany()
-                        .HasForeignKey("PacketId")
+                        .HasForeignKey("PacketsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Product", "Product")
+                    b.HasOne("Domain.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductName")
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Packet");
-
-                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

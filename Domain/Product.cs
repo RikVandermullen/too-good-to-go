@@ -4,7 +4,8 @@ namespace Domain
 {
     public class Product
     {
-        [Key]
+        public int Id { get; set; }
+
         [StringLength(50)]
         public string Name { get; set; }
 
@@ -14,6 +15,6 @@ namespace Domain
         [Required]
         public string? Image { get; set; }
 
-        public ICollection<Packet>? Packets { get; set; }
+        public ICollection<Packet> Packets { get; set; }
     }
 }

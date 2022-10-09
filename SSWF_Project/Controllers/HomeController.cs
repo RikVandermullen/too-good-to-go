@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain;
+using DomainServices;
+using Microsoft.AspNetCore.Mvc;
+using TGTG_Portal.ViewModels;
 
 namespace TGTG_Portal.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IPacketRepository _packetRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IPacketRepository packetRepository)
         {
-            _logger = logger;
+            _packetRepository = packetRepository;
         }
 
         public IActionResult Index()
@@ -19,6 +22,15 @@ namespace TGTG_Portal.Controllers
         [Route("aanbod")]
         public IActionResult Packets()
         {
+            var packets = _packetRepository.GetPackets();
+            if (packets != null)
+            {             
+                var viewModel = new PacketsViewModel
+                {
+                    Packets = packets
+                };
+                return View("Packet-Overview", viewModel);
+            }
             return View("Packet-Overview");
         }
 

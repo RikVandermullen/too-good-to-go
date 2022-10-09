@@ -21,23 +21,24 @@ namespace Domain
         public DateTime? LastestPickUpTime { get; set; }
 
         [ForeignKey("Student")]
-        public string? ReservedBy { get; set; }
+        public Student? ReservedBy { get; set; }
 
         [Required]
-        public string? City { get; set; }
+        public City City { get; set; }
+
+        public int CanteenId { get; set; }
 
         [Required]
-        [ForeignKey("Canteen")]
-        public int Canteen { get; set; }
+        public Canteen Canteen { get; set; }
 
         [Required]
-        public string? MealType { get; set; }
+        public MealType MealType { get; set; }
 
         [Required]
-        public bool HasAlcohol { get => HasAlcohol; set => DoesPacketContainAlcohol(); }
+        public ICollection<Product> Products { get; set; }
 
         [Required]
-        public ICollection<Product>? Products { get; set; }
+        public bool ContainsAlcohol { get; set; }
 
         public bool DoesPacketContainAlcohol()
         {
