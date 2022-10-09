@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -19,16 +20,18 @@ namespace Domain
         [Required]
         public DateTime? LastestPickUpTime { get; set; }
 
-        public Student? ReservedBy { get; set; }
+        [ForeignKey("Student")]
+        public string? ReservedBy { get; set; }
 
         [Required]
-        public City? City { get; set; }
+        public string? City { get; set; }
 
         [Required]
-        public Canteen? Canteen { get; set; }
+        [ForeignKey("Canteen")]
+        public int Canteen { get; set; }
 
         [Required]
-        public MealType? MealType { get; set; }
+        public string? MealType { get; set; }
 
         [Required]
         public bool HasAlcohol { get => HasAlcohol; set => DoesPacketContainAlcohol(); }
@@ -45,7 +48,7 @@ namespace Domain
                 if (product.HasAlcohol)
                 {
                     return true;
-                } 
+                }
             }
             return false;
         }
