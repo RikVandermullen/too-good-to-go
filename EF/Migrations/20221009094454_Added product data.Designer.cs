@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TGTG_EF;
 
@@ -11,9 +12,10 @@ using TGTG_EF;
 namespace TGTG_EF.Migrations
 {
     [DbContext(typeof(TGTGDbContext))]
-    partial class TGTGDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221009094454_Added product data")]
+    partial class Addedproductdata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,12 +159,11 @@ namespace TGTG_EF.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Canteen")
+                    b.Property<int>("CanteenId")
                         .HasColumnType("int");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("City")
+                        .HasColumnType("int");
 
                     b.Property<bool>("HasAlcohol")
                         .HasColumnType("bit");
@@ -171,9 +172,8 @@ namespace TGTG_EF.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("MealType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MealType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -188,10 +188,14 @@ namespace TGTG_EF.Migrations
                         .IsRequired()
                         .HasColumnType("float");
 
-                    b.Property<string>("ReservedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ReservedByStudentNumber")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CanteenId");
+
+                    b.HasIndex("ReservedByStudentNumber");
 
                     b.ToTable("Packets");
                 });
@@ -317,6 +321,23 @@ namespace TGTG_EF.Migrations
                             PhoneNumber = "0612345678",
                             noShows = 0
                         });
+                });
+
+            modelBuilder.Entity("Domain.Packet", b =>
+                {
+                    b.HasOne("Domain.Canteen", "Canteen")
+                        .WithMany()
+                        .HasForeignKey("CanteenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Student", "ReservedBy")
+                        .WithMany()
+                        .HasForeignKey("ReservedByStudentNumber");
+
+                    b.Navigation("Canteen");
+
+                    b.Navigation("ReservedBy");
                 });
 
             modelBuilder.Entity("Domain.PacketProduct", b =>

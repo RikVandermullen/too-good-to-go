@@ -19,7 +19,7 @@ namespace Domain
         public DateTime? BirthDate { get; set; }
 
         [Required]
-        public City City { get; set; }
+        public string? City { get; set; }
 
         public int noShows { get; set; }
     }
