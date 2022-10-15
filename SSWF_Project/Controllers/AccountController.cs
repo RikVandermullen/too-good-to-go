@@ -25,10 +25,11 @@ namespace TGTG_Portal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginAsync(LoginViewModel vm)
+        public async Task<IActionResult> Login(LoginViewModel vm)
         {
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("not valid");
                 return View();
             }
             var user = await _userManager.FindByNameAsync(vm.EmailAddress);

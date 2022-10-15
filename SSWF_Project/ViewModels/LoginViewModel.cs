@@ -1,8 +1,13 @@
-﻿namespace TGTG_Portal.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TGTG_Portal.ViewModels
 {
     public class LoginViewModel
     {
-        public string EmailAddress { get; set; }
-        public string Password { get; set; }
+        [Required]
+        public string? EmailAddress { get; set; }
+
+        [Required]
+        public string? Password { get; set; }
     }
 }

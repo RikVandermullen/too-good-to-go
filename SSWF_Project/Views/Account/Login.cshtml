@@ -1,6 +1,29 @@
-﻿@{
+﻿@model LoginViewModel
+@{
     ViewData["Title"] = "Login Pagina";
 }
-<h1>@ViewData["Title"]</h1>
+<div class="top-border">
+    <div class="container p-5">
+        <div class="row justify-content-center login-row">
+            <div class="col-12 col-md-6 pt-2">
+                <h3 class="ps-3 pb-1">Inloggen</h3>
+                <form asp-action="Login" asp-controller="Account" method="post">
+                    <div class="mb-4">
+                        <img class="login-icon" src="@Url.Content("~/images/Username.png")"/>
+                        <input type="email" asp-for="EmailAddress" class="login-input" placeholder="Email adres"/>
+                    </div>
+                    <div class="mb-4">
+                        <img class="login-icon" src="@Url.Content("~/images/Lock.png")"/>
+                        <input type="password" asp-for="Password" class="login-input" placeholder="Wachtwoord"/>
+                    </div>
+                    <div class="ps-3">
+                        <a class="button-green shadow" asp-action="Login"><span>Log in</span></a>
+                    </div>
+                </form>
+            </div>
+        </div>  
+    </div>
+</div>
 
-<p>This is a login page</p>
+
+
