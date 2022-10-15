@@ -2,7 +2,7 @@
 
 namespace Domain
 {
-    public class Student : Person
+    public class Student
     {
         [Key]
         public int StudentNumber { get; set; }

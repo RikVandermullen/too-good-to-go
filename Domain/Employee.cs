@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
-    public class Employee : Person
+    public class Employee
     {
         [Key]
         public int EmployeeNumber { get; set; }

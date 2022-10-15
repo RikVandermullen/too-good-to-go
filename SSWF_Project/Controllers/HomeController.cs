@@ -1,10 +1,12 @@
 ﻿using Domain;
 using DomainServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TGTG_Portal.ViewModels;
 
 namespace TGTG_Portal.Controllers
 {
+    [Authorize(Policy = "OnlyRegularUsersAndUp")]
     public class HomeController : Controller
     {
         private readonly IPacketRepository _packetRepository;
@@ -14,11 +16,13 @@ namespace TGTG_Portal.Controllers
             _packetRepository = packetRepository;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
+        [AllowAnonymous]
         [Route("aanbod")]
         public IActionResult Packets()
         {
