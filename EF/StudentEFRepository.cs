@@ -19,9 +19,9 @@ public class StudentEFRepository : IStudentRepository
         return NewStudent;
     }
 
-    public Student? GetStudentByStudentNr(int StudentNr)
+    public Student? GetStudentByEmail(string emailAddress)
     {
-        return (Student)_dbContext.Students.Where(x => x.StudentNumber == StudentNr);
+        return _dbContext.Students.FirstOrDefault(x => x.EmailAddress == emailAddress);
     }
 }
 

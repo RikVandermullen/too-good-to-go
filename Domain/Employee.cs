@@ -5,8 +5,14 @@ namespace Domain
 {
     public class Employee
     {
-        [Key]
+        public int Id { get; set; }
+
+        [Required]
         public int EmployeeNumber { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string EmailAddress { get; set; }
 
         [Required]
         [StringLength(50)]

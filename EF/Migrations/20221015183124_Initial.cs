@@ -28,17 +28,16 @@ namespace TGTG_EF.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    EmployeeNumber = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeNumber = table.Column<int>(type: "int", nullable: false),
+                    EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Canteen = table.Column<int>(type: "int", nullable: false),
-                    EmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Number = table.Column<int>(type: "int", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                    Canteen = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.EmployeeNumber);
+                    table.PrimaryKey("PK_Employees", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,20 +73,19 @@ namespace TGTG_EF.Migrations
                 name: "Students",
                 columns: table => new
                 {
-                    StudentNumber = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentNumber = table.Column<int>(type: "int", nullable: false),
+                    EmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    noShows = table.Column<int>(type: "int", nullable: false),
-                    EmailAddress = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Number = table.Column<int>(type: "int", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                    noShows = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Students", x => x.StudentNumber);
+                    table.PrimaryKey("PK_Students", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -119,7 +117,7 @@ namespace TGTG_EF.Migrations
                         name: "FK_Packets_Students_Student",
                         column: x => x.Student,
                         principalTable: "Students",
-                        principalColumn: "StudentNumber");
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

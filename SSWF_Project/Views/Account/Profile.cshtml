@@ -1,0 +1,119 @@
+﻿@model Student
+@{
+}
+
+<div class="top-border p-5">
+    <h3>Profiel</h3>
+    <p>Dit is je persoonlijke pagina, hier kan je je gegevens aanpassen. <br />
+        Ook kan je hier je gereserveerde pakketten vinden zodat je weet wanneer je ze op kan halen!</p>
+
+    <div class="row filter p-4">
+        <form>
+            <div class="col-12 pb-2">
+                <h5>Gegevens<img class="info-icon" src="@Url.Content("~/images/info.png")" />
+                    <span class="tooltiptext">Gegevens zoals email adres en studenten nummer kunnen niet aangepast worden.</span>
+                </h5>
+            </div>
+        
+            <div class="row profile-row gy-2">
+                <div class="col-6 input-wrap">
+                    <label>Email adres</label><br />
+                    <input type="email" class="form-input" placeholder="@Model.EmailAddress" disabled/>
+                </div>
+
+                <div class="col-6 input-wrap">
+                    <label>Naam</label><br />
+                    <input type="text" class="form-input" placeholder="@Model.Name"/>
+                </div>
+        
+                <div class="col-6 pt-3 input-wrap">
+                    <label>Studenten nummer</label><br />
+                    <input type="text" class="form-input" placeholder="@Model.StudentNumber" disabled/>
+                </div>
+
+                <div class="col-6 pt-3 input-wrap">
+                    <label>Telefoon nummer</label><br />
+                    <input type="text" class="form-input" placeholder="@Model.PhoneNumber" />
+                </div>
+
+                <div class="col-6 pt-3 input-wrap">
+                    <label>Geboorte datum</label><br />
+                    <input type="date" class="datepicker"/>
+                </div>
+
+                <div class="col-6 select-wrap mt-4 ms-2">
+                    <label for="city">Stad</label>
+                    <select name="city" id="city" style="width: 100%;">
+                        <option style="display:none"></option>
+                        <option value="BREDA">Breda</option>
+                        <option value="DENBOSCH">Den Bosch</option>
+                        <option value="TILBURG">Tilburg</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row pt-3">
+                <div class="col">
+                    <button type="submit" class="button-darkgreen"><span>Opslaan</span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row pt-4 gy-3">
+        <h4>Gereserveerde pakketten</h4>
+        <hr />
+        <div class="reserverd-packets" style="overflow-y: scroll; height:400px; max-width:99%; border-bottom: 1px solid grey;">
+            <div class="col-12 packet p-0 p-lg-3">
+                <img class="box-icon shadow" src="@Url.Content("~/images/Box.png")" />
+                <div class="packet-text ps-3 pe-2">
+                    <h5>Pakket 1</h5>
+                    <p class="packet-text-info">Dit is wat tekst over het pakket. Bijvoorbeeld welke producten enzo</p>
+                    <p class="price">Prijs: €10,00</p>
+                </div>
+
+                <div class="packet-right">
+                    <div class="pt-4 pt-md-2">
+                        <p>Prijs: €10,00</p>
+                        <button class="button-green shadow smaller"><span>Details</span></button>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+            <div class="col-12 packet p-0 p-lg-3">
+                <img class="box-icon shadow" src="@Url.Content("~/images/Box.png")" />
+                <div class="packet-text ps-3 pe-2">
+                    <h5>Pakket 1</h5>
+                    <p class="packet-text-info">Dit is wat tekst over het pakket. Bijvoorbeeld welke producten enzo</p>
+                    <p class="price">Prijs: €10,00</p>
+                </div>
+
+                <div class="packet-right">
+                    <div class="pt-4 pt-md-2">
+                        <p>Prijs: €10,00</p>
+                        <button class="button-green shadow smaller"><span>Details</span></button>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+            <div class="col-12 packet p-0 p-lg-3">
+                <img class="box-icon shadow" src="@Url.Content("~/images/Box.png")" />
+                <div class="packet-text ps-3 pe-2">
+                    <h5>Pakket 1</h5>
+                    <p class="packet-text-info">Dit is wat tekst over het pakket. Bijvoorbeeld welke producten enzo</p>
+                    <p class="price">Prijs: €10,00</p>
+                </div>
+
+                <div class="packet-right">
+                    <div class="pt-4 pt-md-2">
+                        <p>Prijs: €10,00</p>
+                        <button class="button-green shadow smaller"><span>Details</span></button>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        </div>
+    </div>
+</div>

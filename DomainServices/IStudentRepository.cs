@@ -4,6 +4,6 @@
     {
         Student? AddStudent(Student newStudent);
 
-        Student? GetStudentByStudentNr(int StudentNr);
+        Student? GetStudentByEmail(string emailAddress);
     }
 }

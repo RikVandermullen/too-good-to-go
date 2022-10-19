@@ -29,13 +29,13 @@ namespace Domain
         public int CanteenId { get; set; }
 
         [Required]
-        public Canteen Canteen { get; set; }
+        public Canteen Canteen { get; set; } = null!;
 
         [Required]
         public MealType MealType { get; set; }
 
         [Required]
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product>? Products { get; set; }
 
         [Required]
         public bool ContainsAlcohol { get; set; }

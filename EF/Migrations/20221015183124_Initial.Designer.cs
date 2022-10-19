@@ -12,8 +12,8 @@ using TGTG_EF;
 namespace TGTG_EF.Migrations
 {
     [DbContext(typeof(TGTGDbContext))]
-    [Migration("20221015142717_Updated Student and Employee Entities")]
-    partial class UpdatedStudentandEmployeeEntities
+    [Migration("20221015183124_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,13 +49,20 @@ namespace TGTG_EF.Migrations
 
             modelBuilder.Entity("Domain.Employee", b =>
                 {
-                    b.Property<int>("EmployeeNumber")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeNumber"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("Canteen")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmployeeNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -63,7 +70,7 @@ namespace TGTG_EF.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("EmployeeNumber");
+                    b.HasKey("Id");
 
                     b.ToTable("Employees");
                 });
@@ -163,17 +170,21 @@ namespace TGTG_EF.Migrations
 
             modelBuilder.Entity("Domain.Student", b =>
                 {
-                    b.Property<int>("StudentNumber")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentNumber"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime?>("BirthDate")
                         .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -186,10 +197,13 @@ namespace TGTG_EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("StudentNumber")
+                        .HasColumnType("int");
+
                     b.Property<int>("noShows")
                         .HasColumnType("int");
 
-                    b.HasKey("StudentNumber");
+                    b.HasKey("Id");
 
                     b.ToTable("Students");
                 });

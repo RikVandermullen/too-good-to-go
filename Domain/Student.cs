@@ -4,8 +4,14 @@ namespace Domain
 {
     public class Student
     {
-        [Key]
+        public int Id { get; set; }
+
+        [Required]
         public int StudentNumber { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string EmailAddress { get; set; } = null!;
 
         [Required]
         [StringLength(50)]

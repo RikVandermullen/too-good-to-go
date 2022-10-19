@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DomainServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 using TGTG_Portal.ViewModels;
 
 namespace TGTG_Portal.Controllers
@@ -9,11 +11,13 @@ namespace TGTG_Portal.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IStudentRepository _studentRepository;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IStudentRepository studentRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _studentRepository = studentRepository;
         }
 
         [AllowAnonymous]
@@ -29,7 +33,6 @@ namespace TGTG_Portal.Controllers
         {
             if (!ModelState.IsValid)
             {
-                Console.WriteLine("not valid");
                 return View();
             }
             var user = await _userManager.FindByNameAsync(vm.EmailAddress);
@@ -47,8 +50,29 @@ namespace TGTG_Portal.Controllers
                 return View();
             }
 
-            return RedirectToAction("index", "home");
+            return RedirectToAction("Profile");
 
+        }
+
+        [Authorize(Policy = "OnlyRegularUsersAndUp")]
+        public IActionResult Profile()
+        {
+            if (User != null)
+            {
+                var claim = User.Claims.ToList().ElementAt(3).ToString();
+                if (claim.Equals("UserType: regularuser")) {
+                    var Student = _studentRepository.GetStudentByEmail(User.Identity.Name);
+                    return View(Student);
+                }
+                else
+                {
+                    //var Employee = _employeeRepository.GetEmployeeByEmail(User.Identity.Name);
+                    //return View(Employee);
+                }
+                
+                
+            }
+            return RedirectToAction("Index", "Home");
         }
 
     }

@@ -164,6 +164,11 @@ ul {
     color: black;
 }
 
+.button-darkgreen:hover {
+    text-decoration: none;
+    color: black;
+}
+
 .button-green {
     display: inline-block;
     position: relative;
@@ -178,12 +183,40 @@ ul {
     background: var(--light-green);
 }
 
+.button-darkgreen {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    background: none;
+    border: none;
+    color: black;
+    font-weight: bolder;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: var(--vibrant-green);
+}
+
 .button-green span {
     display: block;
     padding: 15px 20px;
 }
 
+.button-darkgreen span {
+    display: block;
+    padding: 15px 20px;
+}
+
 .button-green::before, .button-green::after {
+    content: "";
+    width: 0;
+    height: 2px;
+    position: absolute;
+    transition: all 0.5s linear;
+    background: var(--dark-green);
+}
+
+.button-darkgreen::before, .button-darkgreen::after {
     content: "";
     width: 0;
     height: 2px;
@@ -201,19 +234,44 @@ ul {
     background: var(--dark-green);
 }
 
+.button-darkgreen span::before, .button-darkgreen span::after {
+    content: "";
+    width: 2px;
+    height: 0;
+    position: absolute;
+    transition: all 0.2s linear;
+    background: var(--dark-green);
+}
+
 .button-green:hover::before, .button-green:hover::after {
     width: 100%;
 }
 
-.button-green:hover span::before, .button-green:hover span::after {
-    height: 100%;
+.button-darkgreen:hover::before, .button-darkgreen:hover::after {
+    width: 100%;
+}
+
+.button-green:hover::before, .button-green:hover::after {
+    width: 100%;
+}
+
+.button-darkgreen:hover::before, .button-darkgreen:hover::after {
+    width: 100%;
 }
 
 .button-green::before, .button-green::after {
     transition-delay: 0s;
 }
 
+.button-darkgreen::before, .button-darkgreen::after {
+    transition-delay: 0s;
+}
+
 .button-green span::before, .button-green span::after {
+    transition-delay: 0.5s;
+}
+
+.button-darkgreen span::before, .button-darkgreen span::after {
     transition-delay: 0.5s;
 }
 
@@ -237,12 +295,58 @@ ul {
     bottom: 0;
 }
 
+.button-darkgreen::before {
+    right: 0;
+    top: 0;
+}
+
+.button-darkgreen::after {
+    left: 0;
+    bottom: 0;
+}
+
+.button-darkgreen span::before {
+    left: 0;
+    top: 0;
+}
+
+.button-darkgreen span::after {
+    right: 0;
+    bottom: 0;
+}
+
 .button-green:hover::before, .button-green:hover::after {
     transition-delay: 0.2s;
 }
 
 .button-green:hover span::before, .button-green:hover span::after {
     transition-delay: 0s;
+}
+
+.button-darkgreen:hover::before, .button-darkgreen:hover::after {
+    transition-delay: 0.2s;
+}
+
+.button-darkgreen:hover span::before, .button-darkgreen:hover span::after {
+    transition-delay: 0s;
+}
+
+/*SCROLLBAR*/
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 /*HOMEPAGE*/
@@ -483,9 +587,88 @@ label[for=no] {
     transition: .2s;
 }
 
-.login__input:active,
-.login__input:focus,
-.login__input:hover {
+.login-input:active,
+.login-input:focus,
+.login-input:hover {
     outline: none;
     border-bottom-color: var(--light-green);
 }
+
+.form-input {
+    border: none;
+    border-bottom: 2px solid var(--dark-green);
+    background: none;
+    font-weight: 700;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 75%;
+    transition: .2s;
+}
+
+.form-input:disabled:hover {
+    border-bottom: 2px solid var(--dark-green);
+}
+
+.form-input:active,
+.form-input:focus,
+.form-input:hover {
+    outline: none;
+    border-bottom-color: var(--vibrant-green);
+}
+
+.input-wrap label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: black;
+    padding: 0px 0px 0;
+}
+
+/*PROFILE PAGE*/
+.profile-row {
+    max-width: 70%;
+}
+
+.info-icon {
+    position: relative;
+    display: inline-block;
+    color: #7875B5;
+    bottom: 5px;
+    left: 5px;
+    max-height: 20px;
+    max-width: 20px;
+}
+
+.tooltiptext {
+    visibility: hidden;
+    min-width: fit-content;
+    background-color: var(--dark-green);
+    border: 1px solid white;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    padding: 5px;
+    margin-left: 10px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
+
+.info-icon:hover~.tooltiptext {
+    visibility: visible;
+}
+
+.datepicker {
+    border: 1px solid var(--dark-green);
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 5px 5px;
+    width: 200px;
+    background-color: var(--beige);
+}
+
+datepicker:focus {
+    outline: 0;
+}
+
+
