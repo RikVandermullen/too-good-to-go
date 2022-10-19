@@ -9,11 +9,8 @@ namespace TGTG_Portal.Controllers
     [Authorize(Policy = "OnlyRegularUsersAndUp")]
     public class HomeController : Controller
     {
-        private readonly IPacketRepository _packetRepository;
-
-        public HomeController(IPacketRepository packetRepository)
+        public HomeController()
         {
-            _packetRepository = packetRepository;
         }
 
         [AllowAnonymous]
@@ -21,22 +18,5 @@ namespace TGTG_Portal.Controllers
         {
             return View();
         }
-
-        [AllowAnonymous]
-        [Route("aanbod")]
-        public IActionResult Packets()
-        {
-            var packets = _packetRepository.GetPackets();
-            if (packets != null)
-            {             
-                var viewModel = new PacketsViewModel
-                {
-                    Packets = packets
-                };
-                return View("Packet-Overview", viewModel);
-            }
-            return View("Packet-Overview");
-        }
-
     }
 }
