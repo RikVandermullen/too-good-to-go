@@ -14,10 +14,6 @@ public class TGTGSeedData : ISeedData
 
     public async Task EnsurePopulated(bool dropExisting = false)
     {
-        _context.Database.EnsureDeleted();
-
-        _context.Database.Migrate();
-
         _context.Employees.RemoveRange(_context.Employees);
         _context.Students.RemoveRange(_context.Students);
         _context.Products.RemoveRange(_context.Products);

@@ -159,12 +159,8 @@ ul {
 
 /*BUTTONS*/
 
+/*LIGHT GREEN*/
 .button-green:hover {
-    text-decoration: none;
-    color: black;
-}
-
-.button-darkgreen:hover {
     text-decoration: none;
     color: black;
 }
@@ -183,40 +179,12 @@ ul {
     background: var(--light-green);
 }
 
-.button-darkgreen {
-    display: inline-block;
-    position: relative;
-    text-decoration: none;
-    background: none;
-    border: none;
-    color: black;
-    font-weight: bolder;
-    font-size: 18px;
-    border-radius: 6px;
-    cursor: pointer;
-    background: var(--vibrant-green);
-}
-
 .button-green span {
     display: block;
     padding: 15px 20px;
 }
 
-.button-darkgreen span {
-    display: block;
-    padding: 15px 20px;
-}
-
 .button-green::before, .button-green::after {
-    content: "";
-    width: 0;
-    height: 2px;
-    position: absolute;
-    transition: all 0.5s linear;
-    background: var(--dark-green);
-}
-
-.button-darkgreen::before, .button-darkgreen::after {
     content: "";
     width: 0;
     height: 2px;
@@ -234,44 +202,19 @@ ul {
     background: var(--dark-green);
 }
 
-.button-darkgreen span::before, .button-darkgreen span::after {
-    content: "";
-    width: 2px;
-    height: 0;
-    position: absolute;
-    transition: all 0.2s linear;
-    background: var(--dark-green);
-}
-
 .button-green:hover::before, .button-green:hover::after {
     width: 100%;
 }
 
-.button-darkgreen:hover::before, .button-darkgreen:hover::after {
-    width: 100%;
-}
-
-.button-green:hover::before, .button-green:hover::after {
-    width: 100%;
-}
-
-.button-darkgreen:hover::before, .button-darkgreen:hover::after {
-    width: 100%;
+.button-green:hover span::before, .button-green:hover span::after {
+    height: 100%;
 }
 
 .button-green::before, .button-green::after {
     transition-delay: 0s;
 }
 
-.button-darkgreen::before, .button-darkgreen::after {
-    transition-delay: 0s;
-}
-
 .button-green span::before, .button-green span::after {
-    transition-delay: 0.5s;
-}
-
-.button-darkgreen span::before, .button-darkgreen span::after {
     transition-delay: 0.5s;
 }
 
@@ -295,6 +238,73 @@ ul {
     bottom: 0;
 }
 
+.button-green:hover::before, .button-green:hover::after {
+    transition-delay: 0.2s;
+}
+
+.button-green:hover span::before, .button-green:hover span::after {
+    transition-delay: 0s;
+}
+
+/*DARK GREEN*/
+.button-darkgreen:hover {
+    text-decoration: none;
+    color: black;
+}
+
+.button-darkgreen {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    background: none;
+    border: none;
+    color: black;
+    font-weight: bolder;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: var(--vibrant-green);
+}
+
+.button-darkgreen span {
+    display: block;
+    padding: 15px 20px;
+}
+
+.button-darkgreen::before, .button-darkgreen::after {
+    content: "";
+    width: 0;
+    height: 2px;
+    position: absolute;
+    transition: all 0.5s linear;
+    background: var(--dark-green);
+}
+
+.button-darkgreen span::before, .button-darkgreen span::after {
+    content: "";
+    width: 2px;
+    height: 0;
+    position: absolute;
+    transition: all 0.2s linear;
+    background: var(--dark-green);
+}
+
+.button-darkgreen:hover::before, .button-darkgreen:hover::after {
+    width: 100%;
+}
+
+.button-darkgreen:hover span::before, .button-darkgreen:hover span::after {
+    height: 100%;
+}
+
+.button-darkgreen::before, .button-darkgreen::after {
+    transition-delay: 0s;
+}
+
+.button-darkgreen span::before, .button-darkgreen span::after {
+    transition-delay: 0.5s;
+}
+
 .button-darkgreen::before {
     right: 0;
     top: 0;
@@ -313,14 +323,6 @@ ul {
 .button-darkgreen span::after {
     right: 0;
     bottom: 0;
-}
-
-.button-green:hover::before, .button-green:hover::after {
-    transition-delay: 0.2s;
-}
-
-.button-green:hover span::before, .button-green:hover span::after {
-    transition-delay: 0s;
 }
 
 .button-darkgreen:hover::before, .button-darkgreen:hover::after {
