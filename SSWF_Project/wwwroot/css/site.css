@@ -354,7 +354,7 @@ ul {
 /*HOMEPAGE*/
 
 .info-text {
-    max-width: 80%;
+    max-width: 100%;
 }
 
 @media only screen and (max-width: 995px) {
@@ -572,8 +572,8 @@ label[for=no] {
 .login-icon {
     position: relative;
     color: #7875B5;
-    left: 27px;
-    bottom: 2.5px;
+    left: 5px;
+    top: 32px;
     max-height: 16px;
     max-width: 16px;
 }
@@ -585,7 +585,7 @@ label[for=no] {
     padding: 10px;
     padding-left: 35px;
     font-weight: 700;
-    width: 75%;
+    width: 100%;
     transition: .2s;
 }
 

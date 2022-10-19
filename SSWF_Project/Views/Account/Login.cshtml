@@ -4,9 +4,9 @@
 }
 <div class="top-border">
     <div class="container p-5">
-        <div class="row justify-content-center login-row">
+        <div class="row d-flex justify-content-center login-row">
             <div class="col-12 col-md-6 pt-2">
-                <h3 class="ps-3 pb-1">Inloggen</h3>
+                <h3 class="pb-1">Inloggen</h3>
                 <form asp-action="Login" asp-controller="Account" method="post">
                     <div class="mb-4">
                         <img class="login-icon" src="@Url.Content("~/images/Username.png")"/>
@@ -16,7 +16,7 @@
                         <img class="login-icon" src="@Url.Content("~/images/Lock.png")"/>
                         <input type="password" asp-for="Password" class="login-input" placeholder="Wachtwoord"/>
                     </div>
-                    <div class="ps-3">
+                    <div class="">
                         <button type="submit" class="button-darkgreen"><span>Opslaan</span></button>
                     </div>
                 </form>

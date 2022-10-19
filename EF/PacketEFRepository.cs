@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace TGTG_EF
@@ -36,6 +37,11 @@ namespace TGTG_EF
         public Packet? GetPacketById(int id)
         {
             return _dbContext.Packets.FirstOrDefault(p => p.Id.Equals(id));
+        }
+
+        public IEnumerable<Packet>? GetPacketsByStudentId(Student student)
+        {
+            return _dbContext.Packets.Where(p => p.ReservedBy.Equals(student)).Include(p => p.Products).ToList();
         }
 
         public IEnumerable<Packet>? GetPackets()

@@ -15,7 +15,7 @@ namespace TGTG_Portal.Controllers
         }
 
         [AllowAnonymous]
-        [Route("aanbod")]
+        [Route("packets")]
         public IActionResult Packets()
         {
             var packets = _packetRepository.GetPackets();

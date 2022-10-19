@@ -6,6 +6,8 @@
 
         Packet? GetPacketById(int id);
 
+        IEnumerable<Packet>? GetPacketsByStudentId(Student student);
+
         Packet? AddPacket(Packet newPacket);
 
         Packet? DeletePacket(Packet packet);

@@ -1,4 +1,5 @@
 ﻿using DomainServices;
+using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,14 @@ namespace TGTG_Portal.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IStudentRepository _studentRepository;
+        private readonly IPacketRepository _packetRepository;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IStudentRepository studentRepository)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IStudentRepository studentRepository, IPacketRepository packetRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _studentRepository = studentRepository;
+            _packetRepository = packetRepository;
         }
 
         [AllowAnonymous]
@@ -62,7 +65,8 @@ namespace TGTG_Portal.Controllers
                 var claim = User.Claims.ToList().ElementAt(3).ToString();
                 if (claim.Equals("UserType: regularuser")) {
                     var Student = _studentRepository.GetStudentByEmail(User.Identity.Name);
-                    return View(Student);
+                    IEnumerable<Packet> Packets = (IEnumerable<Packet>) _packetRepository.GetPacketsByStudentId(Student);
+                    return View(new StudentPacketsViewModel(Student, Packets));
                 }
                 else
                 {
