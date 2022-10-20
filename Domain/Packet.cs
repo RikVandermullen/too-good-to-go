@@ -53,5 +53,15 @@ namespace Domain
             }
             return false;
         }
+
+        public string ToString(string Enum)
+        {
+            return System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Enum.ToLower());
+        }
+
+        public DateOnly FormatDateTime(DateTime dateTime)
+        {
+            return DateOnly.FromDateTime(dateTime);
+        }
     }
 }

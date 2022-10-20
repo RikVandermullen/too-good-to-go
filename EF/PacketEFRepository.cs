@@ -36,7 +36,7 @@ namespace TGTG_EF
 
         public Packet? GetPacketById(int id)
         {
-            return _dbContext.Packets.FirstOrDefault(p => p.Id.Equals(id));
+            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).FirstOrDefault(p => p.Id.Equals(id));
         }
 
         public IEnumerable<Packet>? GetPacketsByStudentId(Student student)

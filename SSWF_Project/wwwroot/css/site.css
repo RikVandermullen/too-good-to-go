@@ -68,6 +68,31 @@ body {
     }
 }
 
+.breadcrumb-item a {
+    color: var(--vibrant-green);
+}
+
+/*CARDS*/
+
+.card {
+    background-color: var(--beige);
+}
+
+.card-title {
+    padding-top: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/*LIST*/
+
+.list {
+    list-style-type: circle;
+}
+
+
+
 /*FOOTER*/
 
 .footer {
@@ -387,6 +412,10 @@ ul {
     max-width: 120px;
     border: 2px solid white;
     border-radius: 15px;
+}
+
+.packet-text {
+    min-width: 25%;
 }
 
 .packet-right {

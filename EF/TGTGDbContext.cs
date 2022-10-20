@@ -9,7 +9,6 @@ namespace TGTG_EF
         public DbSet<Product> Products { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<PacketProduct> PacketProducts { get; set; }
 
         public TGTGDbContext(DbContextOptions<TGTGDbContext> contextOptions) : base(contextOptions)
         {

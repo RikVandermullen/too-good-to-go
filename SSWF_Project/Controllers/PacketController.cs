@@ -15,19 +15,25 @@ namespace TGTG_Portal.Controllers
         }
 
         [AllowAnonymous]
-        [Route("packets")]
-        public IActionResult Packets()
+        [Route("packets/{id?}")]
+        public IActionResult Packets(int? id)
         {
-            var packets = _packetRepository.GetPackets();
-            if (packets != null)
+            if (id == null)
             {
-                var viewModel = new PacketsViewModel
+                var packets = _packetRepository.GetPackets();
+                if (packets != null)
                 {
-                    Packets = packets
-                };
-                return View("Packet-Overview", viewModel);
+                    var viewModel = new PacketsViewModel
+                    {
+                        Packets = packets
+                    };
+                    return View("Packet-Overview", viewModel);
+                }
+                return View("Packet-Overview");
             }
-            return View("Packet-Overview");
+
+            var Packet = _packetRepository.GetPacketById((int)id);
+            return View("Packet-Detail", Packet);
         }
     }
 }

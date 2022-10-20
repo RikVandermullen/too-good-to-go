@@ -63,6 +63,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Packet}/{action=Packets}/{id?}");
+
 app.Run();
 
 async Task SeedDatabase()

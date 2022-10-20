@@ -51,12 +51,11 @@
     <div class="row gy-3">
         @foreach (var p in Model?.Packets ?? Enumerable.Empty<Packet>())
         {
-            Console.WriteLine(p.ContainsAlcohol);
             <div class="col-12 packet p-0 p-lg-3">
                 <img class="box-icon shadow" src="@Url.Content("~/images/Box.png")" />
                 <div class="packet-text ps-3 pe-2">
-                    <h5>@p.Name</h5>
-                    <p class="packet-text-info">Bestaat onder andere uit:  @p.Products.ToList().ElementAt(0).Name, @p.Products.ToList().ElementAt(1).Name...</p>
+                    <h5>@p.Name (@p.FormatDateTime((DateTime) p.PickUpTime))</h5>
+                    <p class="packet-text-info">Bestaat onder andere uit: @p.Products.ToList().ElementAt(0).Name, @p.Products.ToList().ElementAt(1).Name...</p>
                     <p class="packet-text-info2 mb-0 mt-2">@p.Products.ToList().ElementAt(0).Name, @p.Products.ToList().ElementAt(1).Name...</p>
                     <p class="price mb-0">Prijs: €@p.Price</p>
                 </div>
@@ -64,62 +63,12 @@
                 <div class="packet-right">
                     <div class="pt-4 pt-md-2">
                         <p>Prijs: €@p.Price</p>
-                        <button class="button-green shadow smaller"><span>Details</span></button>
+                        <a asp-controller="Packet" asp-action="Packets" asp-route-id="@p.Id" class="button-green shadow smaller"><span>Details</span></a>
                     </div>
                 </div>
             </div>
             <hr />
         }
-        <div class="col-12 packet p-0 p-lg-3">
-            <img class="box-icon shadow" src="@Url.Content("~/images/Box.png")" />
-            <div class="packet-text ps-3 pe-2">
-                <h5>Pakket 1</h5>
-                <p class="packet-text-info">Dit is wat tekst over het pakket. Bijvoorbeeld welke producten enzo</p>
-                <p class="price">Prijs: €10,00</p>
-            </div>
-
-            <div class="packet-right">
-                <div class="pt-4 pt-md-2">
-                    <p>Prijs: €10,00</p>
-                    <button class="button-green shadow smaller"><span>Details</span></button>
-                </div>
-            </div>
-        </div>
-        <hr />
-
-        <div class="col-12 packet p-0 p-lg-3">
-            <img class="box-icon shadow" src="@Url.Content("~/images/Box.png")" />
-            <div class="packet-text ps-3 pe-2">
-                <h5>Pakket 1</h5>
-                <p class="packet-text-info">Dit is wat tekst over het pakket. Bijvoorbeeld welke producten enzo</p>
-                <p class="price">Prijs: €10,00</p>
-            </div>
-
-            <div class="packet-right">
-                <div class="pt-4 pt-md-2">
-                    <p>Prijs: €10,00</p>
-                    <button class="button-green shadow smaller"><span>Details</span></button>
-                </div>
-            </div>
-        </div>
-        <hr />
-
-         <div class="col-12 packet p-0 p-lg-3">
-            <img class="box-icon shadow" src="@Url.Content("~/images/Box.png")" />
-            <div class="packet-text ps-3 pe-2">
-                <h5>Pakket 1</h5>
-                <p class="packet-text-info">Dit is wat tekst over het pakket. Bijvoorbeeld welke producten enzo</p>
-                <p class="price">Prijs: €10,00</p>
-            </div>
-
-            <div class="packet-right">
-                <div class="pt-4 pt-md-2">
-                    <p>Prijs: €10,00</p>
-                    <button class="button-green shadow smaller"><span>Details</span></button>
-                </div>
-            </div>
-        </div>
-        <hr />
     </div>
 
 </div>

@@ -1,0 +1,61 @@
+﻿@model Packet
+@{
+}
+<div class="container-fluid">
+    <div class="row pt-3 top-border">
+        <div class="col-10">
+            <nav class="ms-3" aria-label="breadcrumb" style="max-width:90%;">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Packet" asp-action="Packets" asp-route-id="">Aanbod</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Pakket Details</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+<div class="row ms-5 me-5">
+    <div class="col-11">
+        <h2>Pakket: @Model.Name</h2>
+        <p class="main-info-text">
+            Op deze pagina wordt meer informatie gegeven over het pakket. 
+            Hierop worden producten getoond wat indicaties zijn voor het daadwerkelijk pakket, 
+            waar het pakket beschikbaar is en hoelaat het opgehaald moet worden.
+            Ook is de prijs te zien en de mogelijkheid om het pakket te reserveren.</p>
+    </div>
+
+    <div class="col-1">
+        <a class="button-green shadow smaller"><span>Reserveren</span></a>
+        <div class="d-flex justify-content-end pt-3">
+            <h5>€ @Model.Price</h5>
+        </div>
+    </div>
+
+    <div class="col-12 mt-3">
+        <h4>
+            Producten<img class="info-icon" src="@Url.Content("~/images/info.png")" />
+            <span class="tooltiptext">De aangegeven producten zijn indicaties wat daadwerkelijk in het pakket kan zitten.</span>
+        </h4>
+        <hr />
+        <div class="row mt-4">
+            @foreach (var p in Model?.Products ?? Enumerable.Empty<Product>())
+            {
+                <div class="col-1">
+                    <img class="card-img-top box-icon shadow" src="@p.Image" alt="Product Image" />
+                    <h5 class="card-title">@p.Name</h5>
+                </div>
+            }
+        </div>
+
+        <h4 class="mt-4">Informatie</h4>
+        <hr />
+        <ul class="list">
+            <li>Stad: @Model.ToString(@Model.City.ToString())</li>
+            <li>Kantine: @Model.Canteen.Location</li>
+            <li>Ophalen vanaf: @Model.PickUpTime</li>
+            <li>Ophalen tot: @Model.LastestPickUpTime</li>
+            <li>Soort pakket: @Model.ToString(@Model.MealType.ToString())</li>
+        </ul>
+    </div>
+</div>
