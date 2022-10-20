@@ -78,7 +78,7 @@
                     <div class="packet-right">
                         <div class="pt-4 pt-md-2">
                             <p>Prijs: €@p.Price</p>
-                            <button class="button-green shadow smaller"><span>Details</span></button>
+                            <a asp-controller="Packet" asp-action="Packets" asp-route-id="@p.Id" class="button-green shadow smaller"><span>Details</span></a>
                         </div>
                     </div>
                 </div>
