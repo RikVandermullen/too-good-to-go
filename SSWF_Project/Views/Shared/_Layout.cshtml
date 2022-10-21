@@ -24,18 +24,35 @@
                             <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item px-2">
-                            <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Packet" asp-action="Packets">Aanbod</a>
+                            <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Packet" asp-action="Packets" asp-route-id="">Aanbod</a>
                         </li>
-                        <li class="nav-item px-2 hide-desktop">
-                            <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
+                        @*@if (User.Identity.IsAuthenticated && User.Claims.ToList().ElementAt(3).ToString().Equals("UserType: poweruser")) {*@
+                            <li class="nav-item px-2">
+                                <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Packet" asp-action="AdminPanel">Beheer</a>
+                            </li>
+                        @*}*@
+                        @if (User.Identity.IsAuthenticated) {
+                            <li class="nav-item px-2 hide-desktop">
+                                <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
+                            </li>
+                        } else {
+                            <li class="nav-item px-2 hide-desktop">
+                                <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
+                        
                     </ul>
 
                     <div class="justify-content-right pe-3">
-                        <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Account" asp-action="Login">
-                            <img class="profile-icon" src="@Url.Content("~/images/User_Icon.png")" />
-                        </a>
-                        
+                        @if (User.Identity.IsAuthenticated) {
+                            <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Account" asp-action="Profile">
+                                <img class="profile-icon" src="@Url.Content("~/images/User_Icon.png")" />
+                            </a>
+                        } else {
+                            <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Account" asp-action="Login">
+                                <img class="profile-icon" src="@Url.Content("~/images/User_Icon.png")" />
+                            </a>
+                        }
                     </div>
                 </div>
             </div>

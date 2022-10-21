@@ -46,7 +46,7 @@ namespace TGTG_EF
 
         public IEnumerable<Packet>? GetPackets()
         {
-            return _dbContext.Packets.Include(p => p.Products).ToList();          
+            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).ToList();          
         }
 
         public Packet? UpdatePacket(Packet packet)

@@ -8,10 +8,12 @@ namespace TGTG_Portal.Controllers
     public class PacketController : Controller
     {
         private readonly IPacketRepository _packetRepository;
+        private readonly IProductRepository _productRepository;
 
-        public PacketController(IPacketRepository packetRepository)
+        public PacketController(IPacketRepository packetRepository, IProductRepository productRepository)
         {
             _packetRepository = packetRepository;
+            _productRepository = productRepository;
         }
 
         [AllowAnonymous]
@@ -34,6 +36,22 @@ namespace TGTG_Portal.Controllers
 
             var Packet = _packetRepository.GetPacketById((int)id);
             return View("Packet-Detail", Packet);
+        }
+
+        public IActionResult AdminPanel()
+        {
+            var packets = _packetRepository.GetPackets();
+            var products = _productRepository.GetProducts();
+            if (packets != null && products != null)
+            {
+                var viewModel = new PacketsProductsViewModel
+                {
+                    Packets = packets,
+                    Products = products
+                };
+                return View(viewModel);
+            }
+            return View();
         }
     }
 }

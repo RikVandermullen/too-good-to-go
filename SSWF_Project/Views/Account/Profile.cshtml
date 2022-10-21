@@ -38,7 +38,7 @@
 
                 <div class="col-6 pt-3 input-wrap">
                     <label>Geboorte datum</label><br />
-                    <input type="date" class="datepicker"/>
+                    @Html.TextBox("datepicker", Model.Student.BirthDate.Value ,"{0:yyyy-MM-dd}",new{ type="date", @class="datepicker" })
                 </div>
 
                 <div class="col-6 select-wrap mt-4 ms-2">

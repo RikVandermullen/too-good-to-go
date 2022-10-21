@@ -16,7 +16,7 @@
 
 
 <div class="row ms-5 me-5">
-    <div class="col-11">
+    <div class="col-10">
         <h2>Pakket: @Model.Name</h2>
         <p class="main-info-text">
             Op deze pagina wordt meer informatie gegeven over het pakket. 
@@ -25,14 +25,16 @@
             Ook is de prijs te zien en de mogelijkheid om het pakket te reserveren.</p>
     </div>
 
-    <div class="col-1">
-        <a class="button-green shadow smaller"><span>Reserveren</span></a>
+    <div class="col-2">
+        <div class="d-flex justify-content-end">
+            <a class="button-green shadow smaller"><span>Reserveren</span></a>
+        </div>
         <div class="d-flex justify-content-end pt-3">
             <h5>€ @Model.Price</h5>
         </div>
     </div>
 
-    <div class="col-12 mt-3">
+    <div class="col-12 mt-3" style="min-height:535px;">
         <h4>
             Producten<img class="info-icon" src="@Url.Content("~/images/info.png")" />
             <span class="tooltiptext">De aangegeven producten zijn indicaties wat daadwerkelijk in het pakket kan zitten.</span>
@@ -43,19 +45,23 @@
             {
                 <div class="col-1">
                     <img class="card-img-top box-icon shadow" src="@p.Image" alt="Product Image" />
+                    @if (p.HasAlcohol) {
+                        <img class="alcohol-icon" src="@Url.Content("~/images/18-plus.png")" alt="18+ Image" />
+                    }
                     <h5 class="card-title">@p.Name</h5>
                 </div>
             }
         </div>
+        <div class="filter mt-3 p-1">
+            <h4 class="mt-2 ms-2">Informatie</h4>
+            <ul class="list">
+                <li>Stad: @Model.ToString(@Model.City.ToString())</li>
+                <li>Kantine: @Model.Canteen.Location</li>
+                <li>Ophalen vanaf: @Model.PickUpTime</li>
+                <li>Ophalen tot: @Model.LastestPickUpTime</li>
+                <li>Soort pakket: @Model.ToString(@Model.MealType.ToString())</li>
+            </ul>
 
-        <h4 class="mt-4">Informatie</h4>
-        <hr />
-        <ul class="list">
-            <li>Stad: @Model.ToString(@Model.City.ToString())</li>
-            <li>Kantine: @Model.Canteen.Location</li>
-            <li>Ophalen vanaf: @Model.PickUpTime</li>
-            <li>Ophalen tot: @Model.LastestPickUpTime</li>
-            <li>Soort pakket: @Model.ToString(@Model.MealType.ToString())</li>
-        </ul>
+        </div>
     </div>
 </div>

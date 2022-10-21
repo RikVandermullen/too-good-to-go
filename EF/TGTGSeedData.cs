@@ -16,9 +16,9 @@ public class TGTGSeedData : ISeedData
     {
         _context.Employees.RemoveRange(_context.Employees);
         _context.Students.RemoveRange(_context.Students);
-        _context.Products.RemoveRange(_context.Products);
         _context.Packets.RemoveRange(_context.Packets);
-        //_context.Canteens.RemoveRange(_context.Canteens);
+        _context.Products.RemoveRange(_context.Products);
+        _context.Canteens.RemoveRange(_context.Canteens);
 
         _context.Canteens.AddRange(new[]
         {

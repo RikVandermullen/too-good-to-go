@@ -1,0 +1,238 @@
+﻿@model PacketsProductsViewModel
+
+<div class="top-border">
+    <div class="row ms-5 me-5 mt-3">
+        <div class="col-12">
+            <h3>Beheer</h3>
+            <p class="main-info-text">
+                <span>Welkom</span> <span class="colored"> {Naam medewerker}</span> <span>! Op deze pagina kan je nieuwe pakketten aanmaken en
+                bestaande bewerken en verwijderen. Ook kan dit gedaan worden voor producten als je links
+                    in de navigatie op producten klikt.
+                </span>
+            </p>
+        </div>
+
+
+        <div class="admin-panel col-2 mt-3 ms-2 me-5 p-4" style="min-height:600px;">
+            <h5>Navigatie</h5>
+            <hr />
+
+            <ul class="list">
+                <li><a class="admin-link">Pakketten</a></li>
+                <li><a class="admin-link">Producten</a></li>
+            </ul>
+        </div>
+
+        <div class="admin-panel col-9 mt-3 p-4">
+            <h5>Pakketten</h5>
+            <hr />
+            <div class="row filter ms-0 me-0 p-3">
+                <div class="col-4">
+                    <input class="form-input" type="text" placeholder="Zoek hier naar pakketten"/>
+                </div>
+                <div class="col-3">
+                    <div class="select-wrap">
+                        <label for="mealtype">Type Maaltijd</label>
+                        <select name="mealtype" id="mealtype" style="width: 100%;">
+                            <option style="display:none"></option>
+                            <option value="warm">Warm</option>
+                            <option value="drinks">Dranken</option>
+                            <option value="bread">Brood</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="select-wrap">
+                        <label for="city">Stad</label>
+                        <select name="city" id="city" style="width: 100%;">
+                            <option style="display:none"></option>
+                            <option value="Breda">Breda</option>
+                            <option value="Den Bosch">Den Bosch</option>
+                            <option value="Tilburg">Tilburg</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    @foreach (var p in Model?.Packets ?? Enumerable.Empty<Packet>())
+                    {
+                        <div class="col-12 packet p-0 p-lg-3">
+                            <img class="box-icon shadow" src="@Url.Content("~/images/Box.png")" style="max-height:100px;"/>
+                            <div class="packet-text ps-3 pe-2">
+                                <h5>@p.Name (@p.FormatDateTime((DateTime) p.PickUpTime))</h5>
+                            </div>
+
+                            <div class="packet-right">
+                                <button type="button" class="modal-button" data-bs-toggle="modal" data-bs-target="#@p.Name.Replace(" ", "")">
+                                    <img class="admin-icon" src="@Url.Content("~/images/edit.png")" />
+                                </button>
+
+                                <button type="button" class="modal-button" data-bs-toggle="modal" data-bs-target="#@p.Name.Replace(" ", "")delete">
+                                    <img class="admin-icon" src="@Url.Content("~/images/delete.png")" />
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+
+                        <!--SHOW/UPDATE Modal -->
+                        <div class="modal fade" id="@p.Name.Replace(" ", "")" tabindex="-1" aria-labelledby="@p.Name.Replace(" ", "")" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">@p.Name (@p.FormatDateTime((DateTime) p.PickUpTime))
+                                            <img class="info-icon" src="@Url.Content("~/images/info.png")" />
+                                            <span class="tooltiptext">Als een student dit pakket gereserveerd heeft kan deze niet aangepast worden.</span>
+                                        </h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-6 input-wrap">
+                                                <label>Naam</label><br />
+                                                <input type="text" class="form-input" value="@p.Name" />
+                                            </div>
+                                            <div class="col-6 input-wrap">
+                                                <label>Prijs</label><br />
+                                                <input type="text" class="form-input" value="@p.Price" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-3">
+                                            <div class="col-6">
+                                                <div class="select-wrap">
+                                                    <label for="mealtype">Type Maaltijd</label>
+                                                    @Html.DropDownList("meal-types", new SelectList(
+                                                        new List<SelectListItem> {
+                                                            new SelectListItem {Selected = false, Text = "Warm", Value = "WARM"},
+                                                            new SelectListItem {Selected = false, Text = "Brood", Value = "BROOD"},
+                                                            new SelectListItem {Selected = false, Text = "Gezond", Value = "GEZOND"},
+                                                            new SelectListItem {Selected = false, Text = "Dranken", Value = "DRANKEN"},
+                                                        }, "Value" , "Text", p.MealType.ToString()
+                                                ), new { @style = "width:100%;"})
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="select-wrap">
+                                                    <label for="city">Stad</label>
+                                                    @Html.DropDownList("meal-types", new SelectList(
+                                                    new List<SelectListItem> {
+                                                        new SelectListItem {Selected = false, Text = "Breda", Value = "BREDA"},
+                                                        new SelectListItem {Selected = false, Text = "Tilburg", Value = "TILBURG"},
+                                                        new SelectListItem {Selected = false, Text = "Den Bosch", Value = "DENBOSCH"},
+                                                    }, "Value" , "Text", p.City.ToString()
+                                                    ), new { @style = "width:100%;"})
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="select-wrap">
+                                                    <label for="city">Kantine</label>
+                                                    @Html.DropDownList("meal-types", new SelectList(
+                                                    new List<SelectListItem> {
+                                                        new SelectListItem {Selected = false, Text = "LA", Value = "LA"},
+                                                        new SelectListItem {Selected = false, Text = "LD", Value = "LD"},
+                                                        new SelectListItem {Selected = false, Text = "HA", Value = "HA"},
+                                                        new SelectListItem {Selected = false, Text = "CHL", Value = "CHL"},
+                                                        new SelectListItem {Selected = false, Text = "MD", Value = "MD"},
+                                                        new SelectListItem {Selected = false, Text = "OWB215", Value = "OWB215"},
+                                                        new SelectListItem {Selected = false, Text = "HP", Value = "HP"},
+                                                    }, "Value" , "Text", p.Canteen.Location
+                                                    ), new { @style = "width:100%;"})
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-6 input-wrap">
+                                                <label>Ophaal datum</label><br />
+                                                @Html.TextBox("datepicker", p.PickUpTime.Value ,"{0:yyyy-MM-dd}",new{ type="date", @class="datepicker" })
+                                            </div>
+                                            <div class="col-6 input-wrap">
+                                                <label>Ophalen tot</label><br />
+                                                @Html.TextBox("datepicker", p.LastestPickUpTime.Value ,"{0:yyyy-MM-dd}",new{ type="date", @class="datepicker" })
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-3">
+                                            <div class="col-12">
+                                                <div class="col-lg-12">
+                                                    @Html.CheckBox("contains-alcohol",p.DoesPacketContainAlcohol())
+                                                    <label for="checkbox">Bevat alcohol</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-3">
+                                            <div class="col-10">
+                                                <input class="form-input" type="text" placeholder="Zoek hier naar producten" style="width: 99%;"/>
+                                            </div>
+                                            <div class="col-1 mt-2">
+                                                <button type="submit" class="modal-button">
+                                                    <img class="admin-icon-smaller" src="@Url.Content("~/images/search.png")" />
+                                                </button>
+                                            </div>
+                                            <div class="col-12" style="overflow-y: scroll; height:285px;">
+                                                @foreach (var product in Model?.Products ?? Enumerable.Empty<Product>()) {
+                                                    <div class="col-12 product-admin p-0">
+                                                        <img class="box-icon shadow" src="@product.Image" style="max-height:75px;" />
+                                                        <div class="packet-text ps-3 pe-2">
+                                                            <h5>@product.Name</h5>
+                                                        </div>
+
+                                                        <div class="packet-right">
+                                                        @if (p.Products.Contains(product)) {
+                                                            <img class="admin-icon" src="@Url.Content("~/images/delete.png")" />
+                                                        } else {
+                                                            <img class="admin-icon" src="@Url.Content("~/images/plus.png")" />
+                                                        }
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <hr />
+                                                }
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="button-darkgreen"><span>Opslaan</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--DELETE Modal -->
+                        <div class="modal fade" id="@p.Name.Replace(" ", "")delete" tabindex="-1" aria-labelledby="@p.Name.Replace(" ", "")delete" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">@p.Name (@p.FormatDateTime((DateTime) p.PickUpTime))</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <p>Weet je zeker dat je dit pakket wil verwijderen? <br/>
+                                                Let op! Wanneer een student al een pakket gereserveerd heeft kan dit pakket
+                                                niet verwijderd worden.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="button-darkgreen"><span>Verwijderen</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
