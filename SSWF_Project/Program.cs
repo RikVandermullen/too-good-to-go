@@ -31,6 +31,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddScoped<IStudentRepository, StudentEFRepository>();
 builder.Services.AddScoped<IProductRepository, ProductEFRepository>();
 builder.Services.AddScoped<IPacketRepository, PacketEFRepository>();
+builder.Services.AddScoped<ICanteenRepository, CanteenEFRepository>();
 builder.Services.AddScoped<TGTGSeedData>();
 builder.Services.AddScoped<SecuritySeedData>();
 
@@ -49,8 +50,9 @@ if (!app.Environment.IsDevelopment())
 }
 else
 {
+    await SeedDatabase();
     // Only in dev env seed with dummy data -->
-    
+
 }
 
 app.UseHttpsRedirection();

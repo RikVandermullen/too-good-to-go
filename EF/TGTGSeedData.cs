@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace TGTG_EF;
 public class TGTGSeedData : ISeedData
@@ -16,23 +17,30 @@ public class TGTGSeedData : ISeedData
     {
         _context.Employees.RemoveRange(_context.Employees);
         _context.Students.RemoveRange(_context.Students);
-        _context.Packets.RemoveRange(_context.Packets);
         _context.Products.RemoveRange(_context.Products);
+        _context.Packets.RemoveRange(_context.Packets);
         _context.Canteens.RemoveRange(_context.Canteens);
 
+        _context.SaveChanges();
+
+        var CanteenLA = new Canteen { City = City.BREDA, Location = "LA", WarmMeals = false };
+        var CanteenCHL = new Canteen { City = City.TILBURG, Location = "CHL", WarmMeals = true };
+        var CanteenHP = new Canteen { City = City.DENBOSCH, Location = "HP", WarmMeals = false };
         _context.Canteens.AddRange(new[]
         {
             new Canteen { City = City.BREDA, Location = "HA", WarmMeals = true},
             new Canteen { City = City.BREDA, Location = "LD", WarmMeals = true},
-            new Canteen { City = City.BREDA, Location = "LA", WarmMeals = false},
-            new Canteen { City = City.TILBURG, Location = "CHL", WarmMeals = true},
+            CanteenLA,
+            CanteenCHL,
             new Canteen { City = City.TILBURG, Location = "MD", WarmMeals = false},
             new Canteen { City = City.DENBOSCH, Location = "OWB215", WarmMeals = true},
-            new Canteen { City = City.DENBOSCH, Location = "HP", WarmMeals = false}
+            CanteenHP
         });
 
+        _context.SaveChanges();
+
         _context.Employees.AddRange(new[] {
-            new Employee { EmailAddress = "canteenworker1@mail.com", Name = "Merel de Laat", Canteen = 3 }
+            new Employee { EmailAddress = "canteenworker1@mail.com", Name = "Merel de Laat", Canteen = CanteenLA.Id }
         });
 
         var Student = new Student { EmailAddress = "student1@mail.com", Name = "Rik Vandermullen", StudentNumber = 2116527, PhoneNumber = "0658942232", BirthDate = new DateTime(1998, 09, 11), City = "Breda", noShows = 0 };
@@ -91,11 +99,11 @@ public class TGTGSeedData : ISeedData
         products3.Add(Product6);
         products3.Add(Product13);
 
-        _context.Packets.Add(new Packet { Name = "Groente en Fruit", CanteenId = 1, City = City.BREDA, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.BROOD, Price = 5.25, ReservedBy = Student, ContainsAlcohol = false, Products = products});
+        _context.Packets.Add(new Packet { Name = "Groente en Fruit", CanteenId = CanteenLA.Id, City = City.BREDA, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.BROOD, Price = 5.25, ReservedBy = Student, ContainsAlcohol = false, Products = products});
 
-        _context.Packets.Add(new Packet { Name = "Bier Pakket", CanteenId = 4, City = City.TILBURG, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.DRANKEN, Price = 7.75, ReservedBy = Student, ContainsAlcohol = true, Products = products2 });
+        _context.Packets.Add(new Packet { Name = "Bier Pakket", CanteenId = CanteenCHL.Id, City = City.TILBURG, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.DRANKEN, Price = 7.75, ReservedBy = Student, ContainsAlcohol = true, Products = products2 });
 
-        _context.Packets.Add(new Packet { Name = "Gezond", CanteenId = 6, City = City.DENBOSCH, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.GEZOND, Price = 10.99, ReservedBy = null, ContainsAlcohol = false, Products = products3 });
+        _context.Packets.Add(new Packet { Name = "Gezond", CanteenId = CanteenHP.Id, City = City.DENBOSCH, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.GEZOND, Price = 10.99, ReservedBy = null, ContainsAlcohol = false, Products = products3 });
 
         _context.SaveChanges();
     }

@@ -22,9 +22,9 @@ namespace TGTG_EF
             return newPacket;
         }
 
-        public Packet? DeletePacket(Packet packet)
+        public Packet? DeletePacket(int id)
         {
-            var entityToRemove = _dbContext.Packets.FirstOrDefault(r => r.Id == packet.Id);
+            var entityToRemove = _dbContext.Packets.FirstOrDefault(r => r.Id == id);
             if (entityToRemove != null)
             {
                 _dbContext.Packets.Remove(entityToRemove);

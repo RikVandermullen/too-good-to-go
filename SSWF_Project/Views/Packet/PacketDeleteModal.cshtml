@@ -1,0 +1,27 @@
+﻿@model Packet
+
+<div class="modal fade" id="@Model.Name.Replace(" ", "")delete" tabindex="-1" aria-labelledby="@Model.Name.Replace(" ", "")delete" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Model.Name (@Model.FormatDateTime((DateTime) @Model.PickUpTime))</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="DeletePacket" asp-controller="Packet" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <input asp-for="Id" value="@Model.Id" type="hidden" />
+                        <p>Weet je zeker dat je dit pakket wil verwijderen?</p> <br />
+                        <p>
+                            Let op! Wanneer een student al een pakket gereserveerd heeft kan dit pakket
+                            niet verwijderd worden.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="button-darkgreen"><span>Verwijderen</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

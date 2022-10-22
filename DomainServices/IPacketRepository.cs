@@ -10,7 +10,7 @@
 
         Packet? AddPacket(Packet newPacket);
 
-        Packet? DeletePacket(Packet packet);
+        Packet? DeletePacket(int id);
 
         Packet? UpdatePacket(Packet packet);
     }
