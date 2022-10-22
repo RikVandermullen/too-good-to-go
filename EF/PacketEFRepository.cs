@@ -14,12 +14,17 @@ namespace TGTG_EF
             _dbContext = dbContext;
         }
 
-        public Packet? AddPacket(Packet newPacket)
+        public Packet? AddPacket(Packet packet)
         {
-            _dbContext.Packets.Add(newPacket);
+            List<Product> products = new List<Product>();
+            foreach (var p in packet.Products)
+            {
+                products.Add(new Product { Name = p.Name, Image = p.Image, HasAlcohol = p.HasAlcohol });
+            }
+            _dbContext.Packets.Add(new Packet() { Name = packet.Name, Price = packet.Price, City = packet.City, MealType = packet.MealType, CanteenId = packet.CanteenId, ContainsAlcohol = packet.ContainsAlcohol, PickUpTime = packet.PickUpTime, LastestPickUpTime = packet.LastestPickUpTime, ReservedBy = null, Products = products });
             _dbContext.SaveChanges();
 
-            return newPacket;
+            return packet;
         }
 
         public Packet? DeletePacket(int id)
@@ -46,12 +51,12 @@ namespace TGTG_EF
 
         public IEnumerable<Packet>? GetPackets()
         {
-            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).ToList();          
+            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).OrderBy(p => p.PickUpTime).ToList();          
         }
 
         public Packet? UpdatePacket(Packet packet)
         {
-            var entityToUpdate = _dbContext.Packets.FirstOrDefault(r => r.Id == packet.Id);
+            var entityToUpdate = _dbContext.Packets.Include(p => p.Products).FirstOrDefault(r => r.Id == packet.Id);
             if (entityToUpdate != null)
             {
                 entityToUpdate.Name = packet.Name;
@@ -60,8 +65,10 @@ namespace TGTG_EF
                 entityToUpdate.LastestPickUpTime = packet.LastestPickUpTime;
                 entityToUpdate.ReservedBy = packet.ReservedBy;
                 entityToUpdate.City = packet.City;
-                entityToUpdate.Canteen = packet.Canteen;
+                entityToUpdate.CanteenId = packet.CanteenId;
                 entityToUpdate.MealType = packet.MealType;
+                entityToUpdate.ContainsAlcohol = packet.ContainsAlcohol;
+                entityToUpdate.Products = packet.Products;
 
                 _dbContext.SaveChanges();
             }

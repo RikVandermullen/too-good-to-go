@@ -75,6 +75,13 @@ namespace TGTG_Portal.Controllers
             return RedirectToAction("AdminPanel");
         }
 
+        [HttpPost]
+        public IActionResult CreatePacket(Packet packet)
+        {
+            _packetRepository.AddPacket(packet);
+            return RedirectToAction("AdminPanel");
+        }
+
         private SelectList CreateMealTypeSelectList()
         {
             return new SelectList(

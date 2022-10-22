@@ -5,7 +5,7 @@ namespace Domain
 {
     public class Packet
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [StringLength(50)]

@@ -6,29 +6,26 @@
     <title>Beheer</title>
 </head>
 
-<div class="modal fade" id="@Model.Packet.Name.Replace(" ", "")" tabindex="-1" aria-labelledby="@Model.Packet.Name.Replace(" ", "")" aria-hidden="true">
+<div class="modal fade" id="packet-create" tabindex="-1" aria-labelledby="packet-create" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    @Model.Packet.Name (@Model.Packet.FormatDateTime((DateTime) Model.Packet.PickUpTime))
-                    <img class="info-icon" src="@Url.Content("~/images/info.png")" />
-                    <span class="tooltiptext">Als een student dit pakket gereserveerd heeft kan deze niet aangepast worden.</span>
+                    Maak een nieuw pakket aan
                 </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            @using (Html.BeginForm("UpdatePacket", "Packet", FormMethod.Post))
+            @using (Html.BeginForm("CreatePacket", "Packet", FormMethod.Post))
             {
                 <div class="modal-body">
                     <div class="row">
-                        <input asp-for="@Model.Packet.Id" value="@Model.Packet.Id" type="hidden" />
                         <div class="col-6 input-wrap">
                             <label asp-for="@Model.Packet.Name">Naam</label><br />
-                            <input asp-for="@Model.Packet.Name" type="text" class="form-input" value="@Model.Packet.Name" />
+                            <input asp-for="@Model.Packet.Name" type="text" class="form-input" value="" />
                         </div>
                         <div class="col-6 input-wrap">
                             <label asp-for="@Model.Packet.Price">Prijs</label><br />
-                            <input asp-for="@Model.Packet.Price" type="text" class="form-input" value="@Model.Packet.Price" />
+                            <input asp-for="@Model.Packet.Price" type="text" class="form-input" value="" />
                         </div>
                     </div>
 
@@ -59,18 +56,18 @@
                     <div class="row">
                         <div class="col-6 input-wrap">
                             <label asp-for="@Model.Packet.PickUpTime">Ophaal datum</label><br />
-                            <input asp-for="@Model.Packet.PickUpTime" type="date" class="datepicker" value="@Model.Packet.PickUpTime.Value.ToString("yyyy-MM-dd")" />
+                            <input asp-for="@Model.Packet.PickUpTime" type="date" class="datepicker" value="" />
                         </div>
                         <div class="col-6 input-wrap">
                             <label asp-for="@Model.Packet.LastestPickUpTime">Ophalen tot</label><br />
-                            <input asp-for="@Model.Packet.LastestPickUpTime" type="date" class="datepicker" value="@Model.Packet.LastestPickUpTime.Value.ToString("yyyy-MM-dd")" />
+                            <input asp-for="@Model.Packet.LastestPickUpTime" type="date" class="datepicker" value="" />
                         </div>
                     </div>
 
                     <div class="row mt-3">
                         <div class="col-12">
                             <div class="col-lg-12">
-                                <input asp-for="@Model.Packet.ContainsAlcohol" type="checkbox" class="contains-alcohol" checked="@Model.Packet.DoesPacketContainAlcohol()" />
+                                <input asp-for="@Model.Packet.ContainsAlcohol" type="checkbox" class="contains-alcohol"/>
                                 <label asp-for="@Model.Packet.ContainsAlcohol" for="checkbox">Bevat alcohol</label>
                             </div>
                         </div>
@@ -85,46 +82,35 @@
                                 <img class="admin-icon-smaller" src="@Url.Content("~/images/search.png")" />
                             </button>
                         </div>
-                        <div class="col-12 mt-2" style="overflow-y: scroll; height:285px;" id="products-@Model.Packet.Id">
-                            @foreach (var product in Model.Products)
+                        <div class="col-12 mt-2" style="overflow-y: scroll; height:285px;">
+                            @foreach (var product in Model.Products.ToList())
                             {
-                                <div class="col-12 product-admin p-0">
-                                    <img class="box-icon shadow" src="@product.Image" style="max-height:75px;" />
-                                    <div class="packet-text ps-3 pe-2">
-                                        <h5>@product.Name</h5>
-                                    </div>
+                                if (product != null) {
+                                    <div class="col-12 product-admin p-0">
+                                        <img class="box-icon shadow" src="@product.Image" style="max-height:75px;" />
+                                        <div class="packet-text ps-3 pe-2">
+                                            <h5>@product.Name</h5>
+                                        </div>
 
-                                    <div class="packet-right">
-                                        @if (Model.Packet.Products.Contains(product))
-                                        {
-                                            <button class="modal-button delete-product" type="submit">
-                                                <img class="admin-icon" src="@Url.Content("~/images/delete.png")" />
-                                            </button>
-
-                                            Model.Packet.Products.Add(product);
-                                            <input asp-for="@Model.Packet.Products[ProductCount].Id" type="hidden">
-                                            <input asp-for="@Model.Packet.Products[ProductCount].Name" type="hidden">
-                                            <input asp-for="@Model.Packet.Products[ProductCount].Image" type="hidden">
-                                            <input asp-for="@Model.Packet.Products[ProductCount].HasAlcohol" type="hidden">
-                                            ProductCount++;
-                                        }
-                                        else
-                                        {
+                                        <div class="packet-right">
                                             <button class="modal-button add-product" type="submit">
                                                 <img class="admin-icon" src="@Url.Content("~/images/plus.png")" />
                                             </button>
+                                        </div>
 
-                                            Model.Packet.Products.Add(product);
-                                            <input asp-for="@Model.Packet.Products[ProductCount].Id" type="hidden">
-                                            <input asp-for="@Model.Packet.Products[ProductCount].Name" type="hidden">
-                                            <input asp-for="@Model.Packet.Products[ProductCount].Image" type="hidden">
-                                            <input asp-for="@Model.Packet.Products[ProductCount].HasAlcohol" type="hidden">
-                                            ProductCount++;
-                                        }
+
                                     </div>
-                                </div>
-                                <hr />
+                                    <hr />
+                                }
+                                
                             }
+                            @if (true) {
+                                Model.Packet.Products.Add(Model.Products.ElementAt(0));
+                            }
+                            <input asp-for="@Model.Packet.Products[0].Id" type="hidden">
+                            <input asp-for="@Model.Packet.Products[0].Name" type="hidden">
+                            <input asp-for="@Model.Packet.Products[0].Image" type="hidden">
+                            <input asp-for="@Model.Packet.Products[0].HasAlcohol" type="hidden">
                         </div>
                     </div>
                 </div>
@@ -135,5 +121,3 @@
         </div>
     </div>
 </div>
-
-

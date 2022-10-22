@@ -26,8 +26,9 @@
         <div class="admin-panel col-9 mt-3 p-4">
             <h5>Pakketten</h5>
             <hr />
+
             <div class="row filter ms-0 me-0 p-3">
-                <div class="col-4">
+                <div class="col-3">
                     <input class="form-input" type="text" placeholder="Zoek hier naar pakketten"/>
                 </div>
                 <div class="col-3">
@@ -41,7 +42,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-2">
                     <div class="select-wrap">
                         <label for="city">Stad</label>
                         <select name="city" id="city" style="width: 100%;">
@@ -52,6 +53,16 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="col-3">
+                    <div class="d-flex justify-content-end align-content-end">
+                        <button type="button" class="button-darkgreen" data-bs-toggle="modal" data-bs-target="#packet-create">
+                            <span>Maak Pakket</span>
+                        </button>
+                        <partial name="PacketCreateModal" model="new PacketProductsViewModel {Packet = new Packet() { Products = new List<Product>()}, Products = Model.Products.ToList()}" />
+                    </div>
+                </div>
+
             </div>
 
             <div class="row">
@@ -76,15 +87,18 @@
                         </div>
                         <hr />
 
-                        <partial name="PacketEditModal" model="p" />
+                        <partial name="PacketEditModal" model="new PacketProductsViewModel {Packet = p, Products = Model.Products.ToList()}" />
 
                         <partial name="PacketDeleteModal" model="p" />
+
                     }
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 
