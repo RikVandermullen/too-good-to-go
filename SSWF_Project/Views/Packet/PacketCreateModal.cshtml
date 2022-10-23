@@ -1,6 +1,7 @@
 ﻿@model PacketProductsViewModel
 @{
     int ProductCount = 0;
+    Model.Packet.Products = new List<Product>();
 }
 <head>
     <title>Beheer</title>
@@ -83,9 +84,10 @@
                             </button>
                         </div>
                         <div class="col-12 mt-2" style="overflow-y: scroll; height:285px;">
-                            @foreach (var product in Model.Products.ToList())
+                            @foreach (var product in Model.Products)
                             {
-                                if (product != null) {
+                                Model.Packet.Products.Add(product);
+                                @if (product != null) {
                                     <div class="col-12 product-admin p-0">
                                         <img class="box-icon shadow" src="@product.Image" style="max-height:75px;" />
                                         <div class="packet-text ps-3 pe-2">
@@ -96,21 +98,18 @@
                                             <button class="modal-button add-product" type="submit">
                                                 <img class="admin-icon" src="@Url.Content("~/images/plus.png")" />
                                             </button>
+                                            
+                                            <input asp-for="@Model.Packet.Products[ProductCount].Id" type="hidden">
+                                            <input asp-for="@Model.Packet.Products[ProductCount].Name" type="hidden">
+                                            <input asp-for="@Model.Packet.Products[ProductCount].Image" type="hidden">
+                                            <input asp-for="@Model.Packet.Products[ProductCount].HasAlcohol" type="hidden">
+                                            <input asp-for="@Model.Packet.Products[ProductCount].IsChecked" type="checkbox">
                                         </div>
-
-
                                     </div>
                                     <hr />
+                                    ProductCount++;
                                 }
-                                
                             }
-                            @if (true) {
-                                Model.Packet.Products.Add(Model.Products.ElementAt(0));
-                            }
-                            <input asp-for="@Model.Packet.Products[0].Id" type="hidden">
-                            <input asp-for="@Model.Packet.Products[0].Name" type="hidden">
-                            <input asp-for="@Model.Packet.Products[0].Image" type="hidden">
-                            <input asp-for="@Model.Packet.Products[0].HasAlcohol" type="hidden">
                         </div>
                     </div>
                 </div>

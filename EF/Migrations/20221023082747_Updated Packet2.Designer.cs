@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TGTG_EF;
 
@@ -11,9 +12,10 @@ using TGTG_EF;
 namespace TGTG_EF.Migrations
 {
     [DbContext(typeof(TGTGDbContext))]
-    partial class TGTGDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221023082747_Updated Packet2")]
+    partial class UpdatedPacket2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,7 +143,7 @@ namespace TGTG_EF.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("PacketProduct");
+                    b.ToTable("PacketProducts");
                 });
 
             modelBuilder.Entity("Domain.Product", b =>
@@ -165,9 +167,6 @@ namespace TGTG_EF.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -232,7 +231,7 @@ namespace TGTG_EF.Migrations
             modelBuilder.Entity("Domain.PacketProduct", b =>
                 {
                     b.HasOne("Domain.Packet", "Packet")
-                        .WithMany()
+                        .WithMany("PacketProducts")
                         .HasForeignKey("PacketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -246,6 +245,11 @@ namespace TGTG_EF.Migrations
                     b.Navigation("Packet");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Domain.Packet", b =>
+                {
+                    b.Navigation("PacketProducts");
                 });
 #pragma warning restore 612, 618
         }

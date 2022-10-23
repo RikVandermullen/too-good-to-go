@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 var ConnectionString = builder.Configuration.GetConnectionString("Default");
-builder.Services.AddDbContext<TGTGDbContext>(options => options.UseSqlServer(ConnectionString));
+builder.Services.AddScoped<TGTGDbContext>().AddDbContext<TGTGDbContext>(options => options.UseSqlServer(ConnectionString).EnableSensitiveDataLogging());
 
 var userConnectionString = builder.Configuration.GetConnectionString("Security");
 builder.Services.AddDbContext<SecurityDbContext>(options => options.UseSqlServer(userConnectionString));

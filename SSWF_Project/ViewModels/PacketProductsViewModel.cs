@@ -1,4 +1,5 @@
 ﻿using Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace TGTG_Portal.ViewModels
 {

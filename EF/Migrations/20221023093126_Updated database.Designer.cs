@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TGTG_EF;
 
@@ -11,9 +12,10 @@ using TGTG_EF;
 namespace TGTG_EF.Migrations
 {
     [DbContext(typeof(TGTGDbContext))]
-    partial class TGTGDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221023093126_Updated database")]
+    partial class Updateddatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,7 +143,7 @@ namespace TGTG_EF.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("PacketProduct");
+                    b.ToTable("PacketProducts");
                 });
 
             modelBuilder.Entity("Domain.Product", b =>
@@ -165,9 +167,6 @@ namespace TGTG_EF.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -212,6 +211,21 @@ namespace TGTG_EF.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("PacketProduct", b =>
+                {
+                    b.Property<int>("PacketsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PacketsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("PacketProduct");
+                });
+
             modelBuilder.Entity("Domain.Packet", b =>
                 {
                     b.HasOne("Domain.Canteen", "Canteen")
@@ -246,6 +260,21 @@ namespace TGTG_EF.Migrations
                     b.Navigation("Packet");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("PacketProduct", b =>
+                {
+                    b.HasOne("Domain.Packet", null)
+                        .WithMany()
+                        .HasForeignKey("PacketsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

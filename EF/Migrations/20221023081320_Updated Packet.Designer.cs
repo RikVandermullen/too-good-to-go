@@ -12,8 +12,8 @@ using TGTG_EF;
 namespace TGTG_EF.Migrations
 {
     [DbContext(typeof(TGTGDbContext))]
-    [Migration("20221015183124_Initial")]
-    partial class Initial
+    [Migration("20221023081320_Updated Packet")]
+    partial class UpdatedPacket
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -108,8 +108,7 @@ namespace TGTG_EF.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<double?>("Price")
-                        .IsRequired()
+                    b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<int?>("Student")
@@ -139,6 +138,10 @@ namespace TGTG_EF.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PacketId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("PacketProducts");
                 });
@@ -208,21 +211,6 @@ namespace TGTG_EF.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("PacketProduct", b =>
-                {
-                    b.Property<int>("PacketsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PacketsId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("PacketProduct");
-                });
-
             modelBuilder.Entity("Domain.Packet", b =>
                 {
                     b.HasOne("Domain.Canteen", "Canteen")
@@ -240,19 +228,23 @@ namespace TGTG_EF.Migrations
                     b.Navigation("ReservedBy");
                 });
 
-            modelBuilder.Entity("PacketProduct", b =>
+            modelBuilder.Entity("Domain.PacketProduct", b =>
                 {
-                    b.HasOne("Domain.Packet", null)
+                    b.HasOne("Domain.Packet", "Packet")
                         .WithMany()
-                        .HasForeignKey("PacketsId")
+                        .HasForeignKey("PacketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Product", null)
+                    b.HasOne("Domain.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductsId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Packet");
+
+                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

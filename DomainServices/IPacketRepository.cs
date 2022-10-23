@@ -12,6 +12,6 @@
 
         Packet? DeletePacket(int id);
 
-        Packet? UpdatePacket(Packet packet);
+        Task<Packet> UpdatePacket(Packet packet);
     }
 }

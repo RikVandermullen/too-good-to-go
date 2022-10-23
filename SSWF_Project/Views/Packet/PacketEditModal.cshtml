@@ -1,6 +1,8 @@
 ﻿@model PacketProductsViewModel
 @{
     int ProductCount = 0;
+    List<Product> ProductsinPacket = Model.Packet.Products.ToList();
+    Model.Packet.Products = new List<Product>();
 }
 <head>
     <title>Beheer</title>
@@ -95,30 +97,33 @@
                                     </div>
 
                                     <div class="packet-right">
-                                        @if (Model.Packet.Products.Contains(product))
+                                        @if (ProductsinPacket.Contains(product))
                                         {
-                                            <button class="modal-button delete-product" type="submit">
+                                            @*<button class="modal-button delete-product" type="submit">
                                                 <img class="admin-icon" src="@Url.Content("~/images/delete.png")" />
-                                            </button>
-
+                                            </button>*@
+                                            product.IsChecked = true;
                                             Model.Packet.Products.Add(product);
                                             <input asp-for="@Model.Packet.Products[ProductCount].Id" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].Name" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].Image" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].HasAlcohol" type="hidden">
+                                            <input asp-for="@Model.Packet.Products[ProductCount].IsChecked" type="checkbox" checked="checked">
                                             ProductCount++;
                                         }
                                         else
                                         {
-                                            <button class="modal-button add-product" type="submit">
+                                            @*<button class="modal-button add-product" type="submit">
                                                 <img class="admin-icon" src="@Url.Content("~/images/plus.png")" />
-                                            </button>
+                                            </button>*@
 
+                                            product.IsChecked = false;
                                             Model.Packet.Products.Add(product);
                                             <input asp-for="@Model.Packet.Products[ProductCount].Id" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].Name" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].Image" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].HasAlcohol" type="hidden">
+                                            <input asp-for="@Model.Packet.Products[ProductCount].IsChecked" type="checkbox">
                                             ProductCount++;
                                         }
                                     </div>

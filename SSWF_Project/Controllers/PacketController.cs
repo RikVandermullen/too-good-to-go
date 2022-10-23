@@ -62,9 +62,11 @@ namespace TGTG_Portal.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdatePacket(Packet packet)
+        public async Task<IActionResult> UpdatePacket(Packet packet)
         {
-            _packetRepository.UpdatePacket(packet);
+            List<Product> ProductsToAdd = packet.Products.Where(p => p.IsChecked).ToList();
+            packet.Products = ProductsToAdd;
+            await _packetRepository.UpdatePacket(packet);
             return RedirectToAction("AdminPanel");
         }
 
@@ -78,6 +80,8 @@ namespace TGTG_Portal.Controllers
         [HttpPost]
         public IActionResult CreatePacket(Packet packet)
         {
+            List<Product> ProductsToAdd = packet.Products.Where(p => p.IsChecked).ToList();
+            packet.Products = ProductsToAdd;
             _packetRepository.AddPacket(packet);
             return RedirectToAction("AdminPanel");
         }

@@ -9,6 +9,10 @@ namespace Domain
 
         public int PacketId { get; set; }
 
+        public Packet Packet { get; set; }
+
         public int ProductId { get; set; }
+
+        public Product Product { get; set; }
     }
 }

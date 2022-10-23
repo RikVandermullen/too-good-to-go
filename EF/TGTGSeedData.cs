@@ -82,28 +82,49 @@ public class TGTGSeedData : ISeedData
             Product13
         });
 
+        _context.SaveChanges();
+
         List<Product> products = new List<Product>();
-        products.Add(Product1);
-        products.Add(Product2);
-        products.Add(Product5);
-        products.Add(Product6);
+        //products.Add(Product1);
+        //products.Add(Product2);
+        //products.Add(Product5);
+        //products.Add(Product6);
 
         List<Product> products2 = new List<Product>();
-        products2.Add(Product3);
-        products2.Add(Product4);
-        products2.Add(Product11);
-        products2.Add(Product12);
+        //products2.Add(Product3);
+        //products2.Add(Product4);
+        //products2.Add(Product11);
+        //products2.Add(Product12);
 
         List<Product> products3 = new List<Product>();
-        products3.Add(Product1);
-        products3.Add(Product6);
-        products3.Add(Product13);
+        //products3.Add(Product1);
+        //products3.Add(Product6);
+        //products3.Add(Product13);
 
-        _context.Packets.Add(new Packet { Name = "Groente en Fruit", CanteenId = CanteenLA.Id, City = City.BREDA, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.BROOD, Price = 5.25, ReservedBy = Student, ContainsAlcohol = false, Products = products});
+        var Packet1 = new Packet { Name = "Groente en Fruit", CanteenId = CanteenLA.Id, City = City.BREDA, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.BROOD, Price = 5.25, ReservedBy = Student, ContainsAlcohol = false, Products = products };
+        var Packet2 = new Packet { Name = "Bier Pakket", CanteenId = CanteenCHL.Id, City = City.TILBURG, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.DRANKEN, Price = 7.75, ReservedBy = Student, ContainsAlcohol = true, Products = products2 };
+        var Packet3 = new Packet { Name = "Gezond", CanteenId = CanteenHP.Id, City = City.DENBOSCH, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.GEZOND, Price = 10.99, ReservedBy = null, ContainsAlcohol = false, Products = products3 };
 
-        _context.Packets.Add(new Packet { Name = "Bier Pakket", CanteenId = CanteenCHL.Id, City = City.TILBURG, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.DRANKEN, Price = 7.75, ReservedBy = Student, ContainsAlcohol = true, Products = products2 });
+        _context.Packets.AddRange(new[]
+        {
+            Packet1,
+            Packet2,
+            Packet3
+        });
 
-        _context.Packets.Add(new Packet { Name = "Gezond", CanteenId = CanteenHP.Id, City = City.DENBOSCH, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.GEZOND, Price = 10.99, ReservedBy = null, ContainsAlcohol = false, Products = products3 });
+        _context.SaveChanges();
+
+        _context.PacketProduct.AddRange(new[]
+        {
+            new PacketProduct { PacketId = Packet1.Id, ProductId = Product1.Id },
+            new PacketProduct { PacketId = Packet1.Id, ProductId = Product2.Id },
+            new PacketProduct { PacketId = Packet1.Id, ProductId = Product3.Id },
+            new PacketProduct { PacketId = Packet1.Id, ProductId = Product4.Id },
+            new PacketProduct { PacketId = Packet2.Id, ProductId = Product8.Id },
+            new PacketProduct { PacketId = Packet2.Id, ProductId = Product9.Id },
+            new PacketProduct { PacketId = Packet3.Id, ProductId = Product10.Id },
+            new PacketProduct { PacketId = Packet3.Id, ProductId = Product12.Id },
+        });
 
         _context.SaveChanges();
     }

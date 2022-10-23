@@ -5,7 +5,7 @@ namespace Domain
 {
     public class Packet
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -33,8 +33,7 @@ namespace Domain
         [Required]
         public MealType MealType { get; set; }
 
-        [Required]
-        public IList<Product>? Products { get; set; }
+        public IList<Product> Products { get; set; }
 
         [Required]
         public bool ContainsAlcohol { get; set; }

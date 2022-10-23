@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TGTG_EF;
 
@@ -11,9 +12,10 @@ using TGTG_EF;
 namespace TGTG_EF.Migrations
 {
     [DbContext(typeof(TGTGDbContext))]
-    partial class TGTGDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221023094006_Updated database2")]
+    partial class Updateddatabase2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,29 +123,6 @@ namespace TGTG_EF.Migrations
                     b.ToTable("Packets");
                 });
 
-            modelBuilder.Entity("Domain.PacketProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("PacketId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PacketId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("PacketProduct");
-                });
-
             modelBuilder.Entity("Domain.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -212,6 +191,21 @@ namespace TGTG_EF.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("PacketProduct", b =>
+                {
+                    b.Property<int>("PacketsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PacketsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("PacketProduct");
+                });
+
             modelBuilder.Entity("Domain.Packet", b =>
                 {
                     b.HasOne("Domain.Canteen", "Canteen")
@@ -229,23 +223,19 @@ namespace TGTG_EF.Migrations
                     b.Navigation("ReservedBy");
                 });
 
-            modelBuilder.Entity("Domain.PacketProduct", b =>
+            modelBuilder.Entity("PacketProduct", b =>
                 {
-                    b.HasOne("Domain.Packet", "Packet")
+                    b.HasOne("Domain.Packet", null)
                         .WithMany()
-                        .HasForeignKey("PacketId")
+                        .HasForeignKey("PacketsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Product", "Product")
+                    b.HasOne("Domain.Product", null)
                         .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Packet");
-
-                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

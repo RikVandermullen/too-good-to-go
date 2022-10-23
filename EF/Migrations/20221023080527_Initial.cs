@@ -41,35 +41,6 @@ namespace TGTG_EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PacketProducts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PacketId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PacketProducts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    HasAlcohol = table.Column<bool>(type: "bit", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
@@ -121,33 +92,61 @@ namespace TGTG_EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PacketProduct",
+                name: "Products",
                 columns: table => new
                 {
-                    PacketsId = table.Column<int>(type: "int", nullable: false),
-                    ProductsId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    HasAlcohol = table.Column<bool>(type: "bit", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PacketId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PacketProduct", x => new { x.PacketsId, x.ProductsId });
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PacketProduct_Packets_PacketsId",
-                        column: x => x.PacketsId,
+                        name: "FK_Products_Packets_PacketId",
+                        column: x => x.PacketId,
+                        principalTable: "Packets",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PacketProducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PacketId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PacketProducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PacketProducts_Packets_PacketId",
+                        column: x => x.PacketId,
                         principalTable: "Packets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PacketProduct_Products_ProductsId",
-                        column: x => x.ProductsId,
+                        name: "FK_PacketProducts_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PacketProduct_ProductsId",
-                table: "PacketProduct",
-                column: "ProductsId");
+                name: "IX_PacketProducts_PacketId",
+                table: "PacketProducts",
+                column: "PacketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PacketProducts_ProductId",
+                table: "PacketProducts",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Packets_CanteenId",
@@ -158,6 +157,11 @@ namespace TGTG_EF.Migrations
                 name: "IX_Packets_Student",
                 table: "Packets",
                 column: "Student");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_PacketId",
+                table: "Products",
+                column: "PacketId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -166,16 +170,13 @@ namespace TGTG_EF.Migrations
                 name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "PacketProduct");
-
-            migrationBuilder.DropTable(
                 name: "PacketProducts");
 
             migrationBuilder.DropTable(
-                name: "Packets");
+                name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Packets");
 
             migrationBuilder.DropTable(
                 name: "Canteens");

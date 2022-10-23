@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TGTG_EF;
 
@@ -11,9 +12,10 @@ using TGTG_EF;
 namespace TGTG_EF.Migrations
 {
     [DbContext(typeof(TGTGDbContext))]
-    partial class TGTGDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221023083739_Updated Packet Entity2")]
+    partial class UpdatedPacketEntity2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,7 +143,7 @@ namespace TGTG_EF.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("PacketProduct");
+                    b.ToTable("PacketProducts");
                 });
 
             modelBuilder.Entity("Domain.Product", b =>
@@ -165,9 +167,6 @@ namespace TGTG_EF.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Products");
                 });

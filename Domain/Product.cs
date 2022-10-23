@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
 {
@@ -16,5 +17,8 @@ namespace Domain
         public string? Image { get; set; }
 
         public ICollection<Packet> Packets { get; set; }
+
+        [NotMapped]
+        public bool IsChecked { get; set; }
     }
 }
