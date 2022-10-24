@@ -64,8 +64,8 @@ namespace TGTG_Portal.Controllers
             {
                 var claim = User.Claims.ToList().ElementAt(3).ToString();
                 if (claim.Equals("UserType: regularuser")) {
-                    var Student = _studentRepository.GetStudentByEmail(User.Identity.Name);
-                    IEnumerable<Packet> Packets = (IEnumerable<Packet>) _packetRepository.GetPacketsByStudentId(Student);
+                    var Student = _studentRepository.GetStudentByEmail(User.Identity.Name)!;
+                    IEnumerable<Packet> Packets = _packetRepository.GetPacketsByStudentId(Student!)!;
                     return View(new StudentPacketsViewModel(Student, Packets));
                 }
                 else
