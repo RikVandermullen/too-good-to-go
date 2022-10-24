@@ -26,12 +26,14 @@
                         <li class="nav-item px-2">
                             <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Packet" asp-action="Packets" asp-route-id="">Aanbod</a>
                         </li>
-                        @*@if (User.Identity.IsAuthenticated && User.Claims.ToList().ElementAt(3).ToString().Equals("UserType: poweruser")) {*@
+                        @if (User.Identity.IsAuthenticated && User.Claims.ToList().ElementAt(3).ToString().Equals("UserType: poweruser")) {
                             <li class="nav-item px-2">
                                 <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Packet" asp-action="AdminPanel">Beheer</a>
                             </li>
-                        @*}*@
-                        @if (User.Identity.IsAuthenticated) {
+                            <li class="nav-item px-2 hide-desktop">
+                                <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
+                            </li>
+                        } else if (User.Identity.IsAuthenticated ) {
                             <li class="nav-item px-2 hide-desktop">
                                 <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Account" asp-action="Profile">Profile</a>
                             </li>

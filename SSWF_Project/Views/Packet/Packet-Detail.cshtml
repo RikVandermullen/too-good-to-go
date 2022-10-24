@@ -27,7 +27,12 @@
 
     <div class="col-2">
         <div class="d-flex justify-content-end">
-            <a class="button-green shadow smaller"><span>Reserveren</span></a>
+            @if (Model.ReservedBy == null) {
+                <form asp-action="ReservePacket" asp-controller="Packet">
+                    <input asp-for="@Model.Id" value="@Model.Id" type="hidden"/>
+                    <button type="submit" class="button-green shadow smaller"><span>Reserveren</span></button>
+                </form>
+            }
         </div>
         <div class="d-flex justify-content-end pt-3">
             <h5>€ @Model.Price</h5>

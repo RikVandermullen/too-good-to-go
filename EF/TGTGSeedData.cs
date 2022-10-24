@@ -40,7 +40,7 @@ public class TGTGSeedData : ISeedData
         _context.SaveChanges();
 
         _context.Employees.AddRange(new[] {
-            new Employee { EmailAddress = "canteenworker1@mail.com", Name = "Merel de Laat", Canteen = CanteenLA.Id }
+            new Employee { EmailAddress = "canteenworker1@mail.com", Name = "Merel de Laat", CanteenId = CanteenLA.Id, EmployeeNumber = 112233 }
         });
 
         var Student = new Student { EmailAddress = "student1@mail.com", Name = "Rik Vandermullen", StudentNumber = 2116527, PhoneNumber = "0658942232", BirthDate = new DateTime(1998, 09, 11), City = "Breda", noShows = 0 };
@@ -85,21 +85,10 @@ public class TGTGSeedData : ISeedData
         _context.SaveChanges();
 
         List<Product> products = new List<Product>();
-        //products.Add(Product1);
-        //products.Add(Product2);
-        //products.Add(Product5);
-        //products.Add(Product6);
 
         List<Product> products2 = new List<Product>();
-        //products2.Add(Product3);
-        //products2.Add(Product4);
-        //products2.Add(Product11);
-        //products2.Add(Product12);
 
         List<Product> products3 = new List<Product>();
-        //products3.Add(Product1);
-        //products3.Add(Product6);
-        //products3.Add(Product13);
 
         var Packet1 = new Packet { Name = "Groente en Fruit", CanteenId = CanteenLA.Id, City = City.BREDA, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.BROOD, Price = 5.25, ReservedBy = Student, ContainsAlcohol = false, Products = products };
         var Packet2 = new Packet { Name = "Bier Pakket", CanteenId = CanteenCHL.Id, City = City.TILBURG, PickUpTime = DateTime.Now, LastestPickUpTime = DateTime.Now.AddHours(5), MealType = MealType.DRANKEN, Price = 7.75, ReservedBy = Student, ContainsAlcohol = true, Products = products2 };

@@ -3,13 +3,28 @@
 }
 
 <div class="top-border p-5">
-    <h3>Profiel</h3>
-    <p>Dit is je persoonlijke pagina, hier kan je je gegevens aanpassen. <br />
-        Ook kan je hier je gereserveerde pakketten vinden zodat je weet wanneer je ze op kan halen!</p>
+    <div class="row">
+        <div class="col-10">
+            <h3>Profiel</h3>
+            <p>
+                <span>Welkom</span> <span class="colored"> @Model.Student.Name</span>!
+                Dit is je persoonlijke pagina, hier kan je je gegevens aanpassen. <br />
+                Ook kan je hier je gereserveerde pakketten vinden zodat je weet wanneer je ze op kan halen!
+            </p>
+        </div>
+        
+        <div class="col-2">
+            <div class="d-flex justify-content-end">
+                <form asp-action="Logout" asp-controller="Account">
+                    <button type="submit" class="button-darkgreen"><span>Uitloggen</span></button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="row filter p-4">
         <form>
-            <div class="col-12 pb-2">
+            <div class="col-11 pb-2">
                 <h5>Gegevens<img class="info-icon" src="@Url.Content("~/images/info.png")" />
                     <span class="tooltiptext">Gegevens zoals email adres en studenten nummer kunnen niet aangepast worden.</span>
                 </h5>

@@ -29,6 +29,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddScoped<IStudentRepository, StudentEFRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeEFRepository>();
 builder.Services.AddScoped<IProductRepository, ProductEFRepository>();
 builder.Services.AddScoped<IPacketRepository, PacketEFRepository>();
 builder.Services.AddScoped<ICanteenRepository, CanteenEFRepository>();

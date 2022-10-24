@@ -13,14 +13,16 @@ namespace TGTG_Portal.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IStudentRepository _studentRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IPacketRepository _packetRepository;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IStudentRepository studentRepository, IPacketRepository packetRepository)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IStudentRepository studentRepository, IPacketRepository packetRepository, IEmployeeRepository employeeRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _studentRepository = studentRepository;
             _packetRepository = packetRepository;
+            _employeeRepository = employeeRepository;
         }
 
         [AllowAnonymous]
@@ -70,8 +72,8 @@ namespace TGTG_Portal.Controllers
                 }
                 else
                 {
-                    //var Employee = _employeeRepository.GetEmployeeByEmail(User.Identity.Name);
-                    //return View(Employee);
+                    var Employee = _employeeRepository.GetEmployeeByEmail(User.Identity.Name);
+                    return View("Employee-Profile", Employee);
                 }
                 
                 
@@ -79,5 +81,10 @@ namespace TGTG_Portal.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public async Task<RedirectResult> Logout(string returnUrl = "/")
+        {
+            await _signInManager.SignOutAsync();
+            return Redirect(returnUrl);
+        }
     }
 }

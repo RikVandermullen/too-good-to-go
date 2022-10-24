@@ -1,0 +1,57 @@
+﻿@model Employee
+
+<div class="top-border p-5">
+    <div class="row">
+        <div class="col-10">
+            <h3>Profiel</h3>
+            <p>
+                <span>Welkom</span> <span class="colored"> @Model.Name</span>!
+                <br />Dit is je profiel pagina, hier vind je je persoonlijke gegevens.
+            </p>
+        </div>
+
+        <div class="col-2">
+            <div class="d-flex justify-content-end">
+                <form asp-action="Logout" asp-controller="Account">
+                    <button type="submit" class="button-darkgreen"><span>Uitloggen</span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row filter p-4">
+        <div class="col-12 pb-2">
+            <h5>
+                Gegevens<img class="info-icon" src="@Url.Content("~/images/info.png")" />
+                <span class="tooltiptext">Gegevens van een medewerker kunnen niet aangepast worden. Neem hiervoor contact op met de leidingevende.</span>
+            </h5>
+        </div>
+
+        <div class="row profile-row gy-2">
+            <div class="col-4 input-wrap">
+                <label>Email adres</label><br />
+                <input type="email" class="form-input" placeholder="@Model.EmailAddress" disabled />
+            </div>
+
+            <div class="col-4 input-wrap">
+                <label>Naam</label><br />
+                <input type="text" class="form-input" placeholder="@Model.Name" disabled/>
+            </div>
+
+            <div class="col-4 pt-3 input-wrap">
+                <label>Personeels nummer</label><br />
+                <input type="text" class="form-input" placeholder="@Model.EmployeeNumber" disabled />
+            </div>
+
+            <div class="col-4 pt-3 input-wrap">
+                <label>Stad</label><br />
+                <input type="text" class="form-input" placeholder="@Model.Canteen.City" disabled />
+            </div>
+
+            <div class="col-4 pt-3 input-wrap">
+                <label>Kantine</label><br />
+                <input type="text" class="form-input" placeholder="@Model.Canteen.Location" disabled/>
+            </div>
+        </div>
+    </div>
+</div>

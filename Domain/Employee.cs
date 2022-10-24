@@ -19,7 +19,8 @@ namespace Domain
         public string? Name { get; set; }
 
         [Required]
-        [ForeignKey("Canteen")]
-        public int Canteen { get; set; }
+        public int CanteenId { get; set; }
+
+        public Canteen Canteen { get; set; }
     }
 }

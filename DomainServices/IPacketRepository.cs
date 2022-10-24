@@ -13,5 +13,7 @@
         Packet? DeletePacket(int id);
 
         Task<Packet> UpdatePacket(Packet packet);
+
+        Packet ReservePacket(int id, Student student);
     }
 }

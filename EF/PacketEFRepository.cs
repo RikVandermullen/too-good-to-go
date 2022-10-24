@@ -52,7 +52,7 @@ namespace TGTG_EF
 
         public Packet? GetPacketById(int id)
         {
-            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).FirstOrDefault(p => p.Id.Equals(id));
+            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).Include(s => s.ReservedBy).FirstOrDefault(p => p.Id.Equals(id));
         }
 
         public IEnumerable<Packet>? GetPacketsByStudentId(Student student)
@@ -62,7 +62,7 @@ namespace TGTG_EF
 
         public IEnumerable<Packet>? GetPackets()
         {
-            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).OrderBy(p => p.PickUpTime).ToList();
+            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).OrderBy(p => p.PickUpTime).Where(s => s.ReservedBy == null).ToList();
         }
 
         public async Task<Packet> UpdatePacket(Packet packet)
@@ -98,7 +98,20 @@ namespace TGTG_EF
 
             }
             return entityToUpdate;
+        }
 
+        public Packet ReservePacket(int id, Student student)
+        {
+            var entityToUpdate = _dbContext.Packets.FirstOrDefault(p => p.Id == id);
+            if (entityToUpdate != null)
+            {
+                if (entityToUpdate.ReservedBy == null)
+                {
+                    entityToUpdate.ReservedBy = student;
+                    _dbContext.SaveChanges();
+                }
+            }
+            return entityToUpdate;
         }
     }
 }

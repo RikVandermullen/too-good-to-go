@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TGTG_EF
+﻿namespace TGTG_EF
 {
     public class CanteenEFRepository : ICanteenRepository
     {

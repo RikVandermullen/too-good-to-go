@@ -7,17 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TGTG_Portal.Controllers
 {
+    [Authorize(Policy= "OnlyRegularUsersAndUp")]
     public class PacketController : Controller
     {
         private readonly IPacketRepository _packetRepository;
         private readonly IProductRepository _productRepository;
         private readonly ICanteenRepository _canteenRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public PacketController(IPacketRepository packetRepository, IProductRepository productRepository, ICanteenRepository canteenRepository)
+        public PacketController(IPacketRepository packetRepository, IProductRepository productRepository, ICanteenRepository canteenRepository, IStudentRepository studentRepository)
         {
             _packetRepository = packetRepository;
             _productRepository = productRepository;
             _canteenRepository = canteenRepository;
+            _studentRepository = studentRepository;
         }
 
         [AllowAnonymous]
@@ -42,6 +45,7 @@ namespace TGTG_Portal.Controllers
             return View("Packet-Detail", Packet);
         }
 
+        [Authorize(Policy = "OnlyPowerUsersAndUp")]
         public IActionResult AdminPanel()
         {
             var packets = _packetRepository.GetPackets();
@@ -62,6 +66,7 @@ namespace TGTG_Portal.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "OnlyPowerUsersAndUp")]
         public async Task<IActionResult> UpdatePacket(Packet packet)
         {
             List<Product> ProductsToAdd = packet.Products.Where(p => p.IsChecked).ToList();
@@ -71,6 +76,7 @@ namespace TGTG_Portal.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "OnlyPowerUsersAndUp")]
         public IActionResult DeletePacket(int id)
         {
             _packetRepository.DeletePacket(id);
@@ -78,12 +84,21 @@ namespace TGTG_Portal.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "OnlyPowerUsersAndUp")]
         public IActionResult CreatePacket(Packet packet)
         {
             List<Product> ProductsToAdd = packet.Products.Where(p => p.IsChecked).ToList();
             packet.Products = ProductsToAdd;
             _packetRepository.AddPacket(packet);
             return RedirectToAction("AdminPanel");
+        }
+
+        [HttpPost]
+        public IActionResult ReservePacket(int id)
+        {
+            var Student = _studentRepository.GetStudentByEmail(User.Identity.Name);
+            _packetRepository.ReservePacket(id, Student);
+            return RedirectToAction("Packets");
         }
 
         private SelectList CreateMealTypeSelectList()
