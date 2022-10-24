@@ -32,8 +32,8 @@ namespace TGTG_EF
 
         public Packet? DeletePacket(int id)
         {
-            var entityToRemove = _dbContext.Packets.Include(p => p.Products).FirstOrDefault(r => r.Id == id);
-            if (entityToRemove != null)
+            var entityToRemove = _dbContext.Packets.Include(p => p.Products).Include(s => s.ReservedBy).FirstOrDefault(r => r.Id == id);
+            if (entityToRemove != null && entityToRemove.ReservedBy == null)
             {
                 List<PacketProduct> list = _dbContext.PacketProduct.Where(p => p.PacketId == id).ToList();
                 foreach (var pp in list)
@@ -62,40 +62,47 @@ namespace TGTG_EF
 
         public IEnumerable<Packet>? GetPackets()
         {
+            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).Include(s => s.ReservedBy).OrderBy(p => p.PickUpTime).ToList();
+        }
+
+        public IEnumerable<Packet>? GetPacketsWithoutReservations()
+        {
             return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).OrderBy(p => p.PickUpTime).Where(s => s.ReservedBy == null).ToList();
         }
 
         public async Task<Packet> UpdatePacket(Packet packet)
         {
-            var entityToUpdate = _dbContext.Packets.Include(p => p.Products).FirstOrDefault(r => r.Id == packet.Id);
+            var entityToUpdate = _dbContext.Packets.Include(p => p.Products).Include(s => s.ReservedBy).FirstOrDefault(r => r.Id == packet.Id);
             if (entityToUpdate != null)
             {
-                entityToUpdate.Name = packet.Name;
-                entityToUpdate.Price = packet.Price;
-                entityToUpdate.PickUpTime = packet.PickUpTime;
-                entityToUpdate.LastestPickUpTime = packet.LastestPickUpTime;
-                entityToUpdate.ReservedBy = packet.ReservedBy;
-                entityToUpdate.City = packet.City;
-                entityToUpdate.CanteenId = packet.CanteenId;
-                entityToUpdate.MealType = packet.MealType;
-                entityToUpdate.ContainsAlcohol = packet.ContainsAlcohol;
-
-                _dbContext.SaveChanges();
-
-                List<PacketProduct> list = _dbContext.PacketProduct.Where(p => p.PacketId == packet.Id).ToList();
-                foreach (var pp in list)
+                if (entityToUpdate.ReservedBy == null)
                 {
-                    _dbContext.PacketProduct.Attach(pp);
-                    _dbContext.PacketProduct.Remove(pp);
+                    entityToUpdate.Name = packet.Name;
+                    entityToUpdate.Price = packet.Price;
+                    entityToUpdate.PickUpTime = packet.PickUpTime;
+                    entityToUpdate.LastestPickUpTime = packet.LastestPickUpTime;
+                    entityToUpdate.ReservedBy = packet.ReservedBy;
+                    entityToUpdate.City = packet.City;
+                    entityToUpdate.CanteenId = packet.CanteenId;
+                    entityToUpdate.MealType = packet.MealType;
+                    entityToUpdate.ContainsAlcohol = packet.ContainsAlcohol;
+
+                    _dbContext.SaveChanges();
+
+                    List<PacketProduct> list = _dbContext.PacketProduct.Where(p => p.PacketId == packet.Id).ToList();
+                    foreach (var pp in list)
+                    {
+                        _dbContext.PacketProduct.Attach(pp);
+                        _dbContext.PacketProduct.Remove(pp);
+                        await _dbContext.SaveChangesAsync();
+                    }
+
+                    foreach (var p in packet.Products)
+                    {
+                        _dbContext.PacketProduct.Add(new PacketProduct { PacketId = packet.Id, ProductId = p.Id });
+                    }
                     await _dbContext.SaveChangesAsync();
                 }
-
-                foreach (var p in packet.Products)
-                {
-                    _dbContext.PacketProduct.Add(new PacketProduct { PacketId = packet.Id, ProductId = p.Id });
-                }
-                await _dbContext.SaveChangesAsync();
-
             }
             return entityToUpdate;
         }

@@ -29,7 +29,7 @@ namespace TGTG_Portal.Controllers
         {
             if (id == null)
             {
-                var packets = _packetRepository.GetPackets();
+                var packets = _packetRepository.GetPacketsWithoutReservations();
                 if (packets != null)
                 {
                     var viewModel = new PacketsViewModel

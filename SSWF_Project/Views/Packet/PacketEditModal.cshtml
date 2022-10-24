@@ -99,9 +99,6 @@
                                     <div class="packet-right">
                                         @if (ProductsinPacket.Contains(product))
                                         {
-                                            @*<button class="modal-button delete-product" type="submit">
-                                                <img class="admin-icon" src="@Url.Content("~/images/delete.png")" />
-                                            </button>*@
                                             product.IsChecked = true;
                                             Model.Packet.Products.Add(product);
                                             <input asp-for="@Model.Packet.Products[ProductCount].Id" type="hidden">
@@ -113,10 +110,6 @@
                                         }
                                         else
                                         {
-                                            @*<button class="modal-button add-product" type="submit">
-                                                <img class="admin-icon" src="@Url.Content("~/images/plus.png")" />
-                                            </button>*@
-
                                             product.IsChecked = false;
                                             Model.Packet.Products.Add(product);
                                             <input asp-for="@Model.Packet.Products[ProductCount].Id" type="hidden">
@@ -134,7 +127,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="button-darkgreen"><span>Opslaan</span></button>
+                    @if(Model.Packet.ReservedBy != null) {
+                        <button type="submit" class="button-disabled" disabled><span>Opslaan</span></button>
+                    } else {
+                        <button type="submit" class="button-green"><span>Opslaan</span></button>
+                    }
                 </div>
             }
         </div>

@@ -4,6 +4,8 @@
     {
         IEnumerable<Packet>? GetPackets();
 
+        public IEnumerable<Packet>? GetPacketsWithoutReservations();
+
         Packet? GetPacketById(int id);
 
         IEnumerable<Packet>? GetPacketsByStudentId(Student student);

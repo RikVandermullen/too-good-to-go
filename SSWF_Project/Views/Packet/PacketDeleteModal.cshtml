@@ -19,7 +19,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="button-darkgreen"><span>Verwijderen</span></button>
+                    @if (Model.ReservedBy == null) {
+                        <button type="submit" class="button-darkgreen"><span>Verwijderen</span></button>
+                    } else {
+                        <button type="submit" class="button-disabled" disabled><span>Verwijderen</span></button>
+                    }
                 </div>
             </form>
         </div>

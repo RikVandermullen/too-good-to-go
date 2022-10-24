@@ -196,6 +196,25 @@ ul {
 
 /*BUTTONS*/
 
+.button-disabled {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    background: none;
+    border: none;
+    color: black;
+    font-weight: bolder;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: grey;
+}
+
+.button-disabled span {
+    display: block;
+    padding: 15px 20px;
+}
+
 /*LIGHT GREEN*/
 .button-green:hover {
     text-decoration: none;
