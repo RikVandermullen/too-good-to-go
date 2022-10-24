@@ -13,13 +13,13 @@
         </div>
 
 
-        <div class="admin-panel col-2 mt-3 ms-2 me-5 p-4" style="min-height:600px;">
+        <div class="admin-panel col-2 mt-3 ms-2 me-5 p-4" style="min-height:590px;">
             <h5>Navigatie</h5>
             <hr />
 
             <ul class="list">
-                <li><a class="admin-link">Pakketten</a></li>
-                <li><a class="admin-link">Producten</a></li>
+                <li><a class="admin-link" asp-action="AdminPanel" asp-controller="Packet">Pakketten</a></li>
+                <li><a class="admin-link" asp-action="AdminPanelProducts" asp-controller="Product">Producten</a></li>
             </ul>
         </div>
 
@@ -42,6 +42,7 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="col-2">
                     <div class="select-wrap">
                         <label for="city">Stad</label>
@@ -62,9 +63,7 @@
                         <partial name="PacketCreateModal" model="new PacketProductsViewModel {Packet = new Packet() { Products = new List<Product>()}, Products = Model.Products.ToList()}" />
                     </div>
                 </div>
-
             </div>
-
             <div class="row">
                 <div class="col-12">
                     @foreach (var p in Model?.Packets ?? Enumerable.Empty<Packet>())

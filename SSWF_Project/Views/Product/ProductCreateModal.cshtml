@@ -1,0 +1,50 @@
+﻿@model Product
+@{
+}
+<head>
+    <title>Beheer</title>
+</head>
+
+<div class="modal fade" id="create-product" tabindex="-1" aria-labelledby="create-product" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Maak een nieuw product aan
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            @using (Html.BeginForm("CreateProduct", "Product", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 input-wrap">
+                            <label asp-for="@Model.Name">Naam</label><br />
+                            <input asp-for="@Model.Name" type="text" class="form-input" value="" />
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12 input-wrap">
+                            <label asp-for="@Model.Image">Foto</label><br />
+                            <input asp-for="@Model.Image" type="text" class="form-input" value="" />
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12 mt-3">
+                            <div class="col-lg-12">
+                                <input asp-for="@Model.HasAlcohol" type="checkbox" class="contains-alcohol" />
+                                <label asp-for="@Model.HasAlcohol" for="checkbox">Bevat alcohol</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="modal-footer">
+                    <button type="submit" class="button-darkgreen"><span>Opslaan</span></button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

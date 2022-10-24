@@ -1,0 +1,27 @@
+﻿@model Product
+
+<div class="modal fade" id="@Model.Name.Replace(" ", "")delete" tabindex="-1" aria-labelledby="@Model.Name.Replace(" ", "")delete" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Model.Name</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="DeleteProduct" asp-controller="Product" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <input asp-for="Id" value="@Model.Id" type="hidden" />
+                        <p>Weet je zeker dat je dit product wil verwijderen?</p> <br />
+                        <p>
+                            Let op! Wanneer een pakket al bestaat met dit product kan dit product
+                            niet verwijderd worden.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="button-darkgreen"><span>Verwijderen</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

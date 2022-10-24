@@ -11,7 +11,7 @@
 
         public Product? AddProduct(Product newProduct)
         {
-            _dbContext.Products.Add(newProduct);
+            _dbContext.Products.Add(new Product { Name = newProduct.Name, HasAlcohol = newProduct.HasAlcohol, Image = newProduct.Image});
             _dbContext.SaveChanges();
 
             return newProduct;
@@ -19,7 +19,7 @@
 
         public Product? DeleteProduct(Product product)
         {
-            var entityToRemove = _dbContext.Products.FirstOrDefault(r => r.Name == product.Name);
+            var entityToRemove = _dbContext.Products.FirstOrDefault(r => r.Id == product.Id);
             if (entityToRemove != null)
             {
                 _dbContext.Products.Remove(entityToRemove);
@@ -46,12 +46,12 @@
 
         public Product? UpdateProduct(Product product)
         {
-            var entityToUpdate = _dbContext.Products.FirstOrDefault(r => r.Name == product.Name);
+            var entityToUpdate = _dbContext.Products.FirstOrDefault(r => r.Id == product.Id);
             if (entityToUpdate != null)
             {
                 entityToUpdate.Name = product.Name;
                 entityToUpdate.HasAlcohol = product.HasAlcohol;
-                entityToUpdate.Image = product.Image;
+                //entityToUpdate.Image = product.Image;
 
                 _dbContext.SaveChanges();
             }
