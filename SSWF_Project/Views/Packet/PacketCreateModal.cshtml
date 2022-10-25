@@ -1,7 +1,8 @@
-﻿@model PacketProductsViewModel
+﻿@model EmployeePacketProductsViewModel
 @{
     int ProductCount = 0;
     Model.Packet.Products = new List<Product>();
+    DateTime date = DateTime.Now.Date;
 }
 <head>
     <title>Beheer</title>
@@ -22,11 +23,11 @@
                     <div class="row">
                         <div class="col-6 input-wrap">
                             <label asp-for="@Model.Packet.Name">Naam</label><br />
-                            <input asp-for="@Model.Packet.Name" type="text" class="form-input" value="" />
+                            <input asp-for="@Model.Packet.Name" type="text" class="form-input" value="" style="width:90%;"/>
                         </div>
                         <div class="col-6 input-wrap">
                             <label asp-for="@Model.Packet.Price">Prijs</label><br />
-                            <input asp-for="@Model.Packet.Price" type="text" class="form-input" value="" />
+                            <input asp-for="@Model.Packet.Price" type="text" class="form-input" value="" style="width:90%;"/>
                         </div>
                     </div>
 
@@ -55,13 +56,25 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-6 input-wrap">
-                            <label asp-for="@Model.Packet.PickUpTime">Ophaal datum</label><br />
-                            <input asp-for="@Model.Packet.PickUpTime" type="date" class="datepicker" value="" />
+                        <div class="col-6">
+                            <div class="select-wrap">
+                                <label asp-for="@Model.Packet.PickUpTime">Ophaal datum</label>
+                                <select asp-for="@Model.Packet.PickUpTime" style="width: 100%;">
+                                    <option value="@DateTime.Now">@DateTime.Now.ToString("d")</option>
+                                    <option value="@DateTime.Now.AddDays(1)">@DateTime.Now.AddDays(1).ToString("d")</option>
+                                    <option value="@DateTime.Now.AddDays(2)">@DateTime.Now.AddDays(2).ToString("d")</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-6 input-wrap">
-                            <label asp-for="@Model.Packet.LastestPickUpTime">Ophalen tot</label><br />
-                            <input asp-for="@Model.Packet.LastestPickUpTime" type="date" class="datepicker" value="" />
+                        <div class="col-6">
+                            <div class="select-wrap">
+                                <label asp-for="@Model.Packet.LastestPickUpTime">Ophalen tot tijdstip</label>
+                                <select asp-for="@Model.Packet.LastestPickUpTime" style="width: 100%;">
+                                    <option value="@date.AddHours(12)">12:00</option>
+                                    <option value="@date.AddHours(15)">15:00</option>
+                                    <option value="@date.AddHours(17)">17:00</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 

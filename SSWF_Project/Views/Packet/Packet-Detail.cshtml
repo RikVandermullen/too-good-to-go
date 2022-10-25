@@ -1,6 +1,10 @@
 ﻿@model Packet
 @{
 }
+<head>
+    <title>@Model.Name</title>
+</head>
+
 <div class="container-fluid">
     <div class="row pt-3 top-border">
         <div class="col-10">
@@ -27,13 +31,25 @@
 
     <div class="col-2">
         <div class="d-flex justify-content-end">
-            @if (Model.ReservedBy == null) {
+            @if (Model.ReservedBy == null && User.HasClaim("UserType", "regularuser")) {
                 <form asp-action="ReservePacket" asp-controller="Packet">
                     <input asp-for="@Model.Id" value="@Model.Id" type="hidden"/>
                     <button type="submit" class="button-green shadow smaller"><span>Reserveren</span></button>
                 </form>
             }
         </div>
+        @if (ViewBag.ReserveError != null)
+        {
+            <p class="mt-2" style="color: red;">Je hebt al een pakket voor deze datum gereserveerd!</p>
+
+            <br />
+        }
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <p class="mt-2" style="color: red;">Je bent nog geen 18, dus je mag dit pakket niet reserveren!</p>
+
+            <br />
+        }
         <div class="d-flex justify-content-end pt-3">
             <h5>€ @Model.Price</h5>
         </div>
@@ -49,12 +65,16 @@
             @foreach (var p in Model?.Products ?? Enumerable.Empty<Product>())
             {
                 <div class="col-1">
-                    <img class="card-img-top box-icon shadow" src="@p.Image" alt="Product Image" />
-                    @if (p.HasAlcohol) {
-                        <img class="alcohol-icon" src="@Url.Content("~/images/18-plus.png")" alt="18+ Image" />
-                    }
+                    <div class="product-icon">
+                        @if (p.HasAlcohol)
+                        {
+                            <img class="alcohol-icon" src="@Url.Content("~/images/18-plus.png")" alt="18+ Image" />
+                        }
+                        <img class="card-img-top box-icon shadow" src="@p.Image" alt="Product Image" />
+                    </div>
                     <h5 class="card-title">@p.Name</h5>
                 </div>
+                
             }
         </div>
         <div class="filter mt-3 p-1">
@@ -62,11 +82,15 @@
             <ul class="list">
                 <li>Stad: @Model.ToString(@Model.City.ToString())</li>
                 <li>Kantine: @Model.Canteen.Location</li>
-                <li>Ophalen vanaf: @Model.PickUpTime</li>
-                <li>Ophalen tot: @Model.LastestPickUpTime</li>
+                <li>Ophalen op: @Model.PickUpTime.Value.ToString("d")</li>
+                <li>Ophalen tot: @Model.LastestPickUpTime.Value.Hour:00</li>
                 <li>Soort pakket: @Model.ToString(@Model.MealType.ToString())</li>
+                @if (Model.DoesPacketContainAlcohol()) {
+                    <li>Alcohol houdend: Ja</li>
+                } else {
+                    <li>Alcohol houdend: Nee</li>
+                }
             </ul>
-
         </div>
     </div>
 </div>

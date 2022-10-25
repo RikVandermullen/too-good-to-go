@@ -27,5 +27,16 @@ namespace Domain
         public string? City { get; set; }
 
         public int noShows { get; set; }
+
+        public bool IsStudentOfAge()
+        {
+            if (DateTime.Now.Year - BirthDate.Value.Year >= 18)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
     }
 }

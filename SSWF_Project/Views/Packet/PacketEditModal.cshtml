@@ -1,8 +1,9 @@
-﻿@model PacketProductsViewModel
+﻿@model EmployeePacketProductsViewModel
 @{
     int ProductCount = 0;
     List<Product> ProductsinPacket = Model.Packet.Products.ToList();
     Model.Packet.Products = new List<Product>();
+    DateTime date = DateTime.Now.Date;
 }
 <head>
     <title>Beheer</title>
@@ -26,11 +27,11 @@
                         <input asp-for="@Model.Packet.Id" value="@Model.Packet.Id" type="hidden" />
                         <div class="col-6 input-wrap">
                             <label asp-for="@Model.Packet.Name">Naam</label><br />
-                            <input asp-for="@Model.Packet.Name" type="text" class="form-input" value="@Model.Packet.Name" />
+                            <input asp-for="@Model.Packet.Name" type="text" class="form-input" value="@Model.Packet.Name" style="width:90%;" />
                         </div>
                         <div class="col-6 input-wrap">
                             <label asp-for="@Model.Packet.Price">Prijs</label><br />
-                            <input asp-for="@Model.Packet.Price" type="text" class="form-input" value="@Model.Packet.Price" />
+                            <input asp-for="@Model.Packet.Price" type="text" class="form-input" value="@Model.Packet.Price" style="width:90%;" />
                         </div>
                     </div>
 
@@ -44,7 +45,7 @@
                         <div class="col-6">
                             <div class="select-wrap">
                                 <label asp-for="@Model.Packet.City" for="city">Stad</label>
-                                <select asp-for="@Model.Packet.City" asp-items="@ViewBag.CityChoices" style="width: 100%;"></select>
+                                <select asp-for="@Model.Packet.City" asp-items="@ViewBag.AllCityChoices" style="width: 100%;"></select>
                             </div>
                         </div>
                     </div>
@@ -53,19 +54,31 @@
                         <div class="col-6">
                             <div class="select-wrap">
                                 <label asp-for="@Model.Packet.CanteenId" for="canteen">Kantine</label>
-                                <select asp-for="@Model.Packet.CanteenId" asp-items="@ViewBag.LocationChoices" style="width: 100%;"></select>
+                                <select asp-for="@Model.Packet.CanteenId" asp-items="@ViewBag.AllLocationChoices" style="width: 100%;"></select>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-6 input-wrap">
-                            <label asp-for="@Model.Packet.PickUpTime">Ophaal datum</label><br />
-                            <input asp-for="@Model.Packet.PickUpTime" type="date" class="datepicker" value="@Model.Packet.PickUpTime.Value.ToString("yyyy-MM-dd")" />
+                        <div class="col-6">
+                            <div class="select-wrap">
+                                <label asp-for="@Model.Packet.PickUpTime">Ophaal datum</label>
+                                <select asp-for="@Model.Packet.PickUpTime" style="width: 100%;">
+                                    <option value="@DateTime.Now">@DateTime.Now.ToString("d")</option>
+                                    <option value="@DateTime.Now.AddDays(1)">@DateTime.Now.AddDays(1).ToString("d")</option>
+                                    <option value="@DateTime.Now.AddDays(2)">@DateTime.Now.AddDays(2).ToString("d")</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-6 input-wrap">
-                            <label asp-for="@Model.Packet.LastestPickUpTime">Ophalen tot</label><br />
-                            <input asp-for="@Model.Packet.LastestPickUpTime" type="date" class="datepicker" value="@Model.Packet.LastestPickUpTime.Value.ToString("yyyy-MM-dd")" />
+                        <div class="col-6">
+                            <div class="select-wrap">
+                                <label asp-for="@Model.Packet.LastestPickUpTime">Ophalen tot tijdstip</label>
+                                <select asp-for="@Model.Packet.LastestPickUpTime" style="width: 100%;">
+                                    <option value="@date.AddHours(12)">12:00</option>
+                                    <option value="@date.AddHours(15)">15:00</option>
+                                    <option value="@date.AddHours(17)">17:00</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 

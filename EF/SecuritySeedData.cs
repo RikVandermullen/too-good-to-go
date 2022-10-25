@@ -20,12 +20,17 @@ public class SecuritySeedData : ISeedData
 
         const string EMAIL_WORKER = "canteenworker1@mail.com";
         const string EMAIL_STUDENT = "student1@mail.com";
+        const string EMAIL_STUDENT2 = "student2@mail.com";
 
         var existingUser = await _userManager.FindByNameAsync(EMAIL_WORKER);
         if (existingUser != null)
             await _userManager.DeleteAsync(existingUser);
 
         existingUser = await _userManager.FindByNameAsync(EMAIL_STUDENT);
+        if (existingUser != null)
+            await _userManager.DeleteAsync(existingUser);
+
+        existingUser = await _userManager.FindByNameAsync(EMAIL_STUDENT2);
         if (existingUser != null)
             await _userManager.DeleteAsync(existingUser);
 
@@ -45,6 +50,15 @@ public class SecuritySeedData : ISeedData
 
             await _userManager.CreateAsync(studentUser, PASSWORD);
             await _userManager.AddClaimAsync(studentUser, new Claim(CLAIMNAME_USERTYPE, "regularuser"));
+        }
+
+        IdentityUser studentUser2 = await _userManager.FindByIdAsync(EMAIL_STUDENT2);
+        if (studentUser2 == null)
+        {
+            studentUser2 = new IdentityUser() { UserName = EMAIL_STUDENT2 };
+
+            await _userManager.CreateAsync(studentUser2, PASSWORD);
+            await _userManager.AddClaimAsync(studentUser2, new Claim(CLAIMNAME_USERTYPE, "regularuser"));
         }
     }
 }

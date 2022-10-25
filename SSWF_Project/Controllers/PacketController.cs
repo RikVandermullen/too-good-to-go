@@ -14,19 +14,23 @@ namespace TGTG_Portal.Controllers
         private readonly IProductRepository _productRepository;
         private readonly ICanteenRepository _canteenRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public PacketController(IPacketRepository packetRepository, IProductRepository productRepository, ICanteenRepository canteenRepository, IStudentRepository studentRepository)
+        public PacketController(IPacketRepository packetRepository, IProductRepository productRepository, ICanteenRepository canteenRepository, IStudentRepository studentRepository, IEmployeeRepository employeeRepository)
         {
             _packetRepository = packetRepository;
             _productRepository = productRepository;
             _canteenRepository = canteenRepository;
             _studentRepository = studentRepository;
+            _employeeRepository = employeeRepository;
         }
 
         [AllowAnonymous]
         [Route("packets/{id?}")]
         public IActionResult Packets(int? id)
         {
+            ViewBag.ErrorMessage = TempData["OfAge"];
+            ViewBag.ReserveError = TempData["ReserveError"];
             if (id == null)
             {
                 var packets = _packetRepository.GetPacketsWithoutReservations();
@@ -50,19 +54,31 @@ namespace TGTG_Portal.Controllers
         {
             var packets = _packetRepository.GetPackets();
             var products = _productRepository.GetProducts();
+            var employee = _employeeRepository.GetEmployeeByEmail(User.Identity.Name);
             if (packets != null && products != null)
             {
-                var viewModel = new PacketsProductsViewModel
+                var viewModel = new EmployeePacketsProductsViewModel
                 {
+                    Employee = employee,
                     Packets = packets,
                     Products = products
                 };
                 ViewBag.MealTypeChoices = CreateMealTypeSelectList();
-                ViewBag.CityChoices = CreateCitySelectList();
-                ViewBag.LocationChoices = CreateLocationSelectList();
+                ViewBag.CityChoices = CreateCitySelectList(employee.Canteen.City);
+                ViewBag.AllCityChoices = CreateAllCitySelectList();
+                ViewBag.LocationChoices = CreateLocationSelectList(employee.Canteen.City);
+                ViewBag.AllLocationChoices = CreateAllLocationSelectList();
                 return View(viewModel);
             }
             return View();
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "OnlyPowerUsersAndUp")]
+        public IActionResult FilterPackets(City city, MealType mealType)
+        {
+            _packetRepository.GetPackets(city, mealType);
+            return RedirectToAction("AdminPanel");
         }
 
         [HttpPost]
@@ -71,6 +87,8 @@ namespace TGTG_Portal.Controllers
         {
             List<Product> ProductsToAdd = packet.Products.Where(p => p.IsChecked).ToList();
             packet.Products = ProductsToAdd;
+            packet.PickUpTime = new DateTime(packet.PickUpTime.Value.Year, packet.PickUpTime.Value.Month, packet.PickUpTime.Value.Day, 0, 0, 0);
+            packet.LastestPickUpTime = packet.PickUpTime.Value.AddHours(packet.LastestPickUpTime.Value.Hour);
             await _packetRepository.UpdatePacket(packet);
             return RedirectToAction("AdminPanel");
         }
@@ -89,6 +107,8 @@ namespace TGTG_Portal.Controllers
         {
             List<Product> ProductsToAdd = packet.Products.Where(p => p.IsChecked).ToList();
             packet.Products = ProductsToAdd;
+            packet.PickUpTime = new DateTime(packet.PickUpTime.Value.Year, packet.PickUpTime.Value.Month, packet.PickUpTime.Value.Day, 0, 0, 0);
+            packet.LastestPickUpTime = packet.PickUpTime.Value.AddHours(packet.LastestPickUpTime.Value.Hour);
             _packetRepository.AddPacket(packet);
             return RedirectToAction("AdminPanel");
         }
@@ -97,7 +117,29 @@ namespace TGTG_Portal.Controllers
         public IActionResult ReservePacket(int id)
         {
             var Student = _studentRepository.GetStudentByEmail(User.Identity.Name);
-            _packetRepository.ReservePacket(id, Student);
+            var Packet = _packetRepository.GetPacketById(id);
+            int packets = _packetRepository.GetPacketsByStudentId(Student).Where(date => date.PickUpTime == Packet.PickUpTime).Count();
+            if (packets > 0)
+            {
+                TempData["ReserveError"] = "1";
+                return RedirectToAction("Packets", new { id = id });
+            }
+
+            if (Packet.DoesPacketContainAlcohol())
+            {
+                if (Student.IsStudentOfAge())
+                {
+                    _packetRepository.ReservePacket(id, Student);
+                } else
+                {
+                    TempData["OfAge"] = "Geen 18";
+                    return RedirectToAction("Packets", new {id = id});
+                }
+            } else
+            {
+                _packetRepository.ReservePacket(id, Student);
+            }
+            
             return RedirectToAction("Packets");
         }
 
@@ -112,20 +154,42 @@ namespace TGTG_Portal.Controllers
             }, "Value", "Text");
         }
 
-        private SelectList CreateCitySelectList()
+        private SelectList CreateCitySelectList(City city)
         {
-            return new SelectList(
-                new List<SelectListItem> {
-                new SelectListItem {Selected = false, Text = "Breda", Value = "BREDA"},
-                new SelectListItem {Selected = false, Text = "Tilburg", Value = "TILBURG"},
-                new SelectListItem {Selected = false, Text = "Den Bosch", Value = "DENBOSCH"},
-            }, "Value", "Text");
+            List<SelectListItem> list = new List<SelectListItem>();
+            if (city == City.BREDA)
+            {
+                list.Add(new SelectListItem { Selected = false, Text = "Breda", Value = "BREDA" });
+            } else if (city == City.TILBURG)
+            {
+                list.Add(new SelectListItem { Selected = false, Text = "Tilburg", Value = "TILBURG" });
+            } else
+            {
+                list.Add(new SelectListItem { Selected = false, Text = "Den Bosch", Value = "DENBOSCH" });
+            }
+            return new SelectList(list, "Value", "Text");
         }
 
-        private SelectList CreateLocationSelectList()
+        private SelectList CreateAllCitySelectList()
         {
-            Canteen[] choices = _canteenRepository.GetAllCanteens().ToArray();
-            return new SelectList(choices, "Id", "Location");
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem { Selected = false, Text = "Breda", Value = "BREDA" });
+            list.Add(new SelectListItem { Selected = false, Text = "Tilburg", Value = "TILBURG" });
+            list.Add(new SelectListItem { Selected = false, Text = "Den Bosch", Value = "DENBOSCH" });
+
+            return new SelectList(list, "Value", "Text");
+        }
+
+        private SelectList CreateLocationSelectList(City city)
+        {
+            List<Canteen> list = _canteenRepository.GetAllCanteens().Where(l => l.City == city).ToList();
+            return new SelectList(list, "Id", "Location");
+        }
+
+        private SelectList CreateAllLocationSelectList()
+        {
+            List<Canteen> list = _canteenRepository.GetAllCanteens().ToList();
+            return new SelectList(list, "Id", "Location");
         }
     }
 }

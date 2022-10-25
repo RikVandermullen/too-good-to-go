@@ -182,11 +182,19 @@ ul {
     list-style-type: none;
 }
 
+.product-icon {
+    position: relative;
+    display: inline-flex;
+}
+
 .alcohol-icon {
-    max-height: 32px;
-    max-width: 32px;
     position: absolute;
-    left: 50px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    width: 32px !important;
+    height: 32px !important;
 }
 
 .colored {

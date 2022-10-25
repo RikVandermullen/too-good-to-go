@@ -1,11 +1,11 @@
-﻿@model PacketsProductsViewModel
+﻿@model EmployeePacketsProductsViewModel
 
 <div class="top-border">
     <div class="row ms-5 me-5 mt-3">
         <div class="col-12">
             <h3>Beheer</h3>
             <p class="main-info-text">
-                <span>Welkom</span> <span class="colored"> @User.Identity.Name</span> <span>! Op deze pagina kan je nieuwe pakketten aanmaken en
+                <span>Welkom</span> <span class="colored"> @Model.Employee.Name</span> <span>! Op deze pagina kan je nieuwe pakketten aanmaken en
                 bestaande bewerken en verwijderen. Ook kan dit gedaan worden voor producten als je links
                     in de navigatie op producten klikt.
                 </span>
@@ -55,12 +55,22 @@
                     </div>
                 </div>
 
-                <div class="col-3">
-                    <div class="d-flex justify-content-end align-content-end">
+                <div class="col-2">
+                    <div class="d-flex align-content-center mt-2">
+                        <form asp-action="FilterPackets" asp-controller="Packet">
+                            <button type="submit" class="modal-button">
+                                <img class="admin-icon" src="@Url.Content("~/images/search.png")" />
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="d-flex justify-content-end">
                         <button type="button" class="button-darkgreen" data-bs-toggle="modal" data-bs-target="#packet-create">
                             <span>Maak Pakket</span>
                         </button>
-                        <partial name="PacketCreateModal" model="new PacketProductsViewModel {Packet = new Packet() { Products = new List<Product>()}, Products = Model.Products.ToList()}" />
+                        <partial name="PacketCreateModal" model="new EmployeePacketProductsViewModel { Employee = Model.Employee, Packet = new Packet() { Products = new List<Product>()}, Products = Model.Products.ToList()}" />
                     </div>
                 </div>
             </div>
@@ -86,7 +96,7 @@
                         </div>
                         <hr />
 
-                        <partial name="PacketEditModal" model="new PacketProductsViewModel {Packet = p, Products = Model.Products.ToList()}" />
+                        <partial name="PacketEditModal" model="new EmployeePacketProductsViewModel { Employee = Model.Employee, Packet = p, Products = Model.Products.ToList()}" />
 
                         <partial name="PacketDeleteModal" model="p" />
 
@@ -96,8 +106,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 

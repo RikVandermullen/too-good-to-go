@@ -65,6 +65,11 @@ namespace TGTG_EF
             return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).Include(s => s.ReservedBy).OrderBy(p => p.PickUpTime).ToList();
         }
 
+        public IEnumerable<Packet>? GetPackets(City city, MealType mealType)
+        {
+            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).Include(s => s.ReservedBy).Where(p => p.City == city).OrderBy(p => p.PickUpTime).ToList();
+        }
+
         public IEnumerable<Packet>? GetPacketsWithoutReservations()
         {
             return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).OrderBy(p => p.PickUpTime).Where(s => s.ReservedBy == null).ToList();
