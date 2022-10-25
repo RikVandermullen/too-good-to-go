@@ -8,7 +8,7 @@ namespace Domain
 
         [Required]
         public int StudentNumber { get; set; }
-
+        
         [Required]
         [EmailAddress]
         public string EmailAddress { get; set; } = null!;
