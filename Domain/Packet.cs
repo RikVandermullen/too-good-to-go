@@ -15,10 +15,10 @@ namespace Domain
         public double Price { get; set; }
 
         [Required]
-        public DateTime? PickUpTime { get; set; }
+        public DateTime PickUpTime { get; set; }
 
         [Required]
-        public DateTime? LastestPickUpTime { get; set; }
+        public DateTime LastestPickUpTime { get; set; }
 
         [ForeignKey("Student")]
         public Student? ReservedBy { get; set; }
