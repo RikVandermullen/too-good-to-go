@@ -27,7 +27,7 @@ namespace TGTG_EF
             }
             _dbContext.SaveChanges();
 
-            return packet;
+            return GetPacketById(Packet.Id);
         }
 
         public Packet? DeletePacket(int id)
@@ -63,11 +63,6 @@ namespace TGTG_EF
         public IEnumerable<Packet>? GetPackets()
         {
             return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).Include(s => s.ReservedBy).OrderBy(p => p.PickUpTime).ToList();
-        }
-
-        public IEnumerable<Packet>? GetPackets(City city, MealType mealType)
-        {
-            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).Include(s => s.ReservedBy).Where(p => p.City == city).OrderBy(p => p.PickUpTime).ToList();
         }
 
         public IEnumerable<Packet>? GetPacketsWithoutReservations()

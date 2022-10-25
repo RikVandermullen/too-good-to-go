@@ -75,14 +75,6 @@ namespace TGTG_Portal.Controllers
 
         [HttpPost]
         [Authorize(Policy = "OnlyPowerUsersAndUp")]
-        public IActionResult FilterPackets(City city, MealType mealType)
-        {
-            _packetRepository.GetPackets(city, mealType);
-            return RedirectToAction("AdminPanel");
-        }
-
-        [HttpPost]
-        [Authorize(Policy = "OnlyPowerUsersAndUp")]
         public async Task<IActionResult> UpdatePacket(Packet packet)
         {
             List<Product> ProductsToAdd = packet.Products.Where(p => p.IsChecked).ToList();

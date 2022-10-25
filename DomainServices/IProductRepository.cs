@@ -10,7 +10,7 @@
 
         Product? AddProduct(Product newProduct);
 
-        Product? DeleteProduct(Product product);
+        void DeleteProduct(Product product);
 
         Product? UpdateProduct(Product product);
     }

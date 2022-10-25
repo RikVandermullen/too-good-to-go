@@ -11,13 +11,14 @@
 
         public Product? AddProduct(Product newProduct)
         {
-            _dbContext.Products.Add(new Product { Name = newProduct.Name, HasAlcohol = newProduct.HasAlcohol, Image = newProduct.Image});
+            var Product = new Product { Name = newProduct.Name, HasAlcohol = newProduct.HasAlcohol, Image = newProduct.Image };
+            _dbContext.Products.Add(Product);
             _dbContext.SaveChanges();
 
-            return newProduct;
+            return Product;
         }
 
-        public Product? DeleteProduct(Product product)
+        public void DeleteProduct(Product product)
         {
             var entityToRemove = _dbContext.Products.FirstOrDefault(r => r.Id == product.Id);
             if (entityToRemove != null)
@@ -25,8 +26,6 @@
                 _dbContext.Products.Remove(entityToRemove);
                 _dbContext.SaveChanges();
             }
-
-            return entityToRemove;
         }
 
         public Product? GetProductByName(string name)
@@ -56,7 +55,7 @@
                 _dbContext.SaveChanges();
             }
 
-            return entityToUpdate;
+            return GetProductById(entityToUpdate.Id);
         }
     }
 }
