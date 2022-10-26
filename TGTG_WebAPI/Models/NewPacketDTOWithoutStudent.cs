@@ -1,11 +1,9 @@
 ﻿using Domain;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace TGTG_WebAPI.Models
 {
-    public class NewPacketDTO
+    public class NewPacketDTOWithoutStudent
     {
         public int Id { get; set; }
 
@@ -26,8 +24,6 @@ namespace TGTG_WebAPI.Models
         public City City { get; set; }
 
         public int CanteenId { get; set; }
-
-        public Student? ReservedBy { get; set; }
 
         [Required]
         public MealType MealType { get; set; }

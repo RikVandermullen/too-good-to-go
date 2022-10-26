@@ -11,10 +11,12 @@ namespace TGTG_WebAPI.Controllers
     public class PacketsController : ControllerBase
     {
         private readonly IPacketRepository _packetRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public PacketsController(IPacketRepository packetRepository)
+        public PacketsController(IPacketRepository packetRepository, IStudentRepository studentRepository)
         {
             _packetRepository = packetRepository;
+            _studentRepository = studentRepository;
         }
 
         [HttpGet]
@@ -39,6 +41,7 @@ namespace TGTG_WebAPI.Controllers
                         LastestPickUpTime = packet.LastestPickUpTime,
                         City = packet.City,
                         MealType = packet.MealType,
+                        ReservedBy = packet.ReservedBy,
                         CanteenId = packet.CanteenId,
                         ContainsAlcohol = packet.ContainsAlcohol,
                         Products = products
@@ -66,6 +69,7 @@ namespace TGTG_WebAPI.Controllers
                 LastestPickUpTime = Packet.LastestPickUpTime,
                 City = Packet.City,
                 MealType = Packet.MealType,
+                ReservedBy = Packet.ReservedBy,
                 CanteenId = Packet.CanteenId,
                 ContainsAlcohol = Packet.ContainsAlcohol,
                 Products = products
@@ -73,7 +77,7 @@ namespace TGTG_WebAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<NewPacketDTO> AddPacket(NewPacketDTO packet)
+        public ActionResult<NewPacketDTO> AddPacket(NewPacketDTOWithoutStudent packet)
         {
             List<Product> products = new List<Product>();
             foreach(var p in packet.Products)
@@ -109,6 +113,7 @@ namespace TGTG_WebAPI.Controllers
                 LastestPickUpTime = newPacket.LastestPickUpTime,
                 City = newPacket.City,
                 MealType = newPacket.MealType,
+                ReservedBy = newPacket.ReservedBy,
                 CanteenId = newPacket.CanteenId,
                 ContainsAlcohol = newPacket.ContainsAlcohol,
                 Products = newProducts
@@ -128,7 +133,7 @@ namespace TGTG_WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<NewPacketDTO>> Update(int id, [FromBody] NewPacketDTO packet)
+        public async Task<ActionResult<NewPacketDTOWithoutStudent>> Update(int id, [FromBody] NewPacketDTOWithoutStudent packet)
         {
             var Packet = _packetRepository.GetPacketById(id);
 
@@ -158,6 +163,49 @@ namespace TGTG_WebAPI.Controllers
             };
             await _packetRepository.UpdatePacket(UpdatedPacket);
             return packet;
+        }
+
+        [HttpPut("{id}/students/{studentid}")]
+        public async Task<ActionResult<NewPacketDTO>> UpdateReservation(int id, int studentid, [FromBody] newReservePacketDTO reservation)
+        {
+            if (id == null || studentid == null || id != reservation.PacketId || studentid != reservation.StudentId)
+            {
+                return BadRequest();
+            }
+
+            var Student = _studentRepository.GetStudentById(studentid);
+            var Packet = _packetRepository.GetPacketById(id);
+            
+            if (Student == null)
+            {
+                return BadRequest();
+            }
+
+            Packet.ReservedBy = Student;
+
+            var UpdatedPacket = await _packetRepository.UpdatePacket(Packet);
+
+            List<NewProductDTO> newProducts = new List<NewProductDTO>();
+            foreach (var p in UpdatedPacket.Products)
+            {
+                newProducts.Add(new NewProductDTO { Id = p.Id, Name = p.Name, HasAlcohol = p.HasAlcohol, Image = p.Image });
+            }
+
+            return Ok(new NewPacketDTO
+            {
+                Id = UpdatedPacket.Id,
+                Name = UpdatedPacket.Name,
+                Price = UpdatedPacket.Price,
+                PickUpTime = UpdatedPacket.PickUpTime,
+                LastestPickUpTime = UpdatedPacket.LastestPickUpTime,
+                City = UpdatedPacket.City,
+                MealType = UpdatedPacket.MealType,
+                ReservedBy = UpdatedPacket.ReservedBy,
+                CanteenId = UpdatedPacket.CanteenId,
+                ContainsAlcohol = UpdatedPacket.ContainsAlcohol,
+                Products = newProducts
+            });
+
         }
     }
 }
