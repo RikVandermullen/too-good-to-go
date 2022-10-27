@@ -6,6 +6,8 @@ using TGTG_Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Reflection.Metadata;
 using DomainServices.Services;
+using TGTG_Portal.Extensions;
+using TGTG_EF;
 
 namespace TGTG_Portal.Controllers
 {
@@ -51,8 +53,7 @@ namespace TGTG_Portal.Controllers
             var Packet = _packetRepository.GetPacketById((int)id);
             var vm = new PacketViewModel
             {
-                Packet = Packet,
-                fs = new FormatterService()
+                Packet = Packet
             };
             return View("Packet-Detail", vm);
         }
@@ -75,11 +76,15 @@ namespace TGTG_Portal.Controllers
                     Packets = packets,
                     Products = products
                 };
-                ViewBag.MealTypeChoices = CreateMealTypeSelectList(employee.Canteen);
-                ViewBag.CityChoices = CreateCitySelectList(employee.Canteen.City);
-                ViewBag.AllCityChoices = CreateAllCitySelectList();
-                ViewBag.LocationChoices = CreateLocationSelectList(employee.Canteen.City);
-                ViewBag.AllLocationChoices = CreateAllLocationSelectList();
+                SelectListCreator listCreator = new SelectListCreator();
+
+                ViewBag.MealTypeChoices = listCreator.MealTypeSelectList(employee.Canteen);
+                ViewBag.CityChoices = listCreator.CitySelectList(employee.Canteen.City);
+                ViewBag.AllCityChoices = listCreator.AllCitySelectList();
+
+                List<Canteen> list = _canteenRepository.GetAllCanteens().Where(l => l.City == employee.Canteen.City).ToList();
+                ViewBag.LocationChoices = listCreator.LocationSelectList(list,employee.Canteen.City);
+                ViewBag.AllLocationChoices = listCreator.AllLocationSelectList(list);
                 return View(viewModel);
             }
             return View();
@@ -100,11 +105,15 @@ namespace TGTG_Portal.Controllers
                     Packets = packets,
                     Products = products
                 };
-                ViewBag.MealTypeChoices = CreateMealTypeSelectList(employee.Canteen);
-                ViewBag.CityChoices = CreateCitySelectList(employee.Canteen.City);
-                ViewBag.AllCityChoices = CreateAllCitySelectList();
-                ViewBag.LocationChoices = CreateLocationSelectList(employee.Canteen.City);
-                ViewBag.AllLocationChoices = CreateAllLocationSelectList();
+
+                SelectListCreator listCreator = new SelectListCreator();
+                ViewBag.MealTypeChoices = listCreator.MealTypeSelectList(employee.Canteen);
+                ViewBag.CityChoices = listCreator.CitySelectList(employee.Canteen.City);
+                ViewBag.AllCityChoices = listCreator.AllCitySelectList();
+
+                List<Canteen> list = _canteenRepository.GetAllCanteens().Where(l => l.City == employee.Canteen.City).ToList();
+                ViewBag.LocationChoices = listCreator.LocationSelectList(list, employee.Canteen.City);
+                ViewBag.AllLocationChoices = listCreator.AllLocationSelectList(list);
                 return View(viewModel);
             }
             return View();
@@ -177,60 +186,6 @@ namespace TGTG_Portal.Controllers
 
             TempData["OfAge"] = "Geen 18";
             return RedirectToAction("Packets", new { id = id });
-        }
-
-        private SelectList CreateMealTypeSelectList(Canteen canteen)
-        {
-            List<SelectListItem> list = new List<SelectListItem>()
-            {
-                new SelectListItem {Selected = false, Text = "Dranken", Value = "DRANKEN"},
-                new SelectListItem {Selected = false, Text = "Brood", Value = "BROOD"},
-                new SelectListItem {Selected = false, Text = "Gezond", Value = "GEZOND"},
-            };
-            if (canteen.WarmMeals)
-            {
-                list.Add(new SelectListItem { Selected = false, Text = "Warm", Value = "WARM" });
-            }
-
-            return new SelectList(list, "Value", "Text");
-        }
-
-        private SelectList CreateCitySelectList(City city)
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-            if (city == City.BREDA)
-            {
-                list.Add(new SelectListItem { Selected = false, Text = "Breda", Value = "BREDA" });
-            } else if (city == City.TILBURG)
-            {
-                list.Add(new SelectListItem { Selected = false, Text = "Tilburg", Value = "TILBURG" });
-            } else
-            {
-                list.Add(new SelectListItem { Selected = false, Text = "Den Bosch", Value = "DENBOSCH" });
-            }
-            return new SelectList(list, "Value", "Text");
-        }
-
-        private SelectList CreateAllCitySelectList()
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Selected = false, Text = "Breda", Value = "BREDA" });
-            list.Add(new SelectListItem { Selected = false, Text = "Tilburg", Value = "TILBURG" });
-            list.Add(new SelectListItem { Selected = false, Text = "Den Bosch", Value = "DENBOSCH" });
-
-            return new SelectList(list, "Value", "Text");
-        }
-
-        private SelectList CreateLocationSelectList(City city)
-        {
-            List<Canteen> list = _canteenRepository.GetAllCanteens().Where(l => l.City == city).ToList();
-            return new SelectList(list, "Id", "Location");
-        }
-
-        private SelectList CreateAllLocationSelectList()
-        {
-            List<Canteen> list = _canteenRepository.GetAllCanteens().ToList();
-            return new SelectList(list, "Id", "Location");
         }
     }
 }
