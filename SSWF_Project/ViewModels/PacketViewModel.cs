@@ -3,9 +3,9 @@ using DomainServices.Services;
 
 namespace TGTG_Portal.ViewModels
 {
-    public class PacketsViewModel
+    public class PacketViewModel
     {
-        public IEnumerable<Packet> Packets { get; set; } = Enumerable.Empty<Packet>();
+        public Packet Packet { get; set; }
 
         public FormatterService fs = new FormatterService();
     }

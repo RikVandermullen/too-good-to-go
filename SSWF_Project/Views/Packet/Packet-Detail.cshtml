@@ -1,8 +1,8 @@
-﻿@model Packet
+﻿@model PacketViewModel
 @{
 }
 <head>
-    <title>@Model.Name</title>
+    <title>@Model.Packet.Name</title>
 </head>
 
 <div class="container-fluid">
@@ -21,7 +21,7 @@
 
 <div class="row ms-5 me-5">
     <div class="col-10">
-        <h2>Pakket: @Model.Name</h2>
+        <h2>Pakket: @Model.Packet.Name</h2>
         <p class="main-info-text">
             Op deze pagina wordt meer informatie gegeven over het pakket. 
             Hierop worden producten getoond wat indicaties zijn voor het daadwerkelijk pakket, 
@@ -33,9 +33,10 @@
 
     <div class="col-2">
         <div class="d-flex justify-content-end">
-            @if (Model.ReservedBy == null && User.HasClaim("UserType", "regularuser")) {
+            @if (Model.Packet.ReservedBy == null && User.HasClaim("UserType", "regularuser"))
+            {
                 <form asp-action="ReservePacket" asp-controller="Packet">
-                    <input asp-for="@Model.Id" value="@Model.Id" type="hidden"/>
+                    <input asp-for="@Model.Packet.Id" value="@Model.Packet.Id" type="hidden" />
                     <button type="submit" class="button-green shadow smaller"><span>Reserveren</span></button>
                 </form>
             }
@@ -53,7 +54,7 @@
             <br />
         }
         <div class="d-flex justify-content-end pt-3">
-            <h5>€ @Model.Price</h5>
+            <h5>€ @Model.Packet.Price</h5>
         </div>
     </div>
 
@@ -64,7 +65,7 @@
         </h4>
         <hr />
         <div class="row mt-4">
-            @foreach (var p in Model?.Products ?? Enumerable.Empty<Product>())
+            @foreach (var p in Model?.Packet.Products ?? Enumerable.Empty<Product>())
             {
                 <div class="col-1">
                     <div class="product-icon">
@@ -82,12 +83,13 @@
         <div class="filter mt-3 p-1">
             <h4 class="mt-2 ms-2">Informatie</h4>
             <ul class="list">
-                <li>Stad: @Model.ToString(@Model.City.ToString())</li>
-                <li>Kantine: @Model.Canteen.Location</li>
-                <li>Ophalen op: @Model.PickUpTime.Value.ToString("d")</li>
-                <li>Ophalen tot: @Model.LastestPickUpTime.Value.Hour:00</li>
-                <li>Soort pakket: @Model.ToString(@Model.MealType.ToString())</li>
-                @if (Model.DoesPacketContainAlcohol()) {
+                <li>Stad: @Model.fs.ToString(Model.Packet.City.ToString())</li>
+                <li>Kantine: @Model.Packet.Canteen.Location</li>
+                <li>Ophalen op: @Model.Packet.PickUpTime.Value.ToString("d")</li>
+                <li>Ophalen tot: @Model.Packet.LastestPickUpTime.Value.Hour:00</li>
+                <li>Soort pakket: @Model.fs.ToString(Model.Packet.MealType.ToString())</li>
+                @if (Model.Packet.ContainsAlcohol)
+                {
                     <li>Alcohol houdend: Ja</li>
                 } else {
                     <li>Alcohol houdend: Nee</li>

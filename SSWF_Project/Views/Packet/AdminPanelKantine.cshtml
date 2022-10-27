@@ -95,7 +95,7 @@
                         <div class="col-12 packet p-0 p-lg-3">
                             <img class="box-icon shadow" src="@Url.Content("~/images/Box.png")" style="max-height:100px;" />
                             <div class="packet-text ps-3 pe-2">
-                                <h5>@p.Name (@p.FormatDateTime((DateTime) p.PickUpTime))</h5>
+                                <h5>@p.Name (@Model.fs.FormatDateTime(p.PickUpTime.Value))</h5>
                             </div>
 
                             <div class="packet-right">
@@ -112,7 +112,7 @@
 
                         <partial name="PacketEditModal" model="new EmployeePacketProductsViewModel { Employee = Model.Employee, Packet = p, Products = Model.Products.ToList()}" />
 
-                        <partial name="PacketDeleteModal" model="p" />
+                        <partial name="PacketDeleteModal" model="new PacketViewModel { Packet = p}" />
 
                     }
                 </div>

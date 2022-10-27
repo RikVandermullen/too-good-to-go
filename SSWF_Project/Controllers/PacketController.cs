@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TGTG_Portal.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Reflection.Metadata;
+using DomainServices.Services;
 
 namespace TGTG_Portal.Controllers
 {
@@ -38,7 +40,8 @@ namespace TGTG_Portal.Controllers
                 {
                     var viewModel = new PacketsViewModel
                     {
-                        Packets = packets
+                        Packets = packets,
+                        fs = new FormatterService()
                     };
                     return View("Packet-Overview", viewModel);
                 }
@@ -46,7 +49,12 @@ namespace TGTG_Portal.Controllers
             }
 
             var Packet = _packetRepository.GetPacketById((int)id);
-            return View("Packet-Detail", Packet);
+            var vm = new PacketViewModel
+            {
+                Packet = Packet,
+                fs = new FormatterService()
+            };
+            return View("Packet-Detail", vm);
         }
 
         [Authorize(Policy = "OnlyPowerUsersAndUp")]
@@ -55,7 +63,10 @@ namespace TGTG_Portal.Controllers
             var packets = _packetRepository.GetPackets();
             var products = _productRepository.GetProducts();
             var employee = _employeeRepository.GetEmployeeByEmail(User.Identity.Name);
-            ViewBag.PacketError = TempData["InvalidPacket"];
+            if (TempData["InvalidPacket"] != null)
+            {
+                ViewBag.PacketError = TempData["InvalidPacket"];
+            }
             if (packets != null && products != null)
             {
                 var viewModel = new EmployeePacketsProductsViewModel
@@ -119,9 +130,9 @@ namespace TGTG_Portal.Controllers
 
         [HttpPost]
         [Authorize(Policy = "OnlyPowerUsersAndUp")]
-        public IActionResult DeletePacket(int id)
+        public IActionResult DeletePacket(Packet packet)
         {
-            _packetRepository.DeletePacket(id);
+            _packetRepository.DeletePacket(packet.Id);
             return RedirectToAction("AdminPanel");
         }
 
@@ -155,22 +166,17 @@ namespace TGTG_Portal.Controllers
                 return RedirectToAction("Packets", new { id = id });
             }
 
-            if (Packet.DoesPacketContainAlcohol())
-            {
-                if (Student.IsStudentOfAge())
-                {
-                    _packetRepository.ReservePacket(id, Student);
-                } else
-                {
-                    TempData["OfAge"] = "Geen 18";
-                    return RedirectToAction("Packets", new {id = id});
-                }
-            } else
+            StudentOfAgeService studentOfAgeService = new StudentOfAgeService(Student);
+            ReservePacketService reservePacketService = new ReservePacketService(studentOfAgeService);
+
+            if (reservePacketService.CanStudentReservePacket(Packet, Student))
             {
                 _packetRepository.ReservePacket(id, Student);
+                return RedirectToAction("Packets");
             }
-            
-            return RedirectToAction("Packets");
+
+            TempData["OfAge"] = "Geen 18";
+            return RedirectToAction("Packets", new { id = id });
         }
 
         private SelectList CreateMealTypeSelectList(Canteen canteen)

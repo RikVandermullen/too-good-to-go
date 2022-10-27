@@ -89,7 +89,7 @@
                 <div class="col-12 packet p-0 p-lg-3">
                     <img class="box-icon shadow" src="@Url.Content("~/images/Box.png")" />
                     <div class="packet-text ps-3 pe-2">
-                        <h5>@p.Name (@p.FormatDateTime((DateTime) p.PickUpTime))</h5>
+                        <h5>@p.Name (@Model.fs.FormatDateTime(@p.PickUpTime.Value))</h5>
                         <p class="packet-text-info">
                             Bestaat onder andere uit: <br />
                             @for (int i = 0; i < p.Products.Count(); i++)

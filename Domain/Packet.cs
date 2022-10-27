@@ -38,28 +38,5 @@ namespace Domain
         [Required]
         public bool ContainsAlcohol { get; set; }
 
-        public bool DoesPacketContainAlcohol()
-        {
-            if (Products == null || Products.Count == 0) return false;
-
-            foreach (var product in Products)
-            {
-                if (product.HasAlcohol)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public string ToString(string Enum)
-        {
-            return System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(Enum.ToLower());
-        }
-
-        public DateOnly FormatDateTime(DateTime dateTime)
-        {
-            return DateOnly.FromDateTime(dateTime);
-        }
     }
 }

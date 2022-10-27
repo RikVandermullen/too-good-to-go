@@ -1,20 +1,20 @@
-﻿@model Packet
+﻿@model PacketViewModel
 
 <head>
     <title>Beheer</title>
 </head>
 
-<div class="modal fade" id="@Model.Name.Replace(" ", "")delete" tabindex="-1" aria-labelledby="@Model.Name.Replace(" ", "")delete" aria-hidden="true">
+<div class="modal fade" id="@Model.Packet.Name.Replace(" ", "")delete" tabindex="-1" aria-labelledby="@Model.Packet.Name.Replace(" ", "")delete" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">@Model.Name (@Model.FormatDateTime((DateTime) @Model.PickUpTime))</h4>
+                <h4 class="modal-title">@Model.Packet.Name (@Model.fs.FormatDateTime(Model.Packet.PickUpTime.Value))</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form asp-action="DeletePacket" asp-controller="Packet" method="post">
                 <div class="modal-body">
                     <div class="row">
-                        <input asp-for="Id" value="@Model.Id" type="hidden" />
+                        <input asp-for="@Model.Packet.Id" value="@Model.Packet.Id" type="hidden" />
                         <p>Weet je zeker dat je dit pakket wil verwijderen?</p> <br />
                         <p>
                             Let op! Wanneer een student al een pakket gereserveerd heeft kan dit pakket
@@ -23,7 +23,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    @if (Model.ReservedBy == null) {
+                    @if (Model.Packet.ReservedBy == null)
+                    {
                         <button type="submit" class="button-darkgreen"><span>Verwijderen</span></button>
                     } else {
                         <button type="submit" class="button-disabled" disabled><span>Verwijderen</span></button>

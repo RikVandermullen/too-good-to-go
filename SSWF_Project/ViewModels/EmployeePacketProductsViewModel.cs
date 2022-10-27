@@ -1,4 +1,5 @@
 ﻿using Domain;
+using DomainServices.Services;
 using System.ComponentModel.DataAnnotations;
 
 namespace TGTG_Portal.ViewModels
@@ -10,5 +11,7 @@ namespace TGTG_Portal.ViewModels
         public Packet Packet { get; set; } = null!;
 
         public IList<Product> Products { get; set; }
+
+        public FormatterService fs = new FormatterService();
     }
 }
