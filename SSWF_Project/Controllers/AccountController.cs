@@ -43,7 +43,7 @@ namespace TGTG_Portal.Controllers
             var user = await _userManager.FindByNameAsync(vm.EmailAddress);
             if (user == null)
             {
-                ModelState.AddModelError("", "Incorrect emailaddress or password or account is locked");
+                ModelState.AddModelError("", "Onjuist emailadres of wachtwoord!");
                 return View();
             }
 
@@ -51,7 +51,7 @@ namespace TGTG_Portal.Controllers
 
             if (!signinResult.Succeeded)
             {
-                ModelState.AddModelError("", "Incorrect emailaddress or password or account is locked");
+                ModelState.AddModelError("", "Onjuist emailadres of wachtwoord!");
                 return View();
             }
 

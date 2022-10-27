@@ -55,6 +55,7 @@ namespace TGTG_Portal.Controllers
             var packets = _packetRepository.GetPackets();
             var products = _productRepository.GetProducts();
             var employee = _employeeRepository.GetEmployeeByEmail(User.Identity.Name);
+            ViewBag.PacketError = TempData["InvalidPacket"];
             if (packets != null && products != null)
             {
                 var viewModel = new EmployeePacketsProductsViewModel
@@ -79,6 +80,7 @@ namespace TGTG_Portal.Controllers
             var products = _productRepository.GetProducts();
             var employee = _employeeRepository.GetEmployeeByEmail(User.Identity.Name);
             var packets = _packetRepository.GetPacketsByCanteenId(employee.CanteenId);
+            ViewBag.PacketError = TempData["InvalidPacket"];
             if (packets != null && products != null)
             {
                 var viewModel = new EmployeePacketsProductsViewModel
@@ -101,6 +103,12 @@ namespace TGTG_Portal.Controllers
         [Authorize(Policy = "OnlyPowerUsersAndUp")]
         public async Task<IActionResult> UpdatePacket(Packet packet)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["InvalidPacket"] = "Sommige velden waren onjuist of niet ingevoerd. Pakket is niet gewijzigd";
+                return RedirectToAction("AdminPanel");
+            }
+
             List<Product> ProductsToAdd = packet.Products.Where(p => p.IsChecked).ToList();
             packet.Products = ProductsToAdd;
             packet.PickUpTime = new DateTime(packet.PickUpTime.Value.Year, packet.PickUpTime.Value.Month, packet.PickUpTime.Value.Day, 0, 0, 0);
@@ -121,6 +129,12 @@ namespace TGTG_Portal.Controllers
         [Authorize(Policy = "OnlyPowerUsersAndUp")]
         public IActionResult CreatePacket(Packet packet)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["InvalidPacket"] = "Sommige velden waren onjuist of niet ingevoerd. Pakket is niet aangemaakt.";
+                return RedirectToAction("AdminPanel");
+            }
+
             List<Product> ProductsToAdd = packet.Products.Where(p => p.IsChecked).ToList();
             packet.Products = ProductsToAdd;
             packet.PickUpTime = new DateTime(packet.PickUpTime.Value.Year, packet.PickUpTime.Value.Month, packet.PickUpTime.Value.Day, 0, 0, 0);

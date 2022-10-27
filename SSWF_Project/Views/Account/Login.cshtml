@@ -10,14 +10,17 @@
                 <form asp-action="Login" asp-controller="Account" method="post">
                     <div class="mb-4">
                         <img class="login-icon" src="@Url.Content("~/images/Username.png")"/>
+                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
                         <input type="text" asp-for="EmailAddress" class="login-input" placeholder="Email adres"/>
                     </div>
                     <div class="mb-4">
                         <img class="login-icon" src="@Url.Content("~/images/Lock.png")"/>
+                        <span asp-validation-for="Password" class="text-danger"></span>
                         <input type="password" asp-for="Password" class="login-input" placeholder="Wachtwoord"/>
                     </div>
                     <div class="">
                         <button type="submit" class="button-darkgreen"><span>Opslaan</span></button>
+                        <div class="text-danger fw-bold error-message mt-2" asp-validation-summary="All"></div>
                     </div>
                 </form>
             </div>

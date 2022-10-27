@@ -28,7 +28,13 @@
         </div>
 
         <div class="admin-panel col-9 mt-3 p-4">
-            <h5>Pakketten in mijn kantine</h5>
+            <h5>Pakketten in jouw kantine</h5>
+            <div class="d-flex justify-content-end">
+                @if (ViewBag.PacketError != null)
+                {
+                    <span class="text-danger">@ViewBag.PacketError</span>
+                }
+            </div>
             <hr />
 
             <div class="row filter ms-0 me-0 p-3">

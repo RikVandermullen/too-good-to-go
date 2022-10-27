@@ -116,6 +116,7 @@
                                             <input asp-for="@Model.Packet.Products[ProductCount].Image" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].HasAlcohol" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].IsChecked" type="checkbox">
+                                            <input asp-for="@Model.Packet.Products[ProductCount].Packets" type="hidden">
                                         </div>
                                     </div>
                                     <hr />
@@ -126,6 +127,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <div class="text-danger fw-bold error-message mt-2" asp-validation-summary="All"></div>
                     <button type="submit" class="button-darkgreen"><span>Opslaan</span></button>
                 </div>
             }

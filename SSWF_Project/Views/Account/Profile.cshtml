@@ -38,7 +38,7 @@
 
                 <div class="col-6 input-wrap">
                     <label>Naam</label><br />
-                    <input type="text" class="form-input" placeholder="@Model.Student.Name" />
+                    <input type="text" class="form-input" placeholder="@Model.Student.Name" disabled/>
                 </div>
         
                 <div class="col-6 pt-3 input-wrap">
@@ -48,7 +48,7 @@
 
                 <div class="col-6 pt-3 input-wrap">
                     <label>Telefoon nummer</label><br />
-                    <input type="text" class="form-input" placeholder="@Model.Student.PhoneNumber" />
+                    <input type="text" class="form-input" placeholder="@Model.Student.PhoneNumber" disabled/>
                 </div>
 
                 <div class="col-6 pt-3 input-wrap">
@@ -58,7 +58,7 @@
 
                 <div class="col-6 select-wrap mt-4 ms-2">
                     <label for="city">Stad</label>
-                    <select name="city" id="city" style="width: 100%;">
+                    <select name="city" id="city" style="width: 100%;" disabled>
                         <option style="display:none"></option>
                         <option value="BREDA">Breda</option>
                         <option value="DENBOSCH">Den Bosch</option>
@@ -69,7 +69,8 @@
 
             <div class="row pt-3">
                 <div class="col">
-                    <button type="submit" class="button-darkgreen"><span>Opslaan</span></button>
+                    <button type="submit" class="button-disabled" disabled><span>Opslaan</span></button><img class="info-icon" src="@Url.Content("~/images/info.png")" />
+                    <span class="tooltiptext">Deze functie is op dit moment niet beschikbaar.</span>
                 </div>
             </div>
         </form>

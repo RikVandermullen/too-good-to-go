@@ -28,8 +28,14 @@
 
         <div class="admin-panel col-9 mt-3 p-4">
             <h5>Pakketten</h5>
+            <div class="d-flex justify-content-end">
+                @if (ViewBag.PacketError != null)
+                {
+                    <span class="text-danger">@ViewBag.PacketError</span>
+                }
+            </div>
             <hr />
-
+            
             <div class="row filter ms-0 me-0 p-3">
                 <div class="col-3">
                     <input class="form-input" type="text" placeholder="Zoek hier naar pakketten"/>
@@ -73,7 +79,7 @@
                         <button type="button" class="button-darkgreen" data-bs-toggle="modal" data-bs-target="#packet-create">
                             <span>Maak Pakket</span>
                         </button>
-                        <partial name="PacketCreateModal" model="new EmployeePacketProductsViewModel { Employee = Model.Employee, Packet = new Packet() { Products = new List<Product>()}, Products = Model.Products.ToList()}" />
+                        <partial name="PacketCreateModal" model="new EmployeePacketProductsViewModel { Employee = Model.Employee, Packet = ViewBag.Packet ?? new Packet() { Products = new List<Product>()}, Products = Model.Products.ToList()}" />
                     </div>
                 </div>
             </div>

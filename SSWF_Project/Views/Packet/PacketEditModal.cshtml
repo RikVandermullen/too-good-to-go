@@ -119,6 +119,7 @@
                                             <input asp-for="@Model.Packet.Products[ProductCount].Image" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].HasAlcohol" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].IsChecked" type="checkbox" checked="checked">
+                                            <input asp-for="@Model.Packet.Products[ProductCount].Packets" type="hidden">
                                             ProductCount++;
                                         }
                                         else
@@ -130,6 +131,7 @@
                                             <input asp-for="@Model.Packet.Products[ProductCount].Image" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].HasAlcohol" type="hidden">
                                             <input asp-for="@Model.Packet.Products[ProductCount].IsChecked" type="checkbox">
+                                            <input asp-for="@Model.Packet.Products[ProductCount].Packets" type="hidden">
                                             ProductCount++;
                                         }
                                     </div>

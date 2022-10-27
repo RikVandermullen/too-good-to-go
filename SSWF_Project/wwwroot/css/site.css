@@ -169,6 +169,12 @@ body {
 
 /*GENERAL*/
 
+.error-message ul li {
+    list-style-type: none;
+    margin-right: 0;
+    padding-left: 0;
+}
+
 .profile-icon {
     max-height: 40px;
     max-width: 40px;

@@ -28,7 +28,7 @@ namespace Domain
 
         public int CanteenId { get; set; }
 
-        public Canteen Canteen { get; set; }
+        public Canteen? Canteen { get; set; }
 
         [Required]
         public MealType MealType { get; set; }
