@@ -2,9 +2,11 @@
     ViewData["Title"] = "Home Page";
 }
 
+<head>
+    <title>Home</title>
+</head>
+
 <div class="top-border text-center hero fill">
-    @*<img class="d-block mx-auto mb-4" src="@Url.Content("~/images/Hero.webp")" alt="" style="max-width:50%;">*@
-    @*<h1 class="display-5 fw-bold">Too Good To Go</h1>*@
     <div class="hero-text">
         <h1 class="display-5 fw-bold">Too Good To Go</h1>
     </div>
@@ -14,21 +16,21 @@
     <div class="row pb-5 gy-5 ms-5 ms-5">
         <div class="col-sm-12 col-md-6">
             <h2>Pakketten</h2>
-            <p class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec accumsan ipsum at ligula euismod, id rhoncus erat aliquet. In aliquet euismod turpis ut consequat. Aenean suscipit nisl vel orci vulputate, in volutpat orci vehicula. Praesent sagittis nibh nec aliquam consequat. Vivamus vehicula nisl sit amet ex elementum congue et a mi. Cras ac sem ac dolor tempor ultricies et eget ex.</p>
+            <p class="info-text">Too Good To Go biedt pakketten aan om voedselverspilling tegen te gaan. Deze pakketten worden goedkoop aangeboden zodat studenten van Avans Hogeschool hiervan kunnen profiteren! Klik op de onderstaande knop om alle beschikbare pakketten te zien.</p>
             <a class="button-green shadow" asp-controller="Packet" asp-action="Packets"><span>Bekijk Pakketten</span></a>
         </div>
         <div class="col-sm-12 col-md-6 d-flex justify-content-end align-self-end">
-            <img class="image-homepage shadow" src="@Url.Content("~/images/Coffee.jpg")"/>
+            <img class="image-homepage shadow" src="@Url.Content("~/images/Coffee.jpg")" alt="Image of a green coffee"/>
         </div>
     </div>
 
     <div class="row pt-5 gy-5 ms-5 me-5">
         <div class="col-sm-12 col-md-8 col-lg-6 order-lg-1 order-md-1 order-2">
-            <img class="image-homepage shadow" src="@Url.Content("~/images/Books.jpg")" />
+            <img class="image-homepage shadow" src="@Url.Content("~/images/Books.jpg")" alt="Image of books"/>
         </div>
         <div class="col-sm-12 col-md-4 col-lg-6 order-lg-2 order-md-2 order-1">
             <h2>Over ons</h2>
-            <p class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec accumsan ipsum at ligula euismod, id rhoncus erat aliquet. In aliquet euismod turpis ut consequat. Aenean suscipit nisl vel orci vulputate, in volutpat orci vehicula. Praesent sagittis nibh nec aliquam consequat. Vivamus vehicula nisl sit amet ex elementum congue et a mi. Cras ac sem ac dolor tempor ultricies et eget ex.</p>
+            <p class="info-text">Avans Hogeschool heeft een nieuw initiatief gestart voor duurzaamheid en het tegengaan van voedselverspilling. Bekijk ons verhaal door op de onderstaande knop te klikken!</p>
             <a class="button-green shadow"><span>Bekijk Ons Verhaal</span></a>
         </div>
     </div>

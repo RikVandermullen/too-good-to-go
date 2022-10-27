@@ -13,7 +13,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
             <div class="container-fluid">
                 <a asp-area="" asp-controller="Home" asp-action="Index">
-                    <img class="navbar-brand" src="@Url.Content("~/images/Icon.png")" style="max-width: 70px;">
+                    <img class="navbar-brand" src="@Url.Content("~/images/Icon.png")" style="max-width: 70px;" alt="Too Good To Go Logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -48,11 +48,11 @@
                     <div class="justify-content-right pe-3">
                         @if (User.Identity.IsAuthenticated) {
                             <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Account" asp-action="Profile">
-                                <img class="profile-icon" src="@Url.Content("~/images/User_Icon.png")" />
+                                <img class="profile-icon" src="@Url.Content("~/images/User_Icon.png")" alt="Profile Icon"/>
                             </a>
                         } else {
                             <a class="nav-link text-dark hover-underline-animation" asp-area="" asp-controller="Account" asp-action="Login">
-                                <img class="profile-icon" src="@Url.Content("~/images/User_Icon.png")" />
+                                <img class="profile-icon" src="@Url.Content("~/images/User_Icon.png")" alt="Profile Icon" />
                             </a>
                         }
                     </div>
@@ -79,7 +79,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-2 text-end pe-5">&copy; 2022</div>
+                <div class="col-2 text-end pe-5" style="color:black">&copy; 2022</div>
             </div>
         </div>
     </footer>
