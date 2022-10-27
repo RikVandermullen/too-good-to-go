@@ -63,7 +63,31 @@ namespace TGTG_Portal.Controllers
                     Packets = packets,
                     Products = products
                 };
-                ViewBag.MealTypeChoices = CreateMealTypeSelectList();
+                ViewBag.MealTypeChoices = CreateMealTypeSelectList(employee.Canteen);
+                ViewBag.CityChoices = CreateCitySelectList(employee.Canteen.City);
+                ViewBag.AllCityChoices = CreateAllCitySelectList();
+                ViewBag.LocationChoices = CreateLocationSelectList(employee.Canteen.City);
+                ViewBag.AllLocationChoices = CreateAllLocationSelectList();
+                return View(viewModel);
+            }
+            return View();
+        }
+
+        [Authorize(Policy = "OnlyPowerUsersAndUp")]
+        public IActionResult AdminPanelKantine()
+        {
+            var products = _productRepository.GetProducts();
+            var employee = _employeeRepository.GetEmployeeByEmail(User.Identity.Name);
+            var packets = _packetRepository.GetPacketsByCanteenId(employee.CanteenId);
+            if (packets != null && products != null)
+            {
+                var viewModel = new EmployeePacketsProductsViewModel
+                {
+                    Employee = employee,
+                    Packets = packets,
+                    Products = products
+                };
+                ViewBag.MealTypeChoices = CreateMealTypeSelectList(employee.Canteen);
                 ViewBag.CityChoices = CreateCitySelectList(employee.Canteen.City);
                 ViewBag.AllCityChoices = CreateAllCitySelectList();
                 ViewBag.LocationChoices = CreateLocationSelectList(employee.Canteen.City);
@@ -135,15 +159,20 @@ namespace TGTG_Portal.Controllers
             return RedirectToAction("Packets");
         }
 
-        private SelectList CreateMealTypeSelectList()
+        private SelectList CreateMealTypeSelectList(Canteen canteen)
         {
-            return new SelectList(
-                new List<SelectListItem> {
-                new SelectListItem {Selected = false, Text = "Warm", Value = "WARM"},
+            List<SelectListItem> list = new List<SelectListItem>()
+            {
+                new SelectListItem {Selected = false, Text = "Dranken", Value = "DRANKEN"},
                 new SelectListItem {Selected = false, Text = "Brood", Value = "BROOD"},
                 new SelectListItem {Selected = false, Text = "Gezond", Value = "GEZOND"},
-                new SelectListItem {Selected = false, Text = "Dranken", Value = "DRANKEN"},
-            }, "Value", "Text");
+            };
+            if (canteen.WarmMeals)
+            {
+                list.Add(new SelectListItem { Selected = false, Text = "Warm", Value = "WARM" });
+            }
+
+            return new SelectList(list, "Value", "Text");
         }
 
         private SelectList CreateCitySelectList(City city)

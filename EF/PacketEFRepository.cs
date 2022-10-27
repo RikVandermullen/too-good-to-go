@@ -57,12 +57,17 @@ namespace TGTG_EF
 
         public IEnumerable<Packet>? GetPacketsByStudentId(Student student)
         {
-            return _dbContext.Packets.Where(p => p.ReservedBy.Equals(student)).Include(p => p.Products).ToList();
+            return _dbContext.Packets.Where(p => p.ReservedBy.Equals(student)).Include(p => p.Products).OrderBy(p => p.PickUpTime).ToList();
         }
 
         public IEnumerable<Packet>? GetPackets()
         {
             return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).Include(s => s.ReservedBy).OrderBy(p => p.PickUpTime).ToList();
+        }
+
+        public IEnumerable<Packet>? GetPacketsByCanteenId(int id)
+        {
+            return _dbContext.Packets.Include(p => p.Products).Include(c => c.Canteen).Where(c => c.CanteenId == id).Include(s => s.ReservedBy).OrderBy(p => p.PickUpTime).ToList();
         }
 
         public IEnumerable<Packet>? GetPacketsWithoutReservations()
