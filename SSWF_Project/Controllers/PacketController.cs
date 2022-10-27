@@ -175,8 +175,7 @@ namespace TGTG_Portal.Controllers
                 return RedirectToAction("Packets", new { id = id });
             }
 
-            StudentOfAgeService studentOfAgeService = new StudentOfAgeService(Student);
-            ReservePacketService reservePacketService = new ReservePacketService(studentOfAgeService);
+            ReservePacketService reservePacketService = new ReservePacketService(new StudentOfAgeService(Student));
 
             if (reservePacketService.CanStudentReservePacket(Packet, Student))
             {
