@@ -2,7 +2,7 @@
 using System.Security.Claims;
 
 namespace TGTG_EF;
-public class SecuritySeedData : ISeedData
+public class SecuritySeedData
 {
     private readonly UserManager<IdentityUser> _userManager;
 

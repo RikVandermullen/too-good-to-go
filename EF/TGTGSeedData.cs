@@ -1,5 +1,5 @@
 ﻿namespace TGTG_EF;
-public class TGTGSeedData : ISeedData
+public class TGTGSeedData
 {
     private TGTGDbContext _context;
 
