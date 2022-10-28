@@ -35,21 +35,25 @@
         <div class="d-flex justify-content-end">
             @if (Model.Packet.ReservedBy == null && User.HasClaim("UserType", "regularuser"))
             {
-                <form asp-action="ReservePacket" asp-controller="Packet">
-                    <input asp-for="@Model.Packet.Id" value="@Model.Packet.Id" type="hidden" />
-                    <button type="submit" class="button-green shadow smaller"><span>Reserveren</span></button>
-                </form>
+                <button type="submit" class="button-green shadow smaller" data-bs-toggle="modal" data-bs-target="#reserve-packet"><span>Reserveren</span></button>
+                <partial name="PacketReserveModal" model="@Model.Packet" />
             }
         </div>
         @if (ViewBag.ReserveError != null)
         {
-            <p class="mt-2" style="color: red;">Je hebt al een pakket voor deze datum gereserveerd!</p>
+            <p class="mt-2 text-danger fw-bold">Je hebt al een pakket voor deze datum gereserveerd!</p>
 
             <br />
         }
         @if (ViewBag.ErrorMessage != null)
         {
-            <p class="mt-2" style="color: red;">Je bent nog geen 18, dus je mag dit pakket niet reserveren!</p>
+            <p class="mt-2 text-danger fw-bold">Je bent nog geen 18, dus je mag dit pakket niet reserveren!</p>
+
+            <br />
+        }
+        @if (ViewBag.Reserved != null)
+        {
+            <p class="mt-2 text-success fw-bold">Het pakket is gereserveerd. Je kan deze nu terugvinden op je profiel pagina!</p>
 
             <br />
         }

@@ -35,6 +35,7 @@ namespace TGTG_Portal.Controllers
         {
             ViewBag.ErrorMessage = TempData["OfAge"];
             ViewBag.ReserveError = TempData["ReserveError"];
+            ViewBag.Reserved = TempData["Reserved"];
             if (id == null)
             {
                 var packets = _packetRepository.GetPacketsWithoutReservations();
@@ -133,6 +134,10 @@ namespace TGTG_Portal.Controllers
             packet.Products = ProductsToAdd;
             packet.PickUpTime = new DateTime(packet.PickUpTime.Value.Year, packet.PickUpTime.Value.Month, packet.PickUpTime.Value.Day, 0, 0, 0);
             packet.LastestPickUpTime = packet.PickUpTime.Value.AddHours(packet.LastestPickUpTime.Value.Hour);
+
+            var AlcoholCheck = new ReservePacketService().DoesProductsInPacketContainAlcohol(packet);
+            packet.ContainsAlcohol = AlcoholCheck;
+
             await _packetRepository.UpdatePacket(packet);
             return RedirectToAction("AdminPanel");
         }
@@ -159,6 +164,10 @@ namespace TGTG_Portal.Controllers
             packet.Products = ProductsToAdd;
             packet.PickUpTime = new DateTime(packet.PickUpTime.Value.Year, packet.PickUpTime.Value.Month, packet.PickUpTime.Value.Day, 0, 0, 0);
             packet.LastestPickUpTime = packet.PickUpTime.Value.AddHours(packet.LastestPickUpTime.Value.Hour);
+
+            var AlcoholCheck = new ReservePacketService().DoesProductsInPacketContainAlcohol(packet);
+            packet.ContainsAlcohol = AlcoholCheck;
+
             _packetRepository.AddPacket(packet);
             return RedirectToAction("AdminPanel");
         }
@@ -180,7 +189,8 @@ namespace TGTG_Portal.Controllers
             if (reservePacketService.CanStudentReservePacket(Packet, Student))
             {
                 _packetRepository.ReservePacket(id, Student);
-                return RedirectToAction("Packets");
+                TempData["Reserved"] = "true";
+                return RedirectToAction("Packets", new { id = id });
             }
 
             TempData["OfAge"] = "Geen 18";

@@ -9,6 +9,11 @@
             this.studentOfAgeService = studentOfAgeService;
         }
 
+        public ReservePacketService()
+        {
+
+        }
+
         public bool DoesProductsInPacketContainAlcohol(Packet packet)
         {
             foreach (var p in packet.Products)
