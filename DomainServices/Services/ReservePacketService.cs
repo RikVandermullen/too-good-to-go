@@ -23,7 +23,7 @@
 
         public bool CanStudentReservePacket(Packet packet, Student student)
         {
-            if (student == null && packet == null) return false;
+            if (student == null && packet == null || student == null && packet != null || student != null && packet == null) return false;
 
             if (DoesProductsInPacketContainAlcohol(packet))
             {
