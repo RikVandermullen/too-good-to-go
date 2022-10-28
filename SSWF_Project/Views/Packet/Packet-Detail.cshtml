@@ -38,6 +38,10 @@
                 <button type="submit" class="button-green shadow smaller" data-bs-toggle="modal" data-bs-target="#reserve-packet"><span>Reserveren</span></button>
                 <partial name="PacketReserveModal" model="@Model.Packet" />
             }
+            @if (Model.Packet.ReservedBy != null && User.HasClaim("UserType", "regularuser") && !Model.Packet.ReservedBy.EmailAddress.Equals(User.Identity.Name))
+            {
+                <span class="text-danger fw-bold">Dit pakket is al gereserveerd door een andere student.</span>
+            }
         </div>
         @if (ViewBag.ReserveError != null)
         {
