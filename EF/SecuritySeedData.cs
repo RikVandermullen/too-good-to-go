@@ -19,10 +19,15 @@ public class SecuritySeedData
         const string PASSWORD = "Secret123$";
 
         const string EMAIL_WORKER = "canteenworker1@mail.com";
+        const string EMAIL_WORKER2 = "canteenworker2@mail.com";
         const string EMAIL_STUDENT = "student1@mail.com";
         const string EMAIL_STUDENT2 = "student2@mail.com";
 
         var existingUser = await _userManager.FindByNameAsync(EMAIL_WORKER);
+        if (existingUser != null)
+            await _userManager.DeleteAsync(existingUser);
+
+        existingUser = await _userManager.FindByNameAsync(EMAIL_WORKER2);
         if (existingUser != null)
             await _userManager.DeleteAsync(existingUser);
 
@@ -41,6 +46,15 @@ public class SecuritySeedData
 
             await _userManager.CreateAsync(workerUser, PASSWORD);
             await _userManager.AddClaimAsync(workerUser, new Claim(CLAIMNAME_USERTYPE, "poweruser"));
+        }
+
+        IdentityUser workerUser2 = await _userManager.FindByIdAsync(EMAIL_WORKER2);
+        if (workerUser2 == null)
+        {
+            workerUser2 = new IdentityUser() { UserName = EMAIL_WORKER2 };
+
+            await _userManager.CreateAsync(workerUser2, PASSWORD);
+            await _userManager.AddClaimAsync(workerUser2, new Claim(CLAIMNAME_USERTYPE, "poweruser"));
         }
 
         IdentityUser studentUser = await _userManager.FindByIdAsync(EMAIL_STUDENT);

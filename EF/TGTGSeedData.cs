@@ -36,7 +36,8 @@ public class TGTGSeedData
         _context.SaveChanges();
 
         _context.Employees.AddRange(new[] {
-            new Employee { EmailAddress = "canteenworker1@mail.com", Name = "Merel de Laat", CanteenId = CanteenLA.Id, EmployeeNumber = 112233 }
+            new Employee { EmailAddress = "canteenworker1@mail.com", Name = "Merel de Laat", CanteenId = CanteenLA.Id, EmployeeNumber = 112233 },
+            new Employee { EmailAddress = "canteenworker2@mail.com", Name = "Jeroen van Gilse", CanteenId = CanteenCHL.Id, EmployeeNumber = 112234 }
         });
 
         var Student = new Student { EmailAddress = "student1@mail.com", Name = "Rik Vandermullen", StudentNumber = 2116527, PhoneNumber = "0658942232", BirthDate = new DateTime(1998, 09, 11), City = "Breda", noShows = 0 };

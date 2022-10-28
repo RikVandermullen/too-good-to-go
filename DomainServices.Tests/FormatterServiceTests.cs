@@ -15,7 +15,7 @@ namespace DomainServices.Tests
             var result = sut.FormatDateTime(new DateTime(2022, 10, 28)).ToString();
 
             //Assert
-            Assert.Equal("28-10-2022", result);
+            Assert.Equal("10/28/2022", result);
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace DomainServices.Tests
 
             //Assert
             Assert.NotEqual("28-10-2022 12:12:12", result);
-            Assert.Equal("28-10-2022", result);
+            Assert.Equal("10/28/2022", result);
         }
 
         [Fact]
