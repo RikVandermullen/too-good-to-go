@@ -1,6 +1,7 @@
 <h1 align="center">TGTG ASP.NET</h1> 
 <p align="center">
-  <img width="200" src="https://rik-vandermullen-tgtg.azurewebsites.net/images/Box.png" alt="Box image">
+  <img width="200" src="https://github.com/RikVandermullen/too-good-to-go/assets/94074147/a1d29185-4d13-457e-9d46-a70b2ad4de4c" alt="Box image">
+
 </p>
 
 ## Introduction
@@ -23,3 +24,5 @@ The stack used to create this project:
 - HTML/CSS/Bootstrap 5
 - Azure (Hosting)
 - MySQL
+
+![tgtg](https://github.com/RikVandermullen/too-good-to-go/assets/94074147/8527d4c8-b4c2-433a-8c32-2b19503fe93e)
